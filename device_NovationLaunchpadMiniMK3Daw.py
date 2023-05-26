@@ -34,24 +34,22 @@ class Launchpad:
         print('midi id:', event.midiId, '| midi status:', event.status, '| midi channel:', event.midiChan, 
         '| midi data1:', event.data1, '| midi data2:', event.data2, '| midi controlNum:', event.controlNum, 
         '| midi controlVal:', event.controlVal, '| midi sysex:', event.sysex)
-        eventEdit = event
-        eventEdit.status = 178 #flash/static/pulse
-        eventEdit.controlNum = 99 #pad
-        eventEdit.controlVal = 15 #color
-        device.midiOutMsg(145, 177, 81, 5) #flash
-        device.midiOutMsg(144, 176, 82, 6) #static
-        device.midiOutMsg(146, 178, 83, 7) #pulse
-        device.midiOutMsg(144, 176, 84, 75)
-        device.midiOutMsg(144, 176, 85, 45)
-        device.midiOutMsg(144, 176, 86, 12)
-        device.midiOutMsg(144, 176, 87, 54)
-        device.midiOutMsg(144, 176, 88, 48)
-        device.midiOutMsg(144, 176, 76, 21)
-        device.midiOutMsg(144, 176, 92, 45)
-        device.directFeedback(eventEdit)
+        #device.midiOutMsg(state1(normal pad)/state2(CC Pad), state2(CC Pad)/state1(normal pad), pad, color)
+        #state1 and state2 need to be set together BUT switches up position depending on which type of pad you set
+        #normal pads are the 64 main pads, cc pads are the top/right "setting" pads + novation logo
+        #idk why it needs to be set like this but yeah
+        #state1: 144 = static, 145 = flash, 146 = pulse
+        #state2: 176 = static, 177 = flash, 178 = pulse
+        device.midiOutMsg(176, 144, 91, 5)
+        device.midiOutMsg(176, 144, 92, 6)
+        device.midiOutMsg(176, 144, 93, 5)
+        device.midiOutMsg(176, 144, 94, 44)
+        device.midiOutMsg(178, 146, 99, 45)
+        device.midiOutMsg(178, 146, 89, 24)
+        device.midiOutMsg(176, 144, 79, 45)
+        device.midiOutMsg(176, 146, 24, 24)
+        device.midiOutMsg(146, 176, 24, 24)
         event.handled = True
-
-
 
 lp = Launchpad()
 
