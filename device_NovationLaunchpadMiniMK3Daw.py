@@ -13,6 +13,10 @@ import transport
 import ui
 import utils
 
+import gridSetup as g
+
+import lighting as l
+
 import sys
 import time
 
@@ -40,15 +44,11 @@ class Launchpad:
         #idk why it needs to be set like this but yeah
         #state1: 144 = static, 145 = flash, 146 = pulse
         #state2: 176 = static, 177 = flash, 178 = pulse
-        device.midiOutMsg(176, 144, 91, 5)
-        device.midiOutMsg(176, 144, 92, 6)
-        device.midiOutMsg(176, 144, 93, 5)
-        device.midiOutMsg(176, 144, 94, 44)
-        device.midiOutMsg(178, 146, 99, 45)
-        device.midiOutMsg(178, 146, 89, 24)
-        device.midiOutMsg(176, 144, 79, 45)
-        device.midiOutMsg(176, 146, 24, 24)
-        device.midiOutMsg(146, 176, 24, 24)
+        #prevPadState = g.grid[f"pad{str(event.data1)}"]
+        if event.data2 == 127:
+            l.LightPad(event.data1, g.color["white"], g.state["static"])
+        if event.data2 == 0:
+            l.LightPad(event.data1, g.color["black"], g.state["static"])
         event.handled = True
 
 lp = Launchpad()
