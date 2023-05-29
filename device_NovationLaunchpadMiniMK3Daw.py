@@ -15,8 +15,6 @@ import utils
 
 import launchpad as lp
 
-import lighting as l
-
 import sys
 import time
 
@@ -34,7 +32,6 @@ class DawLaunchpad:
     
     def OnIdle(self):
         self.tick += 1
-        #print(f"{g.grid['pad11']}: {g.grid['pad11'].x} {g.grid['pad11'].y} {g.grid['pad11'].color.value} {g.grid['pad11'].prevColor.value} {g.grid['pad11'].state.value} {g.grid['pad11'].prevState.value} {g.grid['pad11'].type.value}")
         pass
 
     def OnMidiMsg(self, event):
@@ -46,9 +43,11 @@ class DawLaunchpad:
 
         #move the midi msg processing to another file
         if event.data2 > 0:
-            l.LightPad(event.data1, lp.color["white"], lp.state["static"])
-        if event.data2 == 0:
-            l.RevertPad(event.data1)
+            #lp.lightPad(event.data1, lp.color["white"], lp.state["static"])
+            lp.lightAllPadsTest()
+        #if event.data2 == 0:
+            #lp.revertPad(event.data1)
+
         event.handled = True
 
 dlp = DawLaunchpad()
