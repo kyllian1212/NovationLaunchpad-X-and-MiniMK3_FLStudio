@@ -15,6 +15,8 @@ import utils
 
 import launchpad as lp
 
+import idleHandler as i
+
 import sys
 import time
 
@@ -33,6 +35,7 @@ class DawLaunchpad:
     def OnIdle(self):
         self.tick += 1
         lp.lightPad(11, lp.rgbColorToPaletteColor(mixer.getTrackColor(1)), lp.state["static"])
+        i.idleHandler()
         pass
 
     def OnMidiMsg(self, event):
@@ -46,7 +49,7 @@ class DawLaunchpad:
         if event.data2 > 0:
             #lp.lightPad(event.data1, lp.color["white"], lp.state["static"])
             #lp.lightAllPadsTest()
-            pass
+            lp.lightPad(99, lp.color["white"], lp.state["flashing"])
             #lp.rgbColorToPaletteColor(0x1F54E8)
         #if event.data2 == 0:
             #lp.revertPad(event.data1)
