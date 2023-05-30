@@ -32,6 +32,7 @@ class DawLaunchpad:
     
     def OnIdle(self):
         self.tick += 1
+        lp.lightPad(11, lp.rgbColorToPaletteColor(mixer.getTrackColor(1)), lp.state["static"])
         pass
 
     def OnMidiMsg(self, event):
@@ -44,7 +45,9 @@ class DawLaunchpad:
         #move the midi msg processing to another file
         if event.data2 > 0:
             #lp.lightPad(event.data1, lp.color["white"], lp.state["static"])
-            lp.lightAllPadsTest()
+            #lp.lightAllPadsTest()
+            pass
+            #lp.rgbColorToPaletteColor(0x1F54E8)
         #if event.data2 == 0:
             #lp.revertPad(event.data1)
 

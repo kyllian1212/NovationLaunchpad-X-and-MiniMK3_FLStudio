@@ -44,8 +44,8 @@ class Pad:
 color = {}
 
 color["off"] = Color(0, "000000")
-color["darker"] = Color(1, "b3b3b3")
-color["dark"] = Color(2, "dddddd")
+color["dark_gray"] = Color(1, "b3b3b3")
+color["light_gray"] = Color(2, "dddddd")
 color["white"] = Color(3, "ffffff")
 
 color["light_red"] = Color(4, "ffb3b3F")
@@ -56,7 +56,7 @@ color["darker_red"] = Color(7, "b36161")
 color["light_orange"] = Color(8, "fff3d5")
 color["orange"] = Color(9, "ffb361")
 color["dark_orange"] = Color(10, "dd8c61")
-color["darker_orange"] = Color(11, "b37661") #also brown
+color["darker_orange"] = Color(11, "b37661")
 
 color["light_yellow"] = Color(12, "ffeea1")
 color["yellow"] = Color(13, "ffff61")
@@ -123,6 +123,86 @@ color["yellow_orange"] = Color(61, "e9b361")
 color["yellow_green"] = Color(62, "ddc261")
 color["apple_green"] = Color(63, "a1a161")
 
+color["alt_darker_green"] = Color(64, "61b361")
+color["silver_tree"] = Color(65, "61b38c")
+color["danube"] = Color(66, "618cd5")
+color["alt_blue"] = Color(67, "6161ff")
+
+color["tradewind"] = Color(68, "61b3b3")
+color["cornflower_blue"] = Color(69, "8c61f3")
+color["lily"] = Color(70, "ccb3c2")
+color["empress"] = Color(71, "8c7681")
+
+color["alt_red"] = Color(72, "ff6161")
+color["milan"] = Color(73, "f3ffa1")
+color["canary"] = Color(74, "eefc61")
+color["greener_canary"] = Color(75, "ccff61")
+
+color["pastel_green"] = Color(76, "76dd61")
+color["alt_aqua"] = Color(77, "61ffcc")
+color["malibu"] = Color(78, "61e9ff")
+color["bluer_malibu"] = Color(79, "61a1ff")
+
+color["heliotrope"] = Color(80, "8c61ff")
+color["lavender"] = Color(81, "cc61fc")
+color["lavender_magenta"] = Color(82, "ee8cdd")
+color["brown"] = Color(83, "a17661")
+
+color["atomic_tangerine"] = Color(84, "ffa161")
+color["light_canary"] = Color(85, "ddf961")
+color["reef"] = Color(86, "d5ff8c")
+color["alt_green"] = Color(87, "61ff61")
+
+color["greener_reef"] = Color(88, "b3ffa1")
+color["snowy_mint"] = Color(89, "ccfcd5")
+color["aero_blue"] = Color(90, "b3fff6")
+color["onahau"] = Color(91, "cce4ff")
+
+color["perano"] = Color(92, "a1c2f6")
+color["perfume"] = Color(93, "d5c2f9")
+color["pink_heliotrope"] = Color(94, "f98cff")
+color["hot_pink"] = Color(95, "ff61cc")
+
+color["koromiko"] = Color(96, "ffc261")
+color["portica"] = Color(97, "f3ee61")
+color["lemon"] = Color(98, "e4ff61")
+color["gold"] = Color(99, "ddcc61")
+
+color["teak"] = Color(100, "b3a161")
+color["fern"] = Color(101, "61ba76")
+color["de_york"] = Color(102, "76c28c")
+color["waterloo"] = Color(103, "8181a1")
+
+color["polo_blue"] = Color(104, "818ccc")
+color["tan"] = Color(105, "ccaa81")
+color["alt_dark_red"] = Color(106, "dd6161")
+color["rose_bud"] = Color(107, "f9b3a1")
+
+color["rajah"] = Color(108, "f9ba76")
+color["dolly"] = Color(109, "fff38c")
+color["texas"] = Color(110, "e9f9a1")
+color["sulu"] = Color(111, "d5ee76")
+
+color["alt_waterloo"] = Color(112, "8181a1")
+color["citrine_white"] = Color(113, "f9f9d5")
+color["scandal"] = Color(114, "ddfce4")
+color["titan_white"] = Color(115, "e9e9ff")
+
+color["fog"] = Color(116, "e4d5ff")
+color["alt_dark_gray"] = Color(117, "b3b3b3")
+color["gray"] = Color(118, "d5d5d5")
+color["near_white"] = Color(119, "f9ffff")
+
+color["mandy"] = Color(120, "e96161")
+color["coral_tree"] = Color(121, "aa6161")
+color["screamin_green"] = Color(122, "81f661")
+color["alt2_darker_green"] = Color(123, "61b361")
+
+color["alt_portica"] = Color(124, "f3ee61")
+color["alt_teak"] = Color(125, "b3a161")
+color["ronchi"] = Color(126, "eec261")
+color["contessa"] = Color(127, "c27661")
+
 #init states
 state = {}
 
@@ -150,14 +230,32 @@ for x in range(1, 10):
 #    print(f"{padkey}: {padvalues.x} {padvalues.y} {padvalues.color} {padvalues.state} {padvalues.type}")
 
 #color processing
-def rgbColorToPaletteColor(rgb: int):
-    r, g, b = utils.ColorToRGB(rgb)
-    colorHexList = []
+def rgbColorToPaletteColor(rgb: int) -> Color:
+    try:
+        r, g, b = utils.ColorToRGB(rgb)
+        colorDiffList = []
 
-    for colorkey, colorvalue in color:
-        rc, gc, bc = utils.ColorToRGB(rgb)
-    
+        for colorkey, colorvalue in color.items():
+            rc, gc, bc = utils.ColorToRGB(int(colorvalue.hexcode, 16))
+            colorDiff = math.sqrt((r-rc)**2+(g-gc)**2+(b-bc)**2)
+            colorDiffList.append((colorDiff, utils.ColorToRGB(int(colorvalue.hexcode, 16))))
 
+        result = min(colorDiffList)[1]
+
+        rr = f'{result[0]:x}'
+        gr = f'{result[1]:x}'
+        br = f'{result[2]:x}'
+
+        paletteHex = rr+gr+br
+
+        for colorkey, colorvalue in color.items():
+            if colorvalue.hexcode == paletteHex:
+                return color[colorkey]
+        
+        return color["off"]
+    except:
+        print("issue finding color!")
+        return color["off"]
 
 #launchpad functions
 def enableDawMode():
