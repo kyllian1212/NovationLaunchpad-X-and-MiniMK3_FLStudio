@@ -12,14 +12,12 @@ import transport
 import ui
 import utils
 
+import progConst as pc
+import progVars as pv
 import launchpad as lp
-
-import idle.flTransport as iFlT
-import idle.shift as iS
 
 import sys
 import time
 
-def idleHandler():
-    iFlT.flTransport()
-    iS.shift()
+def menu():
+    pass

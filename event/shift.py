@@ -12,14 +12,17 @@ import transport
 import ui
 import utils
 
+import progConst as pc
+import progVars as pv
 import launchpad as lp
 
-import idle.flTransport as iFlT
-import idle.shift as iS
+import eventHandler as e
 
 import sys
 import time
 
-def idleHandler():
-    iFlT.flTransport()
-    iS.shift()
+def shift(event):
+    if e.buttonPressed(event) and e.buttonNumber(pc.SHIFT_PAD, event):
+        pv.shiftPressed = True
+    else:
+        pv.shiftPressed = False

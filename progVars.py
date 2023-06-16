@@ -12,14 +12,5 @@ import transport
 import ui
 import utils
 
-import launchpad as lp
-
-import idle.flTransport as iFlT
-import idle.shift as iS
-
-import sys
-import time
-
-def idleHandler():
-    iFlT.flTransport()
-    iS.shift()
+shiftPressed = False
+stopPressed = False

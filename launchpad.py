@@ -39,6 +39,10 @@ class Pad:
         self.prevState = prevState
         self.type = type
 
+class PadGroup:
+    def __init__(self, xy: list[int]):
+        self.xy = xy
+
 #init colors
 #besides off to white, everything is light > normal > dark > darker
 color = {}
@@ -216,6 +220,31 @@ type = {}
 type["main"] = PadType(1)
 type["cc"] = PadType(2)
 
+#init padgroup (characters)
+character = {}
+
+character["s0"] = PadGroup([41, 42, 11, 12])
+character["s1"] = PadGroup([42, 32, 22, 12])
+character["s2"] = PadGroup([41, 42, 32, 21, 11, 12])
+character["s3"] = PadGroup([41, 42, 32, 21, 22, 11, 12])
+character["s4"] = PadGroup([41, 31, 21, 22, 12])
+character["s5"] = PadGroup([41, 42, 31, 22, 11, 12])
+character["s6"] = PadGroup([41, 42, 31, 21, 22, 11, 12])
+character["s7"] = PadGroup([41, 42, 32, 22, 12])
+character["s8"] = PadGroup([41, 42, 31, 32, 21, 22, 11, 12])
+character["s9"] = PadGroup([41, 42, 31, 32, 22, 11, 12])
+
+character["0"] = PadGroup([41, 42, 43, 31, 33, 21, 23, 11, 12, 13])
+character["1"] = PadGroup([43, 33, 23, 13])
+character["2"] = PadGroup([41, 42, 43, 33, 21, 22, 11, 12, 13])
+character["3"] = PadGroup([41, 42, 43, 33, 22, 23, 11, 12, 13])
+character["4"] = PadGroup([41, 31, 33, 21, 22, 23, 13])
+character["5"] = PadGroup([41, 42, 43, 31, 32, 23, 11, 12, 13])
+character["6"] = PadGroup([41, 42, 43, 31, 21, 22, 23, 11, 12, 13])
+character["7"] = PadGroup([42, 43, 33, 23, 13])
+character["8"] = PadGroup([41, 42, 43, 31, 32, 33, 21, 23, 11, 12, 13])
+character["9"] = PadGroup([41, 42, 43, 31, 32, 33, 23, 11, 12, 13])
+
 #init grid
 grid = {}
 
@@ -285,6 +314,21 @@ def lightPad(xy: int, color: dict[str, Color], state: dict[str, State], revertTo
         
     grid[f"pad{str(xy)}"].color = color
     grid[f"pad{str(xy)}"].state = state
+
+def lightGroup(group: PadGroup, color: dict[str, Color], state: dict[str, State], offset: int = 0, revertToPrev: bool = True):
+    for padXy in group.xy:
+        finalXy = padXy+offset
+        if "9" in str(finalXy):
+            device.midiOutMsg(state.ccValue, 0, finalXy, color.value)
+        else:
+            device.midiOutMsg(state.noteValue, 0, finalXy, color.value)
+        
+        if revertToPrev:
+            grid[f"pad{str(finalXy)}"].prevColor = grid[f"pad{str(finalXy)}"].color
+            grid[f"pad{str(finalXy)}"].prevState = grid[f"pad{str(finalXy)}"].state
+            
+        grid[f"pad{str(finalXy)}"].color = color
+        grid[f"pad{str(finalXy)}"].state = state
 
 def revertPad(xy: int):
     prevState = grid[f"pad{str(xy)}"].prevState
