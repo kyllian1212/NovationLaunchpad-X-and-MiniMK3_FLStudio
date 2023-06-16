@@ -12,5 +12,9 @@ import transport
 import ui
 import utils
 
+import progConst as pc
+
+mode = pc.MENU_MODE
+
 shiftPressed = False
 stopPressed = False

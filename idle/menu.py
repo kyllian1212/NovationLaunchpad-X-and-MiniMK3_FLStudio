@@ -20,4 +20,4 @@ import sys
 import time
 
 def menu():
-    pass
+    lp.lightPad(pc.BPM_MENUPAD, lp.color["dark_gray"], lp.state["static"])

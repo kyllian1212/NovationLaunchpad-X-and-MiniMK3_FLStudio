@@ -343,9 +343,12 @@ def revertPad(xy: int):
     grid[f"pad{str(xy)}"].state = prevState
 
 def resetLighting(main: bool = True, cc: bool = False):
-    for padkey, padvalues in grid:
-        device.midiOutMsg(state["static"].noteValue, 0, padvalues.xy, color["off"].value)
-        device.midiOutMsg(state["static"].ccValue, 0, padvalues.xy, color["off"].value)
+    for padkey, padvalues in grid.items():
+        padXy = int(str(padvalues.x)+str(padvalues.y))
+        if main and "9" not in str(padXy):
+            lightPad(padXy, color["off"], state["static"])
+        elif cc and "9" in str(padXy):
+            lightPad(padXy, color["off"], state["static"])
 
 def scrollText(text: str, color: Color, speed: int = 8, looping: int = 0):
     """Scrolls text on the Launchpad.

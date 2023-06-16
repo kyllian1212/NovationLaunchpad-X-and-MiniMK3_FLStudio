@@ -18,6 +18,7 @@ import launchpad as lp
 
 import event.flTransport as eFlT
 import event.shift as eS
+import event.menu as eM
 
 import sys
 import time
@@ -37,6 +38,7 @@ def buttonNumber(number: int, event):
 def eventHandler(event):
     eFlT.flTransport(event)
     eS.shift(event)
+    eM.menu(event)
     
     if buttonPressed(event): 
         if event.data1 not in pc.TRANSPORT_PADS:

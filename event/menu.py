@@ -14,19 +14,14 @@ import utils
 
 import progConst as pc
 import progVars as pv
-
 import launchpad as lp
 
-import idle.flTransport as iFlT
-import idle.shift as iS
-import idle.menu as iM
+import eventHandler as e
 
 import sys
 import time
 
-def idleHandler():
-    iFlT.flTransport()
-    iS.shift()
-
-    if pv.mode == pc.MENU_MODE:
-        iM.menu()
+def menu(event):
+    if e.buttonPressed(event) and e.buttonNumber(pc.BPM_MENUPAD, event):
+        pv.mode = pc.BPM_MODE
+        lp.resetLighting()
