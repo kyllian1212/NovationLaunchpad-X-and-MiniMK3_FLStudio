@@ -31,6 +31,7 @@ class DawLaunchpad:
     def OnInit(self):
         device.setHasMeters()
         lp.enableDawMode()
+        lp.resetLighting(True, True)
 
     def OnDeInit(self):
         lp.disableDawMode()

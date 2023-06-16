@@ -16,5 +16,7 @@ import progConst as pc
 
 mode = pc.MENU_MODE
 
+bpm = mixer.getCurrentTempo(1)
+
 shiftPressed = False
 stopPressed = False
