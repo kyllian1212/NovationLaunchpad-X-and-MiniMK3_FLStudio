@@ -16,7 +16,17 @@ import progConst as pc
 
 mode = pc.MENU_MODE
 
-bpm = mixer.getCurrentTempo(1)
+bpm = mixer.getCurrentTempo(0)
+
+projectLoading = False
 
 shiftPressed = False
+
 stopPressed = False
+
+upPressed = False
+downPressed = False
+leftPressed = False
+rightPressed = False
+
+returnPressed = False

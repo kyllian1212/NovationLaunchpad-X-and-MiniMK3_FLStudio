@@ -12,6 +12,9 @@ import transport
 import ui
 import utils
 
+import progConst as pc
+import progVars as pv
+
 import math
 
 class Color:
@@ -349,6 +352,20 @@ def resetLighting(main: bool = True, cc: bool = False):
             lightPad(padXy, color["off"], state["static"])
         elif cc and "9" in str(padXy):
             lightPad(padXy, color["off"], state["static"])
+
+def resetPartialLighting(xyStart: int, xyEnd: int):
+    for padkey, padvalues in grid.items():
+        xStart = int(str(xyStart)[0])
+        yStart = int(str(xyStart)[1])
+        xEnd = int(str(xyEnd)[0])
+        yEnd = int(str(xyEnd)[1])
+        padXy = int(str(padvalues.x)+str(padvalues.y))
+        if xStart <= padvalues.x <= xEnd and yStart <= padvalues.y <= yEnd:
+            lightPad(padXy, color["off"], state["static"])
+
+def modeChange(newMode):
+    pv.mode = newMode
+    resetPartialLighting(11, 98)
 
 def scrollText(text: str, color: Color, speed: int = 8, looping: int = 0):
     """Scrolls text on the Launchpad.

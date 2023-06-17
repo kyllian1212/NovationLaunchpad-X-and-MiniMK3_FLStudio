@@ -39,7 +39,6 @@ class DawLaunchpad:
     def OnIdle(self):
         self.tick += 1
         i.idleHandler()
-        pass
 
     def OnMidiMsg(self, event):
         event.handled = False
@@ -51,6 +50,9 @@ class DawLaunchpad:
         e.eventHandler(event)
 
         event.handled = True
+
+    def OnDoFullRefresh(self):
+        i.idleHandler()
 
 dlp = DawLaunchpad()
 
@@ -65,3 +67,6 @@ def OnIdle():
 
 def OnMidiMsg(event):
     dlp.OnMidiMsg(event)
+
+def OnDoFullRefresh():
+    dlp.OnDoFullRefresh()

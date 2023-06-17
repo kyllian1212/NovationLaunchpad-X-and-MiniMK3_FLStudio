@@ -17,20 +17,23 @@ import progVars as pv
 
 import launchpad as lp
 
-import idle.flTransport as iFlT
-import idle.shift as iS
-import idle.menu as iM
-import idle.bpm as iB
+import idle.mainSideBar as iMainSideBar
+import idle.shift as iShift
+import idle.menu as iMenu
+import idle.bpm as iBpm
+import idle.metronome as iMetro
 
 import sys
 import time
 
+#this is everything that handles displaying on the launchpad
 def idleHandler():
-    iFlT.flTransport()
-    iS.shift()
+    iMainSideBar.mainSideBar()
+    iShift.shift()
+    iMetro.metronome()
 
     if pv.mode == pc.MENU_MODE:
-        iM.menu()
+        iMenu.menu()
     
     if pv.mode == pc.BPM_MODE:
-        iB.bpm()
+        iBpm.bpm()

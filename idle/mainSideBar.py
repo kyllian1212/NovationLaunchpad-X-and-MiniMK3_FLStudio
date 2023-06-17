@@ -19,7 +19,7 @@ import launchpad as lp
 import sys
 import time
 
-def flTransport():
+def mainSideBar():
     if transport.getLoopMode() == 0:
         lp.lightPad(pc.PATTERN_PAD, lp.color["orange"], lp.state["static"])
     else:
@@ -38,4 +38,9 @@ def flTransport():
     if transport.isRecording():
         lp.lightPad(pc.RECORD_PAD, lp.color["red"], lp.state["static"])
     else:
-        lp.lightPad(pc.RECORD_PAD, lp.color["coral_tree"], lp.state["static"])
+        lp.lightPad(pc.RECORD_PAD, lp.color["darker_red"], lp.state["static"])
+    
+    if pv.mode in pc.MODES:
+        lp.lightPad(pc.RETURN_PAD, lp.color["red"], lp.state["static"])
+    else:
+        lp.lightPad(pc.RETURN_PAD, lp.color["off"], lp.state["static"])

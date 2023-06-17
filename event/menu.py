@@ -22,6 +22,5 @@ import sys
 import time
 
 def menu(event):
-    if e.buttonPressed(event) and e.buttonNumber(pc.BPM_MENUPAD, event) and pv.mode == pc.MENU_MODE:
-        pv.mode = pc.BPM_MODE
-        lp.resetLighting()
+    if e.buttonPressed(event) and e.buttonNumber(pc.BPM_MENUPAD, event):
+        lp.modeChange(pc.BPM_MODE)

@@ -16,13 +16,15 @@ import progConst as pc
 import progVars as pv
 import launchpad as lp
 
-import event.flTransport as eFlT
-import event.shift as eS
-import event.menu as eM
+import event.mainSideBar as eMainSideBar
+import event.shift as eShift
+import event.menu as eMenu
+import event.bpm as eBpm
 
 import sys
 import time
 
+#this is everything that handles events (inputs etc)
 def buttonPressed(event):
     if event.data2 > 1:
         return True
@@ -36,12 +38,17 @@ def buttonNumber(number: int, event):
         return False
 
 def eventHandler(event):
-    eFlT.flTransport(event)
-    eS.shift(event)
-    eM.menu(event)
+    eMainSideBar.mainSideBar(event)
+    eShift.shift(event)
+
+    if pv.mode == pc.MENU_MODE:
+        eMenu.menu(event)
+    
+    if pv.mode == pc.BPM_MODE:
+        eBpm.bpm(event)
     
     if buttonPressed(event): 
-        if event.data1 not in pc.TRANSPORT_PADS:
+        if event.data1 not in pc.TRANSPORT_PADS and event.data1 not in pc.ARROW_PADS and event.data1 != pc.RETURN_PAD:
             lp.lightPad(event.data1, lp.color["white"], lp.state["static"])
     else:
         lp.revertPad(event.data1)

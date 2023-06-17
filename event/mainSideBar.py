@@ -21,7 +21,7 @@ import eventHandler as e
 import sys
 import time
 
-def flTransport(event):
+def mainSideBar(event):
     if event.data1 == pc.PATTERN_PAD:
         if e.buttonPressed(event):
             transport.setLoopMode()
@@ -41,3 +41,7 @@ def flTransport(event):
     if event.data1 == pc.RECORD_PAD:
         if e.buttonPressed(event):
             transport.record()
+
+    if event.data1 == pc.RETURN_PAD and pv.mode != pc.MENU_MODE:
+        if e.buttonPressed(event):
+            lp.modeChange(pc.MENU_MODE)
