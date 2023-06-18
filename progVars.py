@@ -33,4 +33,5 @@ rightPressed = False
 
 returnPressed = False
 
+# should i really make one for every single one of them....... idk..... or maybe use a dict
 feedbackButtonPressed = False
