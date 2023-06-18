@@ -135,4 +135,4 @@ def flTransport(event):
             lp.scrollText("Loop recording -> Off", lp.color["light_orange"], 11)
         elif pv.shiftPressed and not ui.isLoopRecEnabled():
             lp.scrollText("Loop recording -> On", lp.color["light_orange"], 11)
-        transport.globalTransport(midi.FPT_Overdub, 1)
+        transport.globalTransport(midi.FPT_LoopRecord, 1)
