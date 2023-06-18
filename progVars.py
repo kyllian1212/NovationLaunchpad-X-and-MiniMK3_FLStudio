@@ -18,7 +18,9 @@ mode = pc.MENU_MODE
 
 bpm = mixer.getCurrentTempo(0)
 
-projectLoading = False
+waitMode = False #when project is loading or init is occuring
+
+textScrolling = False
 
 shiftPressed = False
 
@@ -30,3 +32,5 @@ leftPressed = False
 rightPressed = False
 
 returnPressed = False
+
+feedbackButtonPressed = False

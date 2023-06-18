@@ -22,5 +22,8 @@ import sys
 import time
 
 def menu(event):
-    if e.buttonPressed(event) and e.buttonNumber(pc.BPM_MENUPAD, event):
-        lp.modeChange(pc.BPM_MODE)
+    if e.buttonPressed(event) and e.buttonNumber(pc.FLTRANSPORT_MENUPAD, event):
+        if not pv.shiftPressed:
+            lp.modeChange(pc.FLTRANSPORT_MODE)
+        else:
+            lp.scrollText("FL Transport Mode", lp.color["white"])

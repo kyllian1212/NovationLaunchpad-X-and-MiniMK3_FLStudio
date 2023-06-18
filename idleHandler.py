@@ -20,7 +20,7 @@ import launchpad as lp
 import idle.mainSideBar as iMainSideBar
 import idle.shift as iShift
 import idle.menu as iMenu
-import idle.bpm as iBpm
+import idle.flTransport as iFlTransport
 import idle.metronome as iMetro
 
 import sys
@@ -35,5 +35,5 @@ def idleHandler():
     if pv.mode == pc.MENU_MODE:
         iMenu.menu()
     
-    if pv.mode == pc.BPM_MODE:
-        iBpm.bpm()
+    if pv.mode == pc.FLTRANSPORT_MODE:
+        iFlTransport.flTransport()

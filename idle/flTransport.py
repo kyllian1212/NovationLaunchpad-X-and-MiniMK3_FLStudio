@@ -23,8 +23,10 @@ import time
 
 shiftLighting = False
 
-def bpm():
+def flTransport():
     global shiftLighting
+
+    # bpm
     currentBpm = list(str(mixer.getCurrentTempo(0)))
 
     if len(currentBpm) == 6:
@@ -54,14 +56,14 @@ def bpm():
         
     if pv.shiftPressed == False:
         if shiftLighting:
-            lp.resetLighting()
+            lp.resetPartialLighting(51, 98)
             shiftLighting = False
         lp.lightGroup(lp.character[currentBpm[0]], lp.color["light_azure"], lp.state["static"], 40)
         lp.lightGroup(lp.character[currentBpm[1]], lp.color["white"], lp.state["static"], 42)
         lp.lightGroup(lp.character[currentBpm[2]], lp.color["light_azure"], lp.state["static"], 45)
     else:
         if not shiftLighting:
-            lp.resetLighting()
+            lp.resetPartialLighting(51, 98)
             shiftLighting = True
         lp.lightGroup(lp.character[currentBpm[3]], lp.color["light_yellow"], lp.state["static"], 40)
         lp.lightGroup(lp.character[currentBpm[4]], lp.color["white"], lp.state["static"], 42)
@@ -102,5 +104,43 @@ def bpm():
             lp.lightPad(pc.RIGHT_PAD, lp.color["off"], lp.state["static"])
     elif pv.rightPressed and not pv.shiftPressed:
         lp.lightPad(pc.RIGHT_PAD, lp.color["light_azure"], lp.state["static"])
-
     
+
+    # for fl transport stuff
+    state = lp.state["static"] if not pv.shiftPressed else lp.state["pulsing"]
+
+    # metronome
+    if not ui.isMetronomeEnabled():
+        lp.lightPad(21, lp.color["darker_orange"], state)
+    else:
+        lp.lightPad(21, lp.color["light_orange"], state)
+
+    # wait for input to start playing
+    if not ui.isStartOnInputEnabled():
+        lp.lightPad(22, lp.color["darker_orange"], state)
+    else:
+        lp.lightPad(22, lp.color["light_orange"], state)
+    
+    # countdown before recording
+    if not ui.isPrecountEnabled():
+        lp.lightPad(23, lp.color["darker_orange"], state)
+    else:
+        lp.lightPad(23, lp.color["light_orange"], state)
+    
+    # overdub (not available rn?)
+    '''
+    if not (overdub?):
+        lp.lightPad(24, lp.color["darker_orange"], state)
+    else:
+        lp.lightPad(24, lp.color["light_orange"], state)
+    '''
+    if not pv.feedbackButtonPressed:
+        lp.lightPad(24, lp.color["red"], state)
+    else:
+        lp.lightPad(24, lp.color["white"], state)
+
+    # loop recording
+    if not ui.isLoopRecEnabled():
+        lp.lightPad(25, lp.color["darker_orange"], state)
+    else:
+        lp.lightPad(25, lp.color["light_orange"], state)

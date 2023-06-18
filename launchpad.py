@@ -367,7 +367,7 @@ def modeChange(newMode):
     pv.mode = newMode
     resetPartialLighting(11, 98)
 
-def scrollText(text: str, color: Color, speed: int = 8, looping: int = 0):
+def scrollText(text: str, color: Color, speed: int = 9, looping: int = 0):
     """Scrolls text on the Launchpad.
 
     ## Args:
@@ -393,3 +393,5 @@ def scrollText(text: str, color: Color, speed: int = 8, looping: int = 0):
     
     #play on launchpad
     device.midiOutSysex(bytes(message))
+
+    pv.textScrolling = True
