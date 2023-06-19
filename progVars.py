@@ -33,5 +33,9 @@ rightPressed = False
 
 returnPressed = False
 
-# should i really make one for every single one of them....... idk..... or maybe use a dict
-feedbackButtonPressed = False
+buttonPressed = {}
+
+for x in range(1, 9):
+    for y in range(1, 9):
+        number = int(str(x)+str(y))
+        buttonPressed[number] = False

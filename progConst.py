@@ -12,10 +12,10 @@ import transport
 import ui
 import utils
 
-# "always on" pad consts
+### "always on" pad consts
 SHIFT_PAD = 89
 
-# transport pad consts
+### transport pad consts
 PATTERN_PAD = 79
 PLAYPAUSE_PAD = 69
 STOP_PAD = 59
@@ -23,7 +23,7 @@ RECORD_PAD  = 49
 
 TRANSPORT_PADS = [PATTERN_PAD, PLAYPAUSE_PAD, STOP_PAD, RECORD_PAD]
 
-# arrow pad consts
+### arrow pad consts
 UP_PAD = 91
 DOWN_PAD = 92
 LEFT_PAD = 93
@@ -31,16 +31,23 @@ RIGHT_PAD = 94
 
 ARROW_PADS = [UP_PAD, DOWN_PAD, LEFT_PAD, RIGHT_PAD]
 
-# return pad const
+### return pad const
 RETURN_PAD = 19
 
-# metronome "pad" const
-METRONOME_PAD = 99
+### metronome "pad" const
+METRONOME_DISPLAYPAD = 99
 
-# mode + pads consts
+### mode + pads consts
 MENU_MODE = 0
 
+# fl transport
 FLTRANSPORT_MODE = 1
 FLTRANSPORT_MENUPAD = 81
+
+METRONOME_PAD = 31
+WAIT_FOR_INPUT_PAD = 32
+COUNTDOWN_PAD = 33
+OVERDUB_PAD = 34
+LOOPRECORDING_PAD = 35
 
 MODES = [FLTRANSPORT_MODE]

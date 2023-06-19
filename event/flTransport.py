@@ -89,7 +89,7 @@ def flTransport(event):
             pv.rightPressed = False
     
     # metronome
-    if e.buttonPressed(event) and e.buttonNumber(21, event):
+    if e.buttonPressed(event) and e.buttonNumber(pc.METRONOME_PAD, event):
         if pv.shiftPressed and ui.isMetronomeEnabled():
             lp.scrollText("Metronome -> Off", lp.color["light_orange"])
         elif pv.shiftPressed and not ui.isMetronomeEnabled():
@@ -97,7 +97,7 @@ def flTransport(event):
         transport.globalTransport(midi.FPT_Metronome, 1)
     
     # wait for input to start playing
-    if e.buttonPressed(event) and e.buttonNumber(22, event):
+    if e.buttonPressed(event) and e.buttonNumber(pc.WAIT_FOR_INPUT_PAD, event):
         if pv.shiftPressed and ui.isStartOnInputEnabled():
             lp.scrollText("Wait for input to start playing -> Off", lp.color["light_orange"], 11)
         elif pv.shiftPressed and not ui.isStartOnInputEnabled():
@@ -105,14 +105,14 @@ def flTransport(event):
         transport.globalTransport(midi.FPT_WaitForInput, 1)
 
     # countdown before recording
-    if e.buttonPressed(event) and e.buttonNumber(23, event):
+    if e.buttonPressed(event) and e.buttonNumber(pc.COUNTDOWN_PAD, event):
         if pv.shiftPressed and ui.isPrecountEnabled():
             lp.scrollText("Countdown before recording -> Off", lp.color["light_orange"], 11)
         elif pv.shiftPressed and not ui.isPrecountEnabled():
             lp.scrollText("Countdown before recording -> On", lp.color["light_orange"], 11)
         transport.globalTransport(midi.FPT_CountDown, 1)
     
-    # overdub (not available rn?)
+    # overdub (helper not available rn?)
     '''
     if e.buttonPressed(event) and e.buttonNumber(24, event):
         if pv.shiftPressed and ui.isble():
@@ -121,16 +121,16 @@ def flTransport(event):
             lp.scrollText("Overdub -> On", lp.color["light_orange"])
         transport.globalTransport(midi.FPT_Overdub, 1)
     '''
-    if e.buttonPressed(event) and e.buttonNumber(24, event):
+    if e.buttonPressed(event) and e.buttonNumber(pc.OVERDUB_PAD, event):
         if pv.shiftPressed:
-            lp.scrollText("Overdub toggled (launchpad indicator not available)", lp.color["red"], 12)
+            lp.scrollText("Overdub toggled (launchpad indicator not available)", lp.color["red"], 13)
         transport.globalTransport(midi.FPT_Overdub, 1)
-        pv.feedbackButtonPressed = True
-    if not e.buttonPressed(event) and e.buttonNumber(24, event):
-        pv.feedbackButtonPressed = False
+        pv.buttonPressed[pc.OVERDUB_PAD] = True
+    if not e.buttonPressed(event) and e.buttonNumber(pc.OVERDUB_PAD, event):
+        pv.buttonPressed[pc.OVERDUB_PAD] = False
 
-    # overdub (not available rn?)
-    if e.buttonPressed(event) and e.buttonNumber(25, event):
+    # loop recording
+    if e.buttonPressed(event) and e.buttonNumber(pc.LOOPRECORDING_PAD, event):
         if pv.shiftPressed and ui.isLoopRecEnabled():
             lp.scrollText("Loop recording -> Off", lp.color["light_orange"], 11)
         elif pv.shiftPressed and not ui.isLoopRecEnabled():

@@ -110,37 +110,25 @@ def flTransport():
     state = lp.state["static"] if not pv.shiftPressed else lp.state["pulsing"]
 
     # metronome
-    if not ui.isMetronomeEnabled():
-        lp.lightPad(21, lp.color["darker_orange"], state)
-    else:
-        lp.lightPad(21, lp.color["light_orange"], state)
+    metronomeColor = lp.color["darker_orange"] if not ui.isMetronomeEnabled() else lp.color["light_orange"]
+    lp.lightPad(pc.METRONOME_PAD, metronomeColor, state)
 
     # wait for input to start playing
-    if not ui.isStartOnInputEnabled():
-        lp.lightPad(22, lp.color["darker_orange"], state)
-    else:
-        lp.lightPad(22, lp.color["light_orange"], state)
+    waitForInputColor = lp.color["darker_orange"] if not ui.isStartOnInputEnabled() else lp.color["light_orange"]
+    lp.lightPad(pc.WAIT_FOR_INPUT_PAD, waitForInputColor, state)
     
     # countdown before recording
-    if not ui.isPrecountEnabled():
-        lp.lightPad(23, lp.color["darker_orange"], state)
-    else:
-        lp.lightPad(23, lp.color["light_orange"], state)
+    countdownColor = lp.color["darker_orange"] if not ui.isPrecountEnabled() else lp.color["light_orange"]
+    lp.lightPad(pc.COUNTDOWN_PAD, countdownColor, state)
     
-    # overdub (not available rn?)
+    # overdub (helper not available rn?)
     '''
-    if not (overdub?):
-        lp.lightPad(24, lp.color["darker_orange"], state)
-    else:
-        lp.lightPad(24, lp.color["light_orange"], state)
+    overdubColor = lp.color["darker_orange"] if not (overdub?) else lp.color["light_orange"]:
+    lp.lightPad(pc.OVERDUB_PAD, overdubColor, state)
     '''
-    if not pv.feedbackButtonPressed:
-        lp.lightPad(24, lp.color["red"], state)
-    else:
-        lp.lightPad(24, lp.color["white"], state)
+    overdubColor = lp.color["red"] if not pv.buttonPressed[pc.OVERDUB_PAD] else lp.color["white"]
+    lp.lightPad(pc.OVERDUB_PAD, overdubColor, state)
 
     # loop recording
-    if not ui.isLoopRecEnabled():
-        lp.lightPad(25, lp.color["darker_orange"], state)
-    else:
-        lp.lightPad(25, lp.color["light_orange"], state)
+    loopRecordingColor = lp.color["darker_orange"] if not ui.isLoopRecEnabled() else lp.color["light_orange"]
+    lp.lightPad(pc.LOOPRECORDING_PAD, loopRecordingColor, state)
