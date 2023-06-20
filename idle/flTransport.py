@@ -126,9 +126,72 @@ def flTransport():
     overdubColor = lp.color["darker_orange"] if not (overdub?) else lp.color["light_orange"]:
     lp.lightPad(pc.OVERDUB_PAD, overdubColor, state)
     '''
-    overdubColor = lp.color["red"] if not pv.buttonPressed[pc.OVERDUB_PAD] else lp.color["white"]
+    overdubColor = lp.color["dark_gray"] if not pv.buttonPressed[pc.OVERDUB_PAD] else lp.color["white"]
     lp.lightPad(pc.OVERDUB_PAD, overdubColor, state)
 
     # loop recording
     loopRecordingColor = lp.color["darker_orange"] if not ui.isLoopRecEnabled() else lp.color["light_orange"]
     lp.lightPad(pc.LOOPRECORDING_PAD, loopRecordingColor, state)
+
+    # step edit mode
+    stepEditColor = lp.color["darker_orange"] if not ui.getStepEditMode() else lp.color["light_orange"]
+    lp.lightPad(pc.STEPEDIT_PAD, stepEditColor, state)
+
+    # rest with no feature
+    '''
+    lp.lightPad(21, lp.color["dark_gray"], state)
+    lp.lightPad(22, lp.color["dark_gray"], state)
+    lp.lightPad(24, lp.color["dark_gray"], state)
+    lp.lightPad(25, lp.color["dark_gray"], state)
+    '''
+
+    # undo/redo
+    undoPossible = True if general.getUndoHistoryLast() != general.getUndoHistoryCount()-1 else False
+    redoPossible = True if general.getUndoHistoryLast() != 0 else False
+
+    undoColor = lp.color["red"] if undoPossible else lp.color["dark_gray"] 
+    if pv.buttonPressed[pc.UNDO_PAD]:
+         undoColor = lp.color["white"]  
+    
+    redoColor = lp.color["darker_green"] if redoPossible else lp.color["dark_gray"] 
+    if pv.buttonPressed[pc.REDO_PAD]:
+         redoColor = lp.color["white"]
+
+    lp.lightPad(pc.UNDO_PAD, undoColor, state)
+    lp.lightPad(pc.REDO_PAD, redoColor, state)
+
+    # tap tempo
+    tapTempoColor = lp.color["darker_azure"] if not pv.buttonPressed[pc.TAPTEMPO_PAD] else lp.color["light_azure"]
+    lp.lightPad(pc.TAPTEMPO_PAD, tapTempoColor, state)
+
+    # playlist/piano roll/channel rack/mixer/browser window focus
+    closeWindowColor = lp.color["darker_red"] if not pv.buttonPressed[pc.UICLOSEWINDOW_PAD] else lp.color["red"]
+    lp.lightPad(pc.UICLOSEWINDOW_PAD, closeWindowColor, lp.state["static"])
+
+    playlistColor = lp.color["darker_yellow"] if not ui.getFocused(2) else lp.color["light_yellow"]
+    if not ui.getVisible(2):
+        playlistColor = lp.color["dark_gray"]
+    
+    pianoRollColor = lp.color["darker_yellow"] if not ui.getFocused(3) else lp.color["light_yellow"]
+    if not ui.getVisible(3):
+        pianoRollColor = lp.color["dark_gray"]
+    
+    channelRackColor = lp.color["darker_yellow"] if not ui.getFocused(1) else lp.color["light_yellow"]
+    if not ui.getVisible(1):
+        channelRackColor = lp.color["dark_gray"]
+    
+    mixerColor = lp.color["darker_yellow"] if not ui.getFocused(0) else lp.color["light_yellow"]
+    if not ui.getVisible(0):
+        mixerColor = lp.color["dark_gray"]
+    
+    browserColor = lp.color["darker_yellow"] if not ui.getFocused(4) else lp.color["light_yellow"]
+    if not ui.getVisible(4):
+        browserColor = lp.color["dark_gray"]
+    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and pv.buttonPressed[pc.UIBROWSER_PAD]:
+        browserColor = lp.color["red"]
+
+    lp.lightPad(pc.UIPLAYLIST_PAD, playlistColor, state)
+    lp.lightPad(pc.UIPIANOROLL_PAD, pianoRollColor, state)
+    lp.lightPad(pc.UICHANNELRACK_PAD, channelRackColor, state)
+    lp.lightPad(pc.UIMIXER_PAD, mixerColor, state)
+    lp.lightPad(pc.UIBROWSER_PAD, browserColor, state)

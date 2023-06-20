@@ -123,7 +123,7 @@ def flTransport(event):
     '''
     if e.buttonPressed(event) and e.buttonNumber(pc.OVERDUB_PAD, event):
         if pv.shiftPressed:
-            lp.scrollText("Overdub toggled (launchpad indicator not available)", lp.color["red"], 13)
+            lp.scrollText("Overdub toggled (launchpad indicator not available)", lp.color["white"], 13)
         transport.globalTransport(midi.FPT_Overdub, 1)
         pv.buttonPressed[pc.OVERDUB_PAD] = True
     if not e.buttonPressed(event) and e.buttonNumber(pc.OVERDUB_PAD, event):
@@ -136,3 +136,102 @@ def flTransport(event):
         elif pv.shiftPressed and not ui.isLoopRecEnabled():
             lp.scrollText("Loop recording -> On", lp.color["light_orange"], 11)
         transport.globalTransport(midi.FPT_LoopRecord, 1)
+    
+    # step edit
+    if e.buttonPressed(event) and e.buttonNumber(pc.STEPEDIT_PAD, event):
+        if pv.shiftPressed and ui.getStepEditMode():
+            lp.scrollText("Step editing mode -> Off", lp.color["light_orange"], 11)
+        elif pv.shiftPressed and not ui.getStepEditMode():
+            lp.scrollText("Step editing mode -> On", lp.color["light_orange"], 11)
+        transport.globalTransport(midi.FPT_StepEdit, 1)
+    
+    # not available yet
+    '''
+    if e.buttonPressed(event) and (
+        e.buttonNumber(21, event)
+        or e.buttonNumber(22, event)
+        or e.buttonNumber(24, event)
+        or e.buttonNumber(25, event)
+    ) and pv.shiftPressed:
+        lp.scrollText("Not available", lp.color["red"], 11)
+    '''
+
+    # undo/redo
+    undoPossible = True if general.getUndoHistoryLast() != general.getUndoHistoryCount()-1 else False
+    redoPossible = True if general.getUndoHistoryLast() != 0 else False
+
+    if e.buttonPressed(event) and e.buttonNumber(pc.UNDO_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText(f"Undone last action", lp.color["red"], 11) if undoPossible else lp.scrollText(f"Nothing to undo", lp.color["red"], 11)
+        if undoPossible:
+            general.undoUp()
+        pv.buttonPressed[pc.UNDO_PAD] = True
+    elif not e.buttonPressed(event) and e.buttonNumber(pc.UNDO_PAD, event):
+        pv.buttonPressed[pc.UNDO_PAD] = False
+    
+    if e.buttonPressed(event) and e.buttonNumber(pc.REDO_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText(f"Redone last action", lp.color["green"], 11) if redoPossible else lp.scrollText(f"Nothing to redo", lp.color["green"], 11)
+        if redoPossible:
+            general.undoDown()
+        pv.buttonPressed[pc.REDO_PAD] = True
+    elif not e.buttonPressed(event) and e.buttonNumber(pc.REDO_PAD, event):
+        pv.buttonPressed[pc.REDO_PAD] = False
+    
+    # tap tempo
+    if e.buttonPressed(event) and e.buttonNumber(pc.TAPTEMPO_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText("Tap tempo", lp.color["light_azure"])
+        else:
+            transport.globalTransport(midi.FPT_TapTempo, 1)
+            pv.buttonPressed[pc.TAPTEMPO_PAD] = True
+    elif not e.buttonPressed(event) and e.buttonNumber(pc.TAPTEMPO_PAD, event):
+        pv.buttonPressed[pc.TAPTEMPO_PAD] = False
+    
+    # playlist/piano roll/channel rack/mixer/browser window focus
+    if e.buttonPressed(event) and e.buttonNumber(pc.UICLOSEWINDOW_PAD, event):
+        pv.buttonPressed[pc.UICLOSEWINDOW_PAD] = True
+    elif not e.buttonPressed(event) and e.buttonNumber(pc.UICLOSEWINDOW_PAD, event):
+        pv.buttonPressed[pc.UICLOSEWINDOW_PAD] = False
+
+    if e.buttonPressed(event) and e.buttonNumber(pc.UIPLAYLIST_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText("Playlist window focused", lp.color["light_yellow"], 11)
+        if not ui.getVisible(2):
+            ui.showWindow(2)
+        ui.setFocused(2)
+    
+    if e.buttonPressed(event) and e.buttonNumber(pc.UIPIANOROLL_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText("Piano roll window focused", lp.color["light_yellow"], 11)
+        if not ui.getVisible(3):
+            ui.showWindow(3)
+        ui.setFocused(3)
+    
+    if e.buttonPressed(event) and e.buttonNumber(pc.UICHANNELRACK_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText("Channel rack window focused", lp.color["light_yellow"], 11)
+        if not ui.getVisible(1):
+            ui.showWindow(1)
+        ui.setFocused(1)
+    
+    if e.buttonPressed(event) and e.buttonNumber(pc.UIMIXER_PAD, event):
+        if pv.shiftPressed:
+            lp.scrollText("Mixer window focused", lp.color["light_yellow"], 11)
+        if not ui.getVisible(0):
+            ui.showWindow(0)
+        ui.setFocused(0)
+
+    if e.buttonPressed(event) and e.buttonNumber(pc.UIBROWSER_PAD, event):
+        pv.buttonPressed[pc.UIBROWSER_PAD] = True
+        if pv.buttonPressed[pc.UICLOSEWINDOW_PAD]:
+            ui.hideWindow(4)
+        else:
+            if pv.shiftPressed:
+                lp.scrollText("Browser focused", lp.color["light_yellow"], 11)
+            if not ui.getVisible(4):
+                ui.showWindow(4)
+            ui.setFocused(4)
+    elif not e.buttonPressed(event) and e.buttonNumber(pc.UIBROWSER_PAD, event):
+        pv.buttonPressed[pc.UIBROWSER_PAD] = False
+    

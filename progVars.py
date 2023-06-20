@@ -39,3 +39,5 @@ for x in range(1, 9):
     for y in range(1, 9):
         number = int(str(x)+str(y))
         buttonPressed[number] = False
+
+projectLoading = False

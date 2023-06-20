@@ -17,7 +17,7 @@ import progVars as pv
 
 import launchpad as lp
 
-import idle.mainSideBar as iMainSideBar
+import idle.mainSidebar as iMainSidebar
 import idle.shift as iShift
 import idle.menu as iMenu
 import idle.flTransport as iFlTransport
@@ -28,7 +28,7 @@ import time
 
 #this is everything that handles displaying on the launchpad
 def idleHandler():
-    iMainSideBar.mainSideBar()
+    iMainSidebar.mainSidebar()
     iShift.shift()
     iMetro.metronome()
 

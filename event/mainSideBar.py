@@ -21,7 +21,7 @@ import eventHandler as e
 import sys
 import time
 
-def mainSideBar(event):
+def mainSidebar(event):
     if e.buttonNumber(pc.PATTERN_PAD, event):
         if e.buttonPressed(event):
             transport.setLoopMode()

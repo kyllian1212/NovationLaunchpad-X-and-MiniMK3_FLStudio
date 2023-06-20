@@ -53,6 +53,14 @@ class DawLaunchpad:
 
     def OnDoFullRefresh(self):
         i.idleHandler()
+    
+    def OnProjectLoad(self, status):
+        if status == 0:
+            pv.projectLoading = True
+            print("load")
+        if status == 100 or status == 101:
+            pv.projectLoading = False
+            print("end")
 
 dlp = DawLaunchpad()
 
@@ -70,3 +78,6 @@ def OnMidiMsg(event):
 
 def OnDoFullRefresh():
     dlp.OnDoFullRefresh()
+
+def OnProjectLoad(status):
+    dlp.OnProjectLoad(status)

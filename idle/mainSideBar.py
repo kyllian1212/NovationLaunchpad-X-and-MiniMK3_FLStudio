@@ -19,7 +19,7 @@ import launchpad as lp
 import sys
 import time
 
-def mainSideBar():
+def mainSidebar():
     if transport.getLoopMode() == 0:
         lp.lightPad(pc.PATTERN_PAD, lp.color["orange"], lp.state["static"])
     else:

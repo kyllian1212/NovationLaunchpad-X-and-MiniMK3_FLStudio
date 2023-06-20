@@ -16,7 +16,7 @@ import progConst as pc
 import progVars as pv
 import launchpad as lp
 
-import event.mainSideBar as eMainSideBar
+import event.mainSidebar as eMainSidebar
 import event.shift as eShift
 import event.menu as eMenu
 import event.flTransport as eFlTransport
@@ -25,6 +25,7 @@ import sys
 import time
 
 #this is everything that handles events (inputs etc)
+#rewrite this part bc its a mess
 def buttonPressed(event):
     if event.data2 > 1:
         return True
@@ -42,7 +43,7 @@ def eventHandler(event):
         device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 7, 247])) #end text scroll if it was ongoing
         pv.textScrolling = False
 
-    eMainSideBar.mainSideBar(event)
+    eMainSidebar.mainSidebar(event)
     eShift.shift(event)
 
     if pv.mode == pc.MENU_MODE:
