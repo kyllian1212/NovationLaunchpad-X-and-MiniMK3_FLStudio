@@ -22,21 +22,19 @@ waitMode = False #when project is loading or init is occuring
 
 textScrolling = False
 
+#will be removed, use buttonPressed instead
 shiftPressed = False
-
 stopPressed = False
-
 upPressed = False
 downPressed = False
 leftPressed = False
 rightPressed = False
-
 returnPressed = False
 
 buttonPressed = {}
 
-for x in range(1, 9):
-    for y in range(1, 9):
+for x in range(1, 10):
+    for y in range(1, 10):
         number = int(str(x)+str(y))
         buttonPressed[number] = False
 

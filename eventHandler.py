@@ -26,7 +26,7 @@ import time
 
 #this is everything that handles events (inputs etc)
 #rewrite this part bc its a mess
-def buttonPressed(event):
+def oldButtonPressed(event):
     if event.data2 > 1:
         return True
     elif event.data2 == 0:
@@ -38,8 +38,20 @@ def buttonNumber(number: int, event):
     else: 
         return False
 
+def buttonPressed(number: int, event):
+    mainPads = []
+    for x in range(1, 9):
+        for y in range(1, 9):
+            mainPads.append(int(str(x)+str(y)))
+
+    if number in mainPads:
+        pv.buttonPressed[number] = True if event.data2 > 0 else False
+        return pv.buttonPressed[number]
+    else:
+        return True if event.data2 > 0 else False
+
 def eventHandler(event):
-    if pv.textScrolling and buttonPressed(event):
+    if pv.textScrolling and oldButtonPressed(event):
         device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 7, 247])) #end text scroll if it was ongoing
         pv.textScrolling = False
 

@@ -23,15 +23,15 @@ import time
 
 def mainSidebar(event):
     if e.buttonNumber(pc.PATTERN_PAD, event):
-        if e.buttonPressed(event):
+        if e.oldButtonPressed(event):
             transport.setLoopMode()
     
     if e.buttonNumber(pc.PLAYPAUSE_PAD, event):
-        if e.buttonPressed(event):
+        if e.oldButtonPressed(event):
             transport.start()
 
     if e.buttonNumber(pc.STOP_PAD, event):
-        if e.buttonPressed(event):
+        if e.oldButtonPressed(event):
             pv.stopPressed = True
         else:
             pv.stopPressed = False
@@ -39,9 +39,9 @@ def mainSidebar(event):
         transport.stop()
 
     if e.buttonNumber(pc.RECORD_PAD, event):
-        if e.buttonPressed(event):
+        if e.oldButtonPressed(event):
             transport.record()
 
     if e.buttonNumber(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
-        if e.buttonPressed(event):
+        if e.oldButtonPressed(event):
             lp.modeChange(pc.MENU_MODE)

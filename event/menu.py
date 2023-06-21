@@ -22,7 +22,7 @@ import sys
 import time
 
 def menu(event):
-    if e.buttonPressed(event) and e.buttonNumber(pc.FLTRANSPORT_MENUPAD, event):
+    if e.oldButtonPressed(event) and e.buttonNumber(pc.FLTRANSPORT_MENUPAD, event):
         if not pv.shiftPressed:
             lp.modeChange(pc.FLTRANSPORT_MODE)
         else:

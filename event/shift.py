@@ -22,7 +22,7 @@ import sys
 import time
 
 def shift(event):
-    if e.buttonPressed(event) and e.buttonNumber(pc.SHIFT_PAD, event):
+    if e.oldButtonPressed(event) and e.buttonNumber(pc.SHIFT_PAD, event):
         pv.shiftPressed = True
-    elif not e.buttonPressed(event) and e.buttonNumber(pc.SHIFT_PAD, event):
+    elif not e.oldButtonPressed(event) and e.buttonNumber(pc.SHIFT_PAD, event):
         pv.shiftPressed = False
