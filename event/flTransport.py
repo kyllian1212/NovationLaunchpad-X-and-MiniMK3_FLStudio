@@ -48,6 +48,7 @@ def flTransport(event):
             pv.rightPressed = False
     '''
 
+    #old
     if e.buttonNumber(pc.UP_PAD, event):
         if e.oldButtonPressed(event):
             pv.upPressed = True
@@ -57,6 +58,10 @@ def flTransport(event):
                 transport.globalTransport(midi.FPT_TempoJog, 100)
         else:
             pv.upPressed = False
+    
+    #new
+    if e.buttonPressed(pc.UP_PAD, event):
+        transport.globalTransport(midi.FPT_TempoJog, 1) if e.buttonPressed(pc.SHIFT_PAD, event) else transport.globalTransport(midi.FPT_TempoJog, 100)
     
     if e.buttonNumber(pc.DOWN_PAD, event):
         if e.oldButtonPressed(event):

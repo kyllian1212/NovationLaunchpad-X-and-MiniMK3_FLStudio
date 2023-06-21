@@ -20,7 +20,5 @@ import sys
 import time
 
 def shift():
-    if not pv.shiftPressed:
-        lp.lightPad(pc.SHIFT_PAD, lp.color["dark_gray"], lp.state["static"])
-    elif pv.shiftPressed:
-        lp.lightPad(pc.SHIFT_PAD, lp.color["white"], lp.state["static"])
+    shiftColor = lp.color["dark_gray"] if not pv.buttonPressed[pc.SHIFT_PAD] else lp.color["white"]
+    lp.lightPad(pc.SHIFT_PAD, shiftColor, lp.state["static"])

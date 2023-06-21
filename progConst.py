@@ -62,3 +62,6 @@ UNDO_PAD = 37
 REDO_PAD = 38
 
 MODES = [FLTRANSPORT_MODE]
+
+
+#might put colors and states in here now that i think about it

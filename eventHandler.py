@@ -39,16 +39,8 @@ def buttonNumber(number: int, event):
         return False
 
 def buttonPressed(number: int, event):
-    mainPads = []
-    for x in range(1, 9):
-        for y in range(1, 9):
-            mainPads.append(int(str(x)+str(y)))
-
-    if number in mainPads:
-        pv.buttonPressed[number] = True if event.data2 > 0 else False
-        return pv.buttonPressed[number]
-    else:
-        return True if event.data2 > 0 else False
+    pv.buttonPressed[number] = True if event.data2 > 0 else False
+    return pv.buttonPressed[number]
 
 def eventHandler(event):
     if pv.textScrolling and oldButtonPressed(event):
