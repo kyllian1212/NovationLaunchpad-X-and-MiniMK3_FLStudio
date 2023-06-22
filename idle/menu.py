@@ -20,7 +20,5 @@ import sys
 import time
 
 def menu():
-    if not pv.shiftPressed:
-        lp.lightPad(pc.FLTRANSPORT_MENUPAD, lp.color["dark_gray"], lp.state["static"])
-    else:
-        lp.lightPad(pc.FLTRANSPORT_MENUPAD, lp.color["dark_gray"], lp.state["pulsing"])
+    state = lp.state["static"] if not pv.buttonPressed[pc.SHIFT_PAD] else lp.state["pulsing"]
+    lp.lightPad(pc.FLTRANSPORT_MENUPAD, lp.color["dark_gray"], state)

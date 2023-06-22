@@ -25,25 +25,19 @@ import sys
 import time
 
 #this is everything that handles events (inputs etc)
-#rewrite this part bc its a mess
-def oldButtonPressed(event):
-    if event.data2 > 1:
-        return True
-    elif event.data2 == 0:
-        return False
-    
-def buttonNumber(number: int, event):
+def buttonPressedCheck(number: int, event):
     if event.data1 == number:
-        return True
-    else: 
-        return False
+        pv.buttonPressed[number] = True if event.data2 > 0 else False
+        return pv.buttonPressed[number]
+    else:
+        return None
 
-def buttonPressed(number: int, event):
-    pv.buttonPressed[number] = True if event.data2 > 0 else False
-    return pv.buttonPressed[number]
+def anyButtonPressedCheck(event):
+    return True if event.data2 > 0 else False
+
 
 def eventHandler(event):
-    if pv.textScrolling and oldButtonPressed(event):
+    if pv.textScrolling and anyButtonPressedCheck(event):
         device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 7, 247])) #end text scroll if it was ongoing
         pv.textScrolling = False
 

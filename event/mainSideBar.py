@@ -22,26 +22,17 @@ import sys
 import time
 
 def mainSidebar(event):
-    if e.buttonNumber(pc.PATTERN_PAD, event):
-        if e.oldButtonPressed(event):
-            transport.setLoopMode()
+    if e.buttonPressedCheck(pc.PATTERN_PAD, event):
+        transport.setLoopMode()
     
-    if e.buttonNumber(pc.PLAYPAUSE_PAD, event):
-        if e.oldButtonPressed(event):
-            transport.start()
+    if e.buttonPressedCheck(pc.PLAYPAUSE_PAD, event):
+        transport.start()
 
-    if e.buttonNumber(pc.STOP_PAD, event):
-        if e.oldButtonPressed(event):
-            pv.stopPressed = True
-        else:
-            pv.stopPressed = False
-
+    if e.buttonPressedCheck(pc.STOP_PAD, event):
         transport.stop()
 
-    if e.buttonNumber(pc.RECORD_PAD, event):
-        if e.oldButtonPressed(event):
-            transport.record()
+    if e.buttonPressedCheck(pc.RECORD_PAD, event):
+        transport.record()
 
-    if e.buttonNumber(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
-        if e.oldButtonPressed(event):
-            lp.modeChange(pc.MENU_MODE)
+    if e.buttonPressedCheck(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
+        lp.modeChange(pc.MENU_MODE)

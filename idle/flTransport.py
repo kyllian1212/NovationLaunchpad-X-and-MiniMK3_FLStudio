@@ -45,16 +45,16 @@ def flTransport():
         
         pv.bpm = mixer.getCurrentTempo(0)
         
-        if pvBpm[0] != currentBpm[0] or (pv.shiftPressed and pvBpm[3] != currentBpm[3]):
+        if pvBpm[0] != currentBpm[0] or (pv.buttonPressed[pc.SHIFT_PAD] and pvBpm[3] != currentBpm[3]):
             lp.resetPartialLighting(51, 82)
         
-        if pvBpm[1] != currentBpm[1] or (pv.shiftPressed and pvBpm[4] != currentBpm[4]):
+        if pvBpm[1] != currentBpm[1] or (pv.buttonPressed[pc.SHIFT_PAD] and pvBpm[4] != currentBpm[4]):
             lp.resetPartialLighting(53, 85)
         
-        if pvBpm[2] != currentBpm[2] or (pv.shiftPressed and pvBpm[5] != currentBpm[5]):
+        if pvBpm[2] != currentBpm[2] or (pv.buttonPressed[pc.SHIFT_PAD] and pvBpm[5] != currentBpm[5]):
             lp.resetPartialLighting(56, 88)
         
-    if pv.shiftPressed == False:
+    if not pv.buttonPressed[pc.SHIFT_PAD]:
         if shiftLighting:
             lp.resetPartialLighting(51, 98)
             shiftLighting = False
@@ -69,45 +69,45 @@ def flTransport():
         lp.lightGroup(lp.character[currentBpm[4]], lp.color["white"], lp.state["static"], 42)
         lp.lightGroup(lp.character[currentBpm[5]], lp.color["light_yellow"], lp.state["static"], 45)
 
-    if not pv.upPressed:
-        if not pv.shiftPressed:
+    if not pv.buttonPressed[pc.UP_PAD]:
+        if not pv.buttonPressed[pc.SHIFT_PAD]:
             lp.lightPad(pc.UP_PAD, lp.color["dark_gray"], lp.state["static"])
         else:
             lp.lightPad(pc.UP_PAD, lp.color["darker_yellow"], lp.state["static"])
-    elif pv.upPressed and not pv.shiftPressed:
+    elif pv.buttonPressed[pc.UP_PAD] and not pv.buttonPressed[pc.SHIFT_PAD]:
         lp.lightPad(pc.UP_PAD, lp.color["white"], lp.state["static"])
-    elif pv.upPressed and pv.shiftPressed:
+    elif pv.buttonPressed[pc.UP_PAD] and pv.buttonPressed[pc.SHIFT_PAD]:
         lp.lightPad(pc.UP_PAD, lp.color["light_yellow"], lp.state["static"])
 
-    if not pv.downPressed:
-        if not pv.shiftPressed:
+    if not pv.buttonPressed[pc.DOWN_PAD]:
+        if not pv.buttonPressed[pc.SHIFT_PAD]:
             lp.lightPad(pc.DOWN_PAD, lp.color["dark_gray"], lp.state["static"])
         else:
             lp.lightPad(pc.DOWN_PAD, lp.color["darker_yellow"], lp.state["static"])
-    elif pv.downPressed and not pv.shiftPressed:
+    elif pv.buttonPressed[pc.DOWN_PAD] and not pv.buttonPressed[pc.SHIFT_PAD]:
         lp.lightPad(pc.DOWN_PAD, lp.color["white"], lp.state["static"])
-    elif pv.downPressed and pv.shiftPressed:
+    elif pv.buttonPressed[pc.DOWN_PAD] and pv.buttonPressed[pc.SHIFT_PAD]:
         lp.lightPad(pc.DOWN_PAD, lp.color["light_yellow"], lp.state["static"])
     
-    if not pv.leftPressed:
-        if not pv.shiftPressed:
+    if not pv.buttonPressed[pc.LEFT_PAD]:
+        if not pv.buttonPressed[pc.SHIFT_PAD]:
             lp.lightPad(pc.LEFT_PAD, lp.color["darker_azure"], lp.state["static"])
         else:
             lp.lightPad(pc.LEFT_PAD, lp.color["off"], lp.state["static"])
-    elif pv.leftPressed and not pv.shiftPressed:
+    elif pv.buttonPressed[pc.LEFT_PAD] and not pv.buttonPressed[pc.SHIFT_PAD]:
         lp.lightPad(pc.LEFT_PAD, lp.color["light_azure"], lp.state["static"])
     
-    if not pv.rightPressed:
-        if not pv.shiftPressed:
+    if not pv.buttonPressed[pc.RIGHT_PAD]:
+        if not pv.buttonPressed[pc.SHIFT_PAD]:
             lp.lightPad(pc.RIGHT_PAD, lp.color["darker_azure"], lp.state["static"])
         else:
             lp.lightPad(pc.RIGHT_PAD, lp.color["off"], lp.state["static"])
-    elif pv.rightPressed and not pv.shiftPressed:
+    elif pv.buttonPressed[pc.RIGHT_PAD] and not pv.buttonPressed[pc.SHIFT_PAD]:
         lp.lightPad(pc.RIGHT_PAD, lp.color["light_azure"], lp.state["static"])
     
 
     # for fl transport stuff
-    state = lp.state["static"] if not pv.shiftPressed else lp.state["pulsing"]
+    state = lp.state["static"] if not pv.buttonPressed[pc.SHIFT_PAD] else lp.state["pulsing"]
 
     # metronome
     metronomeColor = lp.color["darker_orange"] if not ui.isMetronomeEnabled() else lp.color["light_orange"]

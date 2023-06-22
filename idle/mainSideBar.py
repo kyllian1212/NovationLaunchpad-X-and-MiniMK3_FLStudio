@@ -30,7 +30,7 @@ def mainSidebar():
         lp.lightPad(pc.STOP_PAD, lp.color["red"], lp.state["static"])
     else:
         lp.lightPad(pc.PLAYPAUSE_PAD, lp.color["darker_green"], lp.state["static"])
-        if pv.stopPressed == False:
+        if not pv.buttonPressed[pc.STOP_PAD]:
             lp.lightPad(pc.STOP_PAD, lp.color["dark_gray"], lp.state["static"])
         else:
             lp.lightPad(pc.STOP_PAD, lp.color["red"], lp.state["static"])
