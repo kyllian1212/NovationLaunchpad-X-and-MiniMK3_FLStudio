@@ -3,7 +3,7 @@ import device
 
 import launchpad as lp
 
-class DawLaunchpad:
+class MidiLaunchpad:
     def __init__(self):
         self.tick = 0
         return
@@ -28,16 +28,16 @@ class DawLaunchpad:
 
         event.handled = True
 
-dlp = DawLaunchpad()
+midiLp = MidiLaunchpad()
 
 def OnInit():
-    dlp.OnInit()
+    midiLp.OnInit()
 
 def OnDeInit():
-    dlp.OnDeInit()
+    midiLp.OnDeInit()
 
 def OnIdle():
-    dlp.OnIdle()
+    midiLp.OnIdle()
 
 def OnMidiMsg(event):
-    dlp.OnMidiMsg(event)
+    midiLp.OnMidiMsg(event)

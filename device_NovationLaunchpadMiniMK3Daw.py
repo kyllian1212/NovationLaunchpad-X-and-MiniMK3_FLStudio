@@ -62,22 +62,22 @@ class DawLaunchpad:
             pv.projectLoading = False
             print("end")
 
-dlp = DawLaunchpad()
+dawLp = DawLaunchpad()
 
 def OnInit():
-    dlp.OnInit()
+    dawLp.OnInit()
 
 def OnDeInit():
-    dlp.OnDeInit()
+    dawLp.OnDeInit()
 
 def OnIdle():
-    dlp.OnIdle()
+    dawLp.OnIdle()
 
 def OnMidiMsg(event):
-    dlp.OnMidiMsg(event)
+    dawLp.OnMidiMsg(event)
 
 def OnDoFullRefresh():
-    dlp.OnDoFullRefresh()
+    dawLp.OnDoFullRefresh()
 
 def OnProjectLoad(status):
-    dlp.OnProjectLoad(status)
+    dawLp.OnProjectLoad(status)
