@@ -171,24 +171,33 @@ def flTransport():
     playlistColor = pc.COLOR_DARKER_YELLOW if not ui.getFocused(2) else pc.COLOR_LIGHT_YELLOW
     if not ui.getVisible(2):
         playlistColor = pc.COLOR_DARK_GRAY
+    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and ui.getVisible(2):
+        playlistColor = pc.COLOR_RED if not ui.getFocused(2) else pc.COLOR_LIGHT_RED
     
     pianoRollColor = pc.COLOR_DARKER_YELLOW if not ui.getFocused(3) else pc.COLOR_LIGHT_YELLOW
     if not ui.getVisible(3):
         pianoRollColor = pc.COLOR_DARK_GRAY
+    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and ui.getVisible(3):
+        pianoRollColor = pc.COLOR_RED if not ui.getFocused(3) else pc.COLOR_LIGHT_RED
     
     channelRackColor = pc.COLOR_DARKER_YELLOW if not ui.getFocused(1) else pc.COLOR_LIGHT_YELLOW
     if not ui.getVisible(1):
         channelRackColor = pc.COLOR_DARK_GRAY
+    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and ui.getVisible(1):
+        channelRackColor = pc.COLOR_RED if not ui.getFocused(1) else pc.COLOR_LIGHT_RED
     
     mixerColor = pc.COLOR_DARKER_YELLOW if not ui.getFocused(0) else pc.COLOR_LIGHT_YELLOW
     if not ui.getVisible(0):
         mixerColor = pc.COLOR_DARK_GRAY
+    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and ui.getVisible(0):
+        mixerColor = pc.COLOR_RED if not ui.getFocused(0) else pc.COLOR_LIGHT_RED
     
     browserColor = pc.COLOR_DARKER_YELLOW if not ui.getFocused(4) else pc.COLOR_LIGHT_YELLOW
     if not ui.getVisible(4):
         browserColor = pc.COLOR_DARK_GRAY
-    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and pv.buttonPressed[pc.UIBROWSER_PAD]:
-        browserColor = pc.COLOR_RED
+    if pv.buttonPressed[pc.UICLOSEWINDOW_PAD] and ui.getVisible(4):
+        browserColor = pc.COLOR_RED if not ui.getFocused(4) else pc.COLOR_LIGHT_RED
+        
 
     lp.lightPad(pc.UIPLAYLIST_PAD, playlistColor, state)
     lp.lightPad(pc.UIPIANOROLL_PAD, pianoRollColor, state)

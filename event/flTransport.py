@@ -28,11 +28,11 @@ def flTransport(event):
     if e.buttonPressedCheck(pc.DOWN_PAD, event):
         transport.globalTransport(midi.FPT_TempoJog, -1) if pv.buttonPressed[pc.SHIFT_PAD] else transport.globalTransport(midi.FPT_TempoJog, -100)
     
-    if e.buttonPressedCheck(pc.LEFT_PAD, event):
+    if e.buttonPressedCheck(pc.LEFT_PAD, event) and not pv.buttonPressed[pc.SHIFT_PAD]:
         #no shift function until something is implemented for 0.01 bpms increments in fl studio's api
         transport.globalTransport(midi.FPT_TempoJog, -10)
 
-    if e.buttonPressedCheck(pc.RIGHT_PAD, event):
+    if e.buttonPressedCheck(pc.RIGHT_PAD, event) and not pv.buttonPressed[pc.SHIFT_PAD]:
         #no shift function until something is implemented for 0.01 bpms increments in fl studio's api
         transport.globalTransport(midi.FPT_TempoJog, 10)
     
@@ -117,32 +117,44 @@ def flTransport(event):
     e.buttonPressedCheck(pc.UICLOSEWINDOW_PAD, event)
 
     if e.buttonPressedCheck(pc.UIPLAYLIST_PAD, event):
-        if pv.buttonPressed[pc.SHIFT_PAD]:
-            lp.scrollText("Playlist window focused", pc.COLOR_LIGHT_YELLOW, 11)
-        if not ui.getVisible(2):
-            ui.showWindow(2)
-        ui.setFocused(2)
-    
+        if pv.buttonPressed[pc.UICLOSEWINDOW_PAD]:
+            ui.hideWindow(2)
+        else:
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                lp.scrollText("Playlist window focused", pc.COLOR_LIGHT_YELLOW, 11)
+            if not ui.getVisible(2):
+                ui.showWindow(2)
+            ui.setFocused(2)
+        
     if e.buttonPressedCheck(pc.UIPIANOROLL_PAD, event):
-        if pv.buttonPressed[pc.SHIFT_PAD]:
-            lp.scrollText("Piano roll window focused", pc.COLOR_LIGHT_YELLOW, 11)
-        if not ui.getVisible(3):
-            ui.showWindow(3)
-        ui.setFocused(3)
+        if pv.buttonPressed[pc.UICLOSEWINDOW_PAD]:
+            ui.hideWindow(3)
+        else:
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                lp.scrollText("Piano roll window focused", pc.COLOR_LIGHT_YELLOW, 11)
+            if not ui.getVisible(3):
+                ui.showWindow(3)
+            ui.setFocused(3)
     
     if e.buttonPressedCheck(pc.UICHANNELRACK_PAD, event):
-        if pv.buttonPressed[pc.SHIFT_PAD]:
-            lp.scrollText("Channel rack window focused", pc.COLOR_LIGHT_YELLOW, 11)
-        if not ui.getVisible(1):
-            ui.showWindow(1)
-        ui.setFocused(1)
+        if pv.buttonPressed[pc.UICLOSEWINDOW_PAD]:
+            ui.hideWindow(1)
+        else:
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                lp.scrollText("Channel rack window focused", pc.COLOR_LIGHT_YELLOW, 11)
+            if not ui.getVisible(1):
+                ui.showWindow(1)
+            ui.setFocused(1)
     
     if e.buttonPressedCheck(pc.UIMIXER_PAD, event):
-        if pv.buttonPressed[pc.SHIFT_PAD]:
-            lp.scrollText("Mixer window focused", pc.COLOR_LIGHT_YELLOW, 11)
-        if not ui.getVisible(0):
-            ui.showWindow(0)
-        ui.setFocused(0)
+        if pv.buttonPressed[pc.UICLOSEWINDOW_PAD]:
+            ui.hideWindow(0)
+        else:
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                lp.scrollText("Mixer window focused", pc.COLOR_LIGHT_YELLOW, 11)
+            if not ui.getVisible(0):
+                ui.showWindow(0)
+            ui.setFocused(0)
 
     if e.buttonPressedCheck(pc.UIBROWSER_PAD, event):
         if pv.buttonPressed[pc.UICLOSEWINDOW_PAD]:
