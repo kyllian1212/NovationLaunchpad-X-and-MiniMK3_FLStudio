@@ -49,11 +49,3 @@ def eventHandler(event):
     
     if pv.mode == pc.FLTRANSPORT_MODE:
         eFlTransport.flTransport(event)
-    
-    '''
-    if buttonPressed(event): 
-        if event.data1 not in pc.TRANSPORT_PADS and event.data1 not in pc.ARROW_PADS and event.data1 != pc.RETURN_PAD:
-            lp.lightPad(event.data1, lp.color["white"], lp.state["static"])
-    else:
-        lp.revertPad(event.data1)
-    '''

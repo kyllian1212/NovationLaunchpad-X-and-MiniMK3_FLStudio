@@ -12,7 +12,6 @@ import transport
 import ui
 import utils
 
-import progConst as pc
 import progVars as pv
 
 import math
@@ -92,8 +91,8 @@ color["darker_aqua"] = Color(31, "61b381")
 
 color["light_cyan"] = Color(32, "c2fff3")
 color["cyan"] = Color(33, "61ffe9")
-color["darkcyan"] = Color(34, "61ddc2")
-color["darkercyan"] = Color(35, "61b396")
+color["dark_cyan"] = Color(34, "61ddc2")
+color["darker_cyan"] = Color(35, "61b396")
 
 color["light_turquoise"] = Color(36, "c2f3ff")
 color["turquoise"] = Color(37, "61eeff")

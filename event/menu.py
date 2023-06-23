@@ -26,4 +26,4 @@ def menu(event):
         if not pv.buttonPressed[pc.SHIFT_PAD]:
             lp.modeChange(pc.FLTRANSPORT_MODE)
         else:
-            lp.scrollText("FL Transport Mode", lp.color["white"])
+            lp.scrollText("FL Transport Mode", pc.COLOR_WHITE)
