@@ -20,6 +20,7 @@ import event.mainSidebar as eMainSidebar
 import event.shift as eShift
 import event.menu as eMenu
 import event.flTransport as eFlTransport
+import event.lpMixer as eLpMixer
 
 import sys
 import time
@@ -32,9 +33,22 @@ def buttonPressedCheck(number: int, event):
     else:
         return None
 
+def buttonPressedCheckGroup(xyStart: int, xyEnd: int, event):
+    result = False
+    for padkey, padvalues in lp.grid.items():
+        xStart = int(str(xyStart)[0])
+        yStart = int(str(xyStart)[1])
+        xEnd = int(str(xyEnd)[0])
+        yEnd = int(str(xyEnd)[1])
+        padXy = int(str(padvalues.x)+str(padvalues.y))
+        if (xStart <= padvalues.x <= xEnd and yStart <= padvalues.y <= yEnd) and not result:
+            print(padXy)
+            result = True if buttonPressedCheck(padXy, event) else False
+            print(result)
+    return result
+
 def anyButtonPressedCheck(event):
     return True if event.data2 > 0 else False
-
 
 def eventHandler(event):
     if pv.textScrolling and anyButtonPressedCheck(event):
@@ -49,3 +63,6 @@ def eventHandler(event):
     
     if pv.mode == pc.FLTRANSPORT_MODE:
         eFlTransport.flTransport(event)
+
+    if pv.mode == pc.MIXER_MODE:
+        eLpMixer.lpMixer(event)

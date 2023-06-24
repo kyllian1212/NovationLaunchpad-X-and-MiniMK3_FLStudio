@@ -20,6 +20,8 @@ bpm = mixer.getCurrentTempo(0)
 
 waitMode = False #when project is loading or init is occuring
 
+altViewMode = False
+
 textScrolling = False
 
 buttonPressed = {}
@@ -30,3 +32,10 @@ for x in range(1, 10):
         buttonPressed[number] = False
 
 projectLoading = False
+
+# mixer mode
+flTrack1 = 1
+flTrack2 = 2
+flTrack3 = 3 
+flTrack4 = 4
+flSelectedTrack = -1

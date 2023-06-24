@@ -23,7 +23,8 @@ import time
 
 def menu(event):
     if e.buttonPressedCheck(pc.FLTRANSPORT_MENUPAD, event):
-        if not pv.buttonPressed[pc.SHIFT_PAD]:
-            lp.modeChange(pc.FLTRANSPORT_MODE)
-        else:
-            lp.scrollText("FL Transport Mode", pc.COLOR_WHITE)
+        lp.modeChange(pc.FLTRANSPORT_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("FL Transport Mode", pc.COLOR_WHITE)
+    
+    if e.buttonPressedCheck(pc.MIXER_MENUPAD, event):
+        lp.modeChange(pc.MIXER_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Mixer Mode", pc.COLOR_WHITE)
+    

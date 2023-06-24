@@ -50,6 +50,9 @@ class DawLaunchpad:
         e.eventHandler(event)
 
         event.handled = True
+    
+    def OnUpdateMeters(self):
+        i.idleHandler()
 
     def OnDoFullRefresh(self):
         i.idleHandler()
@@ -75,6 +78,9 @@ def OnIdle():
 
 def OnMidiMsg(event):
     dawLp.OnMidiMsg(event)
+
+def OnUpdateMeters():
+    dawLp.OnUpdateMeters()
 
 def OnDoFullRefresh():
     dawLp.OnDoFullRefresh()

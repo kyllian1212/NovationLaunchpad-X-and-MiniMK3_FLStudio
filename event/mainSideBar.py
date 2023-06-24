@@ -34,5 +34,11 @@ def mainSidebar(event):
     if e.buttonPressedCheck(pc.RECORD_PAD, event):
         transport.record()
 
+    if e.buttonPressedCheck(pc.ALTVIEW_PAD, event) and pv.mode == pc.MIXER_MODE:
+        if not pv.altViewMode:
+            pv.altViewMode = True
+        else: 
+            pv.altViewMode = False
+
     if e.buttonPressedCheck(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
         lp.modeChange(pc.MENU_MODE)

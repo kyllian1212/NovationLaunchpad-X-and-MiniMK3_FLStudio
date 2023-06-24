@@ -22,6 +22,7 @@ import idle.shift as iShift
 import idle.menu as iMenu
 import idle.flTransport as iFlTransport
 import idle.metronome as iMetro
+import idle.lpMixer as iLpMixer
 
 import sys
 import time
@@ -37,3 +38,6 @@ def idleHandler():
     
     if pv.mode == pc.FLTRANSPORT_MODE:
         iFlTransport.flTransport()
+    
+    if pv.mode == pc.MIXER_MODE:
+        iLpMixer.lpMixer()

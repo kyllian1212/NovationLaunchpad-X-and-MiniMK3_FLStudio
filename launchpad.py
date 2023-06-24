@@ -54,7 +54,7 @@ color["dark_gray"] = Color(1, "b3b3b3")
 color["light_gray"] = Color(2, "dddddd")
 color["white"] = Color(3, "ffffff")
 
-color["light_red"] = Color(4, "ffb3b3F")
+color["light_red"] = Color(4, "ffb3b3")
 color["red"] = Color(5, "ff6161")
 color["dark_red"] = Color(6, "dd6161")
 color["darker_red"] = Color(7, "b36161")
@@ -261,7 +261,7 @@ for x in range(1, 10):
 #    print(f"{padkey}: {padvalues.x} {padvalues.y} {padvalues.color} {padvalues.state} {padvalues.type}")
 
 #color processing
-def rgbColorToPaletteColor(rgb: int) -> Color:
+def rgbColorToPaletteColor(rgb: int, defaultIfOff: Color = color["off"]) -> Color:
     try:
         r, g, b = utils.ColorToRGB(rgb)
         colorDiffList = []
@@ -273,16 +273,16 @@ def rgbColorToPaletteColor(rgb: int) -> Color:
 
         result = min(colorDiffList)[1]
 
-        rr = f'{result[0]:x}'
-        gr = f'{result[1]:x}'
-        br = f'{result[2]:x}'
+        rResult = f'{result[0]:02x}'
+        gResult = f'{result[1]:02x}'
+        bResult = f'{result[2]:02x}'
 
-        paletteHex = rr+gr+br
+        paletteHex = rResult+gResult+bResult
 
         for colorkey, colorvalue in color.items():
             if colorvalue.hexcode == paletteHex:
-                return color[colorkey]
-        
+                return defaultIfOff if colorkey == "off" else color[colorkey]
+
         return color["off"]
     except:
         print("issue finding color!")
@@ -317,7 +317,17 @@ def lightPad(xy: int, color: dict[str, Color], state: dict[str, State], revertTo
     grid[f"pad{str(xy)}"].color = color
     grid[f"pad{str(xy)}"].state = state
 
-def lightGroup(group: PadGroup, color: dict[str, Color], state: dict[str, State], offset: int = 0, revertToPrev: bool = True):
+def lightGroup(xyStart: int, xyEnd: int, color: dict[str, Color], state: dict[str, State], revertToPrev: bool = True):
+    for padkey, padvalues in grid.items():
+        xStart = int(str(xyStart)[0])
+        yStart = int(str(xyStart)[1])
+        xEnd = int(str(xyEnd)[0])
+        yEnd = int(str(xyEnd)[1])
+        padXy = int(str(padvalues.x)+str(padvalues.y))
+        if xStart <= padvalues.x <= xEnd and yStart <= padvalues.y <= yEnd:
+            lightPad(padXy, color, state, revertToPrev)
+
+def lightPredefinedPads(group: PadGroup, color: dict[str, Color], state: dict[str, State], offset: int = 0, revertToPrev: bool = True):
     for padXy in group.xy:
         finalXy = padXy+offset
         if "9" in str(finalXy):

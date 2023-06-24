@@ -58,16 +58,16 @@ def flTransport():
         if shiftLighting:
             lp.resetPartialLighting(51, 98)
             shiftLighting = False
-        lp.lightGroup(lp.character[currentBpm[0]], pc.COLOR_LIGHT_AZURE, pc.STATE_STATIC, 40)
-        lp.lightGroup(lp.character[currentBpm[1]], pc.COLOR_WHITE, pc.STATE_STATIC, 42)
-        lp.lightGroup(lp.character[currentBpm[2]], pc.COLOR_LIGHT_AZURE, pc.STATE_STATIC, 45)
+        lp.lightPredefinedPads(lp.character[currentBpm[0]], pc.COLOR_LIGHT_AZURE, pc.STATE_STATIC, 40)
+        lp.lightPredefinedPads(lp.character[currentBpm[1]], pc.COLOR_WHITE, pc.STATE_STATIC, 42)
+        lp.lightPredefinedPads(lp.character[currentBpm[2]], pc.COLOR_LIGHT_AZURE, pc.STATE_STATIC, 45)
     else:
         if not shiftLighting:
             lp.resetPartialLighting(51, 98)
             shiftLighting = True
-        lp.lightGroup(lp.character[currentBpm[3]], pc.COLOR_LIGHT_YELLOW, pc.STATE_STATIC, 40)
-        lp.lightGroup(lp.character[currentBpm[4]], pc.COLOR_WHITE, pc.STATE_STATIC, 42)
-        lp.lightGroup(lp.character[currentBpm[5]], pc.COLOR_LIGHT_YELLOW, pc.STATE_STATIC, 45)
+        lp.lightPredefinedPads(lp.character[currentBpm[3]], pc.COLOR_LIGHT_YELLOW, pc.STATE_STATIC, 40)
+        lp.lightPredefinedPads(lp.character[currentBpm[4]], pc.COLOR_WHITE, pc.STATE_STATIC, 42)
+        lp.lightPredefinedPads(lp.character[currentBpm[5]], pc.COLOR_LIGHT_YELLOW, pc.STATE_STATIC, 45)
 
     if not pv.buttonPressed[pc.UP_PAD]:
         if not pv.buttonPressed[pc.SHIFT_PAD]:
