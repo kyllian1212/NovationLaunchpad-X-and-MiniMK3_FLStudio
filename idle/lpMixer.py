@@ -235,6 +235,8 @@ def lpMixer():
     lp.lightPad(pc.RIGHT_PAD, rightArrowColor, pc.STATE_STATIC)
     
     if not pv.altViewMode:
+        trackSelected = False
+
         peakCalc(pv.flTrack1, 1)
         peakCalc(pv.flTrack2, 2)
         peakCalc(pv.flTrack3, 3)

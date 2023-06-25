@@ -42,9 +42,7 @@ def buttonPressedCheckGroup(xyStart: int, xyEnd: int, event):
         yEnd = int(str(xyEnd)[1])
         padXy = int(str(padvalues.x)+str(padvalues.y))
         if (xStart <= padvalues.x <= xEnd and yStart <= padvalues.y <= yEnd) and not result:
-            print(padXy)
             result = True if buttonPressedCheck(padXy, event) else False
-            print(result)
     return result
 
 def anyButtonPressedCheck(event):
