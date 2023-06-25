@@ -202,6 +202,31 @@ def peakCalc(flTrack: int, lpTrack: int):
     else:
         lp.lightPad(peaksR[0], peakOff, pc.STATE_STATIC)
 
+def volCalc(flSelectedTrack: int):
+    volIncr = 1/48
+
+    colorOff = pc.COLOR_OFF
+    colorIncr1 = pc.COLOR_BLUE
+    colorIncr2 = pc.COLOR_GREEN
+    colorIncr3 = pc.COLOR_RED
+
+    trackVolume = mixer.getTrackVolume(flSelectedTrack)
+
+    volPads = pc.TRACK_VERTICAL
+
+    c = 2
+    for p in range(0, 16):
+        if trackVolume > volIncr*c:
+            lp.lightPad(volPads[p], colorIncr3, pc.STATE_STATIC)
+        elif trackVolume > volIncr*c-1:
+            lp.lightPad(volPads[p], colorIncr2, pc.STATE_STATIC)
+        elif trackVolume > volIncr*c-2:
+            lp.lightPad(volPads[p], colorIncr1, pc.STATE_STATIC)
+        else:
+            lp.lightPad(volPads[p], colorOff, pc.STATE_STATIC)
+
+        c += 3
+
 def lpMixer():
     global trackSelected
     
@@ -278,3 +303,5 @@ def lpMixer():
             if not trackSelected:
                 lp.resetPartialLighting(11, 98)
                 trackSelected = True
+            
+            volCalc(pv.flSelectedTrack)
