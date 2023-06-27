@@ -153,7 +153,7 @@ def flTransport():
     if pv.buttonPressed[pc.UNDO_PAD]:
          undoColor = pc.COLOR_WHITE  
     
-    redoColor = pc.COLOR_DARKER_GREEN if redoPossible else pc.COLOR_DARK_GRAY 
+    redoColor = pc.COLOR_GREEN if redoPossible else pc.COLOR_DARK_GRAY 
     if pv.buttonPressed[pc.REDO_PAD]:
          redoColor = pc.COLOR_WHITE
 

@@ -20,6 +20,10 @@ import sys
 import time
 
 trackSelected = False
+previousMode = 0
+currentTrackVolume = None
+currentTrackPan = None
+currentTrackStereo = None
 
 def peakCalc(flTrack: int, lpTrack: int):
     volPeak = 1/19
@@ -90,125 +94,44 @@ def peakCalc(flTrack: int, lpTrack: int):
     
     # L pan
     lp.lightPad(peaksL[6], peakColorClip, pc.STATE_PULSING) if trackPeakL > 1 else lp.lightPad(peaksL[6], peakOff, pc.STATE_PULSING)
-
-    if trackPeakL > volPeak*18:
-        lp.lightPad(peaksL[5], peakColorWarn1, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*17:
-        lp.lightPad(peaksL[5], peakColorWarn2, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*16:
-        lp.lightPad(peaksL[5], peakColorWarn3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksL[5], peakOff, pc.STATE_STATIC)
-
-    if trackPeakL > volPeak*15:
-        lp.lightPad(peaksL[4], peakColorWarn1, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*14:
-        lp.lightPad(peaksL[4], peakColorWarn2, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*13:
-        lp.lightPad(peaksL[4], peakColorWarn3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksL[4], peakOff, pc.STATE_STATIC)
     
-    if trackPeakL > volPeak*12:
-        lp.lightPad(peaksL[3], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*11:
-        lp.lightPad(peaksL[3], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*10:
-        lp.lightPad(peaksL[3], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksL[3], peakOff, pc.STATE_STATIC)
+    cL = 1
+    for pL in range(0, 6):
+        if trackPeakL > volPeak*(cL+2):
+            lp.lightPad(peaksL[pL], peakColorOk1 if pL < 4 else peakColorWarn1, pc.STATE_STATIC)
+        elif trackPeakL > volPeak*(cL+1):
+            lp.lightPad(peaksL[pL], peakColorOk2 if pL < 4 else peakColorWarn2, pc.STATE_STATIC)
+        elif trackPeakL > volPeak*cL:
+            lp.lightPad(peaksL[pL], peakColorOk3 if pL < 4 else peakColorWarn3, pc.STATE_STATIC)
+        else:
+            lp.lightPad(peaksL[pL], peakOff, pc.STATE_STATIC)
+        
+        cL += 3
 
-    if trackPeakL > volPeak*9:
-        lp.lightPad(peaksL[2], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*8:
-        lp.lightPad(peaksL[2], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*7:
-        lp.lightPad(peaksL[2], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksL[2], peakOff, pc.STATE_STATIC)
-
-    if trackPeakL > volPeak*6:
-        lp.lightPad(peaksL[1], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*5:
-        lp.lightPad(peaksL[1], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*4:
-        lp.lightPad(peaksL[1], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksL[1], peakOff, pc.STATE_STATIC)
-
-    if trackPeakL > volPeak*3:
-        lp.lightPad(peaksL[0], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*2:
-        lp.lightPad(peaksL[0], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakL > volPeak*1:
-        lp.lightPad(peaksL[0], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksL[0], peakOff, pc.STATE_STATIC)
-    
     # R pan
     lp.lightPad(peaksR[6], peakColorClip, pc.STATE_PULSING) if trackPeakR > 1 else lp.lightPad(peaksR[6], peakOff, pc.STATE_PULSING)
 
-    if trackPeakR > volPeak*18:
-        lp.lightPad(peaksR[5], peakColorWarn1, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*17:
-        lp.lightPad(peaksR[5], peakColorWarn2, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*16:
-        lp.lightPad(peaksR[5], peakColorWarn3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksR[5], peakOff, pc.STATE_STATIC)
-
-    if trackPeakR > volPeak*15:
-        lp.lightPad(peaksR[4], peakColorWarn1, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*14:
-        lp.lightPad(peaksR[4], peakColorWarn2, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*13:
-        lp.lightPad(peaksR[4], peakColorWarn3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksR[4], peakOff, pc.STATE_STATIC)
-    
-    if trackPeakR > volPeak*12:
-        lp.lightPad(peaksR[3], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*11:
-        lp.lightPad(peaksR[3], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*10:
-        lp.lightPad(peaksR[3], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksR[3], peakOff, pc.STATE_STATIC)
-
-    if trackPeakR > volPeak*9:
-        lp.lightPad(peaksR[2], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*8:
-        lp.lightPad(peaksR[2], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*7:
-        lp.lightPad(peaksR[2], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksR[2], peakOff, pc.STATE_STATIC)
-
-    if trackPeakR > volPeak*6:
-        lp.lightPad(peaksR[1], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*5:
-        lp.lightPad(peaksR[1], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*4:
-        lp.lightPad(peaksR[1], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksR[1], peakOff, pc.STATE_STATIC)
-
-    if trackPeakR > volPeak*3:
-        lp.lightPad(peaksR[0], peakColorOk1, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*2:
-        lp.lightPad(peaksR[0], peakColorOk2, pc.STATE_STATIC)
-    elif trackPeakR > volPeak*1:
-        lp.lightPad(peaksR[0], peakColorOk3, pc.STATE_STATIC)
-    else:
-        lp.lightPad(peaksR[0], peakOff, pc.STATE_STATIC)
+    cR = 1
+    for pR in range(0, 6):
+        if trackPeakR > volPeak*(cR+2):
+            lp.lightPad(peaksR[pR], peakColorOk1 if pR < 4 else peakColorWarn1, pc.STATE_STATIC)
+        elif trackPeakR > volPeak*(cR+1):
+            lp.lightPad(peaksR[pR], peakColorOk2 if pR < 4 else peakColorWarn2, pc.STATE_STATIC)
+        elif trackPeakR > volPeak*cR:
+            lp.lightPad(peaksR[pR], peakColorOk3 if pR < 4 else peakColorWarn3, pc.STATE_STATIC)
+        else:
+            lp.lightPad(peaksR[pR], peakOff, pc.STATE_STATIC)
+        
+        cR += 3
 
 def volCalc(flSelectedTrack: int):
-    volIncr = 1/48
+    volIncr = 1/50
 
-    colorOff = pc.COLOR_OFF
-    colorIncr1 = pc.COLOR_BLUE
-    colorIncr2 = pc.COLOR_GREEN
-    colorIncr3 = pc.COLOR_RED
+    colorOff = pc.COLOR_EMPRESS
+    colorIncr1 = pc.COLOR_DARK_GRAY
+    colorIncr2 = pc.COLOR_LIGHT_GRAY
+    colorIncr3 = pc.COLOR_WHITE
+    colorDefault = pc.COLOR_GREEN
 
     trackVolume = mixer.getTrackVolume(flSelectedTrack)
 
@@ -216,19 +139,90 @@ def volCalc(flSelectedTrack: int):
 
     c = 2
     for p in range(0, 16):
-        if trackVolume > volIncr*c:
+        if trackVolume > volIncr*c or trackVolume == 1:
             lp.lightPad(volPads[p], colorIncr3, pc.STATE_STATIC)
-        elif trackVolume > volIncr*c-1:
+        elif trackVolume > volIncr*(c-1):
             lp.lightPad(volPads[p], colorIncr2, pc.STATE_STATIC)
-        elif trackVolume > volIncr*c-2:
+        elif trackVolume > volIncr*(c-2):
             lp.lightPad(volPads[p], colorIncr1, pc.STATE_STATIC)
         else:
             lp.lightPad(volPads[p], colorOff, pc.STATE_STATIC)
+        
+        if round(trackVolume, 2) == 0.80:
+            lp.lightPad(volPads[12], colorDefault, pc.STATE_STATIC)
+            lp.lightPad(volPads[13], colorDefault, pc.STATE_STATIC)
 
         c += 3
 
+        #print(f"{round(trackVolume, 5)}, {round(volIncr*(c-2), 5)}, {round(volIncr*(c-1), 5)}, {round(volIncr*c, 5)}, {c}")
+    #print("--")
+
+def panStereoCalc(flSelectedTrack: int, pan: bool = True):
+    panStereoIncrL = -1/25
+    panStereoIncrR = 1/25
+
+    colorOff = pc.COLOR_EMPRESS
+    if pan == True:
+        colorIncr1L = pc.COLOR_DARKER_ORANGE
+        colorIncr2L = pc.COLOR_DARK_ORANGE
+        colorIncr3L = pc.COLOR_ORANGE
+        colorIncr1R = pc.COLOR_DARKER_RED
+        colorIncr2R = pc.COLOR_DARK_RED
+        colorIncr3R = pc.COLOR_RED
+    else:
+        colorIncr1L = pc.COLOR_DARKER_TURQUOISE
+        colorIncr2L = pc.COLOR_DARK_TURQUOISE
+        colorIncr3L = pc.COLOR_TURQUOISE
+        colorIncr1R = pc.COLOR_DARKER_COBALT
+        colorIncr2R = pc.COLOR_DARK_COBALT
+        colorIncr3R = pc.COLOR_COBALT
+
+    trackPan = mixer.getTrackPan(flSelectedTrack)
+    trackStereo = mixer.getTrackStereoSep(flSelectedTrack)
+
+    trackSetting = trackPan if pan else trackStereo
+
+    panStereoPads = pc.TRACK_HORIZONTAL
+
+    cL = 2
+    for pL in range(7, -1, -1):
+        if trackSetting < panStereoIncrL*cL:
+            lp.lightPad(panStereoPads[pL], colorIncr3L, pc.STATE_STATIC)
+        elif trackSetting < panStereoIncrL*(cL-1):
+            lp.lightPad(panStereoPads[pL], colorIncr2L, pc.STATE_STATIC)
+        elif trackSetting < panStereoIncrL*(cL-2):
+            lp.lightPad(panStereoPads[pL], colorIncr1L, pc.STATE_STATIC)
+        else:
+            lp.lightPad(panStereoPads[pL], colorOff, pc.STATE_STATIC)
+        
+        cL += 3
+    
+    cR = 2
+    for pR in range(8, 16):
+        if trackSetting > panStereoIncrR*cR:
+            lp.lightPad(panStereoPads[pR], colorIncr3R, pc.STATE_STATIC)
+        elif trackSetting > panStereoIncrR*(cR-1):
+            lp.lightPad(panStereoPads[pR], colorIncr2R, pc.STATE_STATIC)
+        elif trackSetting > panStereoIncrR*(cR-2):
+            lp.lightPad(panStereoPads[pR], colorIncr1R, pc.STATE_STATIC)
+        else:
+            lp.lightPad(panStereoPads[pR], colorOff, pc.STATE_STATIC)
+        
+        cR += 3
+    
+    if trackSetting == 0:
+        lp.lightPad(panStereoPads[6], colorIncr3L, pc.STATE_STATIC)
+        lp.lightPad(panStereoPads[7], colorIncr3L, pc.STATE_STATIC)
+        lp.lightPad(panStereoPads[8], colorIncr3R, pc.STATE_STATIC)
+        lp.lightPad(panStereoPads[9], colorIncr3R, pc.STATE_STATIC)
+
+
 def lpMixer():
     global trackSelected
+    global currentTrackVolume
+    global currentTrackPan
+    global currentTrackStereo
+    global previousMode
     
     upArrowColor = pc.COLOR_DARKER_AZURE
     if pv.buttonPressed[pc.UP_PAD]:
@@ -261,6 +255,9 @@ def lpMixer():
     
     if not pv.altViewMode:
         trackSelected = False
+        currentTrackVolume = None
+        currentTrackPan = None
+        currentTrackStereo = None
 
         peakCalc(pv.flTrack1, 1)
         peakCalc(pv.flTrack2, 2)
@@ -272,21 +269,26 @@ def lpMixer():
         colorTrack3Mute = lp.rgbColorToPaletteColor(mixer.getTrackColor(pv.flTrack3), pc.COLOR_EMPRESS) if not mixer.isTrackMuted(pv.flTrack3) else pc.COLOR_OFF
         colorTrack4Mute = lp.rgbColorToPaletteColor(mixer.getTrackColor(pv.flTrack4), pc.COLOR_EMPRESS) if not mixer.isTrackMuted(pv.flTrack4) else pc.COLOR_OFF
 
+        stateTrack1Solo = pc.STATE_STATIC if not mixer.isTrackSolo(pv.flTrack1) else pc.STATE_PULSING
+        stateTrack2Solo = pc.STATE_STATIC if not mixer.isTrackSolo(pv.flTrack2) else pc.STATE_PULSING
+        stateTrack3Solo = pc.STATE_STATIC if not mixer.isTrackSolo(pv.flTrack3) else pc.STATE_PULSING
+        stateTrack4Solo = pc.STATE_STATIC if not mixer.isTrackSolo(pv.flTrack4) else pc.STATE_PULSING
+
         colorTrack1Armed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flTrack1) else pc.COLOR_LIGHT_RED
         colorTrack2Armed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flTrack2) else pc.COLOR_LIGHT_RED
         colorTrack3Armed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flTrack3) else pc.COLOR_LIGHT_RED
         colorTrack4Armed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flTrack4) else pc.COLOR_LIGHT_RED
 
-        lp.lightPad(pc.TRACK1_MUTE, colorTrack1Mute, pc.STATE_STATIC)
+        lp.lightPad(pc.TRACK1_MUTE, colorTrack1Mute, stateTrack1Solo)
         lp.lightPad(pc.TRACK1_ARMED, colorTrack1Armed, pc.STATE_STATIC)
 
-        lp.lightPad(pc.TRACK2_MUTE, colorTrack2Mute, pc.STATE_STATIC)
+        lp.lightPad(pc.TRACK2_MUTE, colorTrack2Mute, stateTrack2Solo)
         lp.lightPad(pc.TRACK2_ARMED, colorTrack2Armed, pc.STATE_STATIC)
 
-        lp.lightPad(pc.TRACK3_MUTE, colorTrack3Mute, pc.STATE_STATIC)
+        lp.lightPad(pc.TRACK3_MUTE, colorTrack3Mute, stateTrack3Solo)
         lp.lightPad(pc.TRACK3_ARMED, colorTrack3Armed, pc.STATE_STATIC)
 
-        lp.lightPad(pc.TRACK4_MUTE, colorTrack4Mute, pc.STATE_STATIC)
+        lp.lightPad(pc.TRACK4_MUTE, colorTrack4Mute, stateTrack4Solo)
         lp.lightPad(pc.TRACK4_ARMED, colorTrack4Armed, pc.STATE_STATIC)
     else:
         if pv.flSelectedTrack == -1:
@@ -304,4 +306,31 @@ def lpMixer():
                 lp.resetPartialLighting(11, 98)
                 trackSelected = True
             
-            volCalc(pv.flSelectedTrack)
+            if previousMode != pv.altSetting:
+                lp.resetPartialLighting(14, 85)
+                lp.resetPartialLighting(41, 58)
+                currentTrackVolume = None
+                currentTrackPan = None
+                currentTrackStereo = None
+                previousMode = pv.altSetting
+            
+            if currentTrackVolume != mixer.getTrackVolume(pv.flSelectedTrack) and pv.altSetting == 0:
+                volCalc(pv.flSelectedTrack)
+                currentTrackVolume = mixer.getTrackVolume(pv.flSelectedTrack)
+            if currentTrackPan != mixer.getTrackPan(pv.flSelectedTrack) and pv.altSetting == 1:
+                panStereoCalc(pv.flSelectedTrack, True)
+                currentTrackPan = mixer.getTrackPan(pv.flSelectedTrack)
+            if currentTrackStereo != mixer.getTrackStereoSep(pv.flSelectedTrack) and pv.altSetting == 2:
+                panStereoCalc(pv.flSelectedTrack, False)
+                currentTrackStereo = mixer.getTrackStereoSep(pv.flSelectedTrack)
+
+            colorTrackMute = lp.rgbColorToPaletteColor(mixer.getTrackColor(pv.flSelectedTrack), pc.COLOR_EMPRESS) if not mixer.isTrackMuted(pv.flSelectedTrack) else pc.COLOR_OFF
+            stateTrackSolo = pc.STATE_STATIC if not mixer.isTrackSolo(pv.flSelectedTrack) else pc.STATE_PULSING
+            colorTrackArmed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flTrack1) else pc.COLOR_LIGHT_RED
+
+            lp.lightPad(pc.SELECTEDTRACK_MUTE, colorTrackMute, stateTrackSolo)
+            lp.lightPad(pc.SELECTEDTRACK_ARMED, colorTrackArmed, pc.STATE_STATIC)
+
+            lp.lightPad(pc.ALTSETTING_VOLUMEPAD, pc.COLOR_DARKER_GREEN if pv.altSetting != 0 else pc.COLOR_GREEN, pc.STATE_STATIC)
+            lp.lightPad(pc.ALTSETTING_PANPAD, pc.COLOR_DARKER_ORANGE if pv.altSetting != 1 else pc.COLOR_ORANGE, pc.STATE_STATIC)
+            lp.lightPad(pc.ALTSETTING_STEREOPAD, pc.COLOR_DARKER_AZURE if pv.altSetting != 2 else pc.COLOR_AZURE, pc.STATE_STATIC)

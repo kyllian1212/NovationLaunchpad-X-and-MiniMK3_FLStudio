@@ -39,3 +39,5 @@ flTrack2 = 2
 flTrack3 = 3 
 flTrack4 = 4
 flSelectedTrack = -1
+
+altSetting = 0

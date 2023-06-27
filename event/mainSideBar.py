@@ -41,4 +41,5 @@ def mainSidebar(event):
             pv.altViewMode = False
 
     if e.buttonPressedCheck(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
+        pv.altViewMode = False
         lp.modeChange(pc.MENU_MODE)
