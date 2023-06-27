@@ -29,6 +29,6 @@ def browser(event):
     if e.buttonPressedCheck(pc.DOWN_PAD, event):
         ui.navigateBrowser(midi.FPT_Down, 0)
     if e.buttonPressedCheck(pc.LEFT_PAD, event):
-        ui.navigateBrowser(midi.FPT_Left, 0)
+        ui.enter()
     if e.buttonPressedCheck(pc.RIGHT_PAD, event):
-        ui.navigateBrowser(midi.FPT_Right, 1)
+        ui.enter()
