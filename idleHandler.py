@@ -23,6 +23,7 @@ import idle.menu as iMenu
 import idle.flTransport as iFlTransport
 import idle.metronome as iMetro
 import idle.lpMixer as iLpMixer
+import idle.browser as iBrowser
 
 import sys
 import time
@@ -41,3 +42,6 @@ def idleHandler():
     
     if pv.mode == pc.MIXER_MODE:
         iLpMixer.lpMixer()
+    
+    if pv.mode == pc.BROWSER_MODE:
+        iBrowser.browser()

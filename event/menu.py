@@ -28,3 +28,7 @@ def menu(event):
     if e.buttonPressedCheck(pc.MIXER_MENUPAD, event):
         lp.modeChange(pc.MIXER_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Mixer Mode", pc.COLOR_WHITE)
     
+    if e.buttonPressedCheck(pc.BROWSER_MENUPAD, event):
+        lp.modeChange(pc.BROWSER_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Browser Mode", pc.COLOR_WHITE)
+        ui.setFocused(4)
+    

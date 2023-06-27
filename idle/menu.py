@@ -23,3 +23,4 @@ def menu():
     state = pc.STATE_STATIC if not pv.buttonPressed[pc.SHIFT_PAD] else pc.STATE_PULSING
     lp.lightPad(pc.FLTRANSPORT_MENUPAD, pc.COLOR_DARK_GRAY, state)
     lp.lightPad(pc.MIXER_MENUPAD, pc.COLOR_DARK_GRAY, state)
+    lp.lightPad(pc.BROWSER_MENUPAD, pc.COLOR_DARK_GRAY, state)
