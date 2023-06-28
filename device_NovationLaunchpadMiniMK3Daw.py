@@ -30,6 +30,7 @@ class DawLaunchpad:
     
     def OnInit(self):
         device.setHasMeters()
+        device.setMasterSync(1)
         lp.enableDawMode()
         lp.resetLighting(True, True)
 
@@ -43,13 +44,16 @@ class DawLaunchpad:
     def OnMidiMsg(self, event):
         event.handled = False
         print('--------------------------------')
-        print('midi id:', event.midiId, '| midi status:', event.status, '| midi channel:', event.midiChan, 
+        print('DEBUG -- NO EDITED VALUES -- midi id:', event.midiId, '| midi status:', event.status, '| midi channel:', event.midiChan, 
         '| midi data1:', event.data1, '| midi data2:', event.data2, '| midi controlNum:', event.controlNum, 
         '| midi controlVal:', event.controlVal, '| midi sysex:', event.sysex)
 
         e.eventHandler(event)
 
-        event.handled = True
+        if not pv.triggerNote:
+            event.handled = True
+        else:
+            pv.triggerNote = False
     
     def OnUpdateMeters(self):
         i.idleHandler()

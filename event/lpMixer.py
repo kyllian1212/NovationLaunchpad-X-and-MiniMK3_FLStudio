@@ -24,6 +24,7 @@ import time
 lastButtonPressed = 0
 padLevel = 3
 
+#add reverse polarity etc buttons
 def lpMixer(event):
     if e.buttonPressedCheck(pc.UP_PAD, event):
         if pv.flTrack4+4 <= 125:
@@ -58,7 +59,7 @@ def lpMixer(event):
             if pv.flSelectedTrack != -1:
                 pv.flSelectedTrack += 1
 
-    if not pv.altViewMode:
+    if not pv.altView1Mode:
         ui.miDisplayRect(pv.flTrack1, pv.flTrack4, 4000)
         pv.flSelectedTrack = -1
 
@@ -113,23 +114,23 @@ def altViewModeMixer(event):
         ui.miDisplayRect(pv.flSelectedTrack, pv.flSelectedTrack, 4000)
 
         if e.buttonPressedCheck(pc.ALTSETTING_VOLUMEPAD, event):
-            pv.altSetting = 0
+            pv.alt1Setting = 0
             lastButtonPressed = 0
             padLevel = 3
         elif e.buttonPressedCheck(pc.ALTSETTING_PANPAD, event):
-            pv.altSetting = 1
+            pv.alt1Setting = 1
             lastButtonPressed = 0
             padLevel = 3
         elif e.buttonPressedCheck(pc.ALTSETTING_STEREOPAD, event):
-            pv.altSetting = 2
+            pv.alt1Setting = 2
             lastButtonPressed = 0
             padLevel = 3
 
-        if pv.altSetting == 0:
+        if pv.alt1Setting == 0:
             volumeCalc(event)
-        elif pv.altSetting == 1:
+        elif pv.alt1Setting == 1:
             panStereoCalc(event, True)
-        elif pv.altSetting == 2:
+        elif pv.alt1Setting == 2:
             panStereoCalc(event, False)
 
         if e.buttonPressedCheck(pc.SELECTEDTRACK_MUTE, event):

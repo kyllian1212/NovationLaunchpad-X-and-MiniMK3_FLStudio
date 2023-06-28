@@ -21,6 +21,7 @@ import event.shift as eShift
 import event.menu as eMenu
 import event.flTransport as eFlTransport
 import event.lpMixer as eLpMixer
+import event.channelRack as eChannelRack
 import event.browser as eBrowser
 
 import sys
@@ -65,6 +66,9 @@ def eventHandler(event):
 
     if pv.mode == pc.MIXER_MODE:
         eLpMixer.lpMixer(event)
+    
+    if pv.mode == pc.CHANNELRACK_MODE:
+        eChannelRack.channelRack(event)
     
     if pv.mode == pc.BROWSER_MODE:
         eBrowser.browser(event)

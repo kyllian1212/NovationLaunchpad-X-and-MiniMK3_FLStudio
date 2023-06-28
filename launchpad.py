@@ -374,6 +374,7 @@ def resetPartialLighting(xyStart: int, xyEnd: int):
 
 def modeChange(newMode):
     pv.mode = newMode
+    pv.resetPresses()
     resetPartialLighting(11, 98)
 
 def scrollText(text: str, color: Color, speed: int = 9, looping: int = 0):

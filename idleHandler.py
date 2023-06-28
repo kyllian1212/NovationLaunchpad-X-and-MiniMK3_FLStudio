@@ -23,6 +23,7 @@ import idle.menu as iMenu
 import idle.flTransport as iFlTransport
 import idle.metronome as iMetro
 import idle.lpMixer as iLpMixer
+import idle.channelRack as iChannelRack
 import idle.browser as iBrowser
 
 import sys
@@ -42,6 +43,9 @@ def idleHandler():
     
     if pv.mode == pc.MIXER_MODE:
         iLpMixer.lpMixer()
+    
+    if pv.mode == pc.CHANNELRACK_MODE:
+        iChannelRack.channelRack()
     
     if pv.mode == pc.BROWSER_MODE:
         iBrowser.browser()

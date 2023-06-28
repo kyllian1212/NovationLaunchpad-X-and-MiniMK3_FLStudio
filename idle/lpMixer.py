@@ -90,7 +90,7 @@ def peakCalc(flTrack: int, lpTrack: int):
         for pR in range(7):
             peaksR.append(pc.TRACK4R[pR])
     else:
-        raise Exception("not a valid lpTrack number")
+        raise Exception("invalid lpTrack number")
     
     # L pan
     lp.lightPad(peaksL[6], peakColorClip, pc.STATE_PULSING) if trackPeakL > 1 else lp.lightPad(peaksL[6], peakOff, pc.STATE_PULSING)
@@ -253,7 +253,7 @@ def lpMixer():
     lp.lightPad(pc.LEFT_PAD, leftArrowColor, pc.STATE_STATIC)
     lp.lightPad(pc.RIGHT_PAD, rightArrowColor, pc.STATE_STATIC)
     
-    if not pv.altViewMode:
+    if not pv.altView1Mode:
         trackSelected = False
         currentTrackVolume = None
         currentTrackPan = None
@@ -306,21 +306,21 @@ def lpMixer():
                 lp.resetPartialLighting(11, 98)
                 trackSelected = True
             
-            if previousMode != pv.altSetting:
+            if previousMode != pv.alt1Setting:
                 lp.resetPartialLighting(14, 85)
                 lp.resetPartialLighting(41, 58)
                 currentTrackVolume = None
                 currentTrackPan = None
                 currentTrackStereo = None
-                previousMode = pv.altSetting
+                previousMode = pv.alt1Setting
             
-            if currentTrackVolume != mixer.getTrackVolume(pv.flSelectedTrack) and pv.altSetting == 0:
+            if currentTrackVolume != mixer.getTrackVolume(pv.flSelectedTrack) and pv.alt1Setting == 0:
                 volCalc(pv.flSelectedTrack)
                 currentTrackVolume = mixer.getTrackVolume(pv.flSelectedTrack)
-            if currentTrackPan != mixer.getTrackPan(pv.flSelectedTrack) and pv.altSetting == 1:
+            if currentTrackPan != mixer.getTrackPan(pv.flSelectedTrack) and pv.alt1Setting == 1:
                 panStereoCalc(pv.flSelectedTrack, True)
                 currentTrackPan = mixer.getTrackPan(pv.flSelectedTrack)
-            if currentTrackStereo != mixer.getTrackStereoSep(pv.flSelectedTrack) and pv.altSetting == 2:
+            if currentTrackStereo != mixer.getTrackStereoSep(pv.flSelectedTrack) and pv.alt1Setting == 2:
                 panStereoCalc(pv.flSelectedTrack, False)
                 currentTrackStereo = mixer.getTrackStereoSep(pv.flSelectedTrack)
 
@@ -331,6 +331,6 @@ def lpMixer():
             lp.lightPad(pc.SELECTEDTRACK_MUTE, colorTrackMute, stateTrackSolo)
             lp.lightPad(pc.SELECTEDTRACK_ARMED, colorTrackArmed, pc.STATE_STATIC)
 
-            lp.lightPad(pc.ALTSETTING_VOLUMEPAD, pc.COLOR_DARKER_GREEN if pv.altSetting != 0 else pc.COLOR_GREEN, pc.STATE_STATIC)
-            lp.lightPad(pc.ALTSETTING_PANPAD, pc.COLOR_DARKER_ORANGE if pv.altSetting != 1 else pc.COLOR_ORANGE, pc.STATE_STATIC)
-            lp.lightPad(pc.ALTSETTING_STEREOPAD, pc.COLOR_DARKER_AZURE if pv.altSetting != 2 else pc.COLOR_AZURE, pc.STATE_STATIC)
+            lp.lightPad(pc.ALTSETTING_VOLUMEPAD, pc.COLOR_DARKER_GREEN if pv.alt1Setting != 0 else pc.COLOR_GREEN, pc.STATE_STATIC)
+            lp.lightPad(pc.ALTSETTING_PANPAD, pc.COLOR_DARKER_ORANGE if pv.alt1Setting != 1 else pc.COLOR_ORANGE, pc.STATE_STATIC)
+            lp.lightPad(pc.ALTSETTING_STEREOPAD, pc.COLOR_DARKER_TURQUOISE if pv.alt1Setting != 2 else pc.COLOR_TURQUOISE, pc.STATE_STATIC)
