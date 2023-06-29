@@ -21,7 +21,7 @@ import eventHandler as e
 import sys
 import time
 
-def gridSet(flChannelRack: int, lpChannelRack: int):
+def gridSet(flChannelRack: int, lpChannelRack: int, event):
     if lpChannelRack == 1:
         rack_sequencer = pc.CHANNELRACK1_SEQUENCER
     elif lpChannelRack == 2:
@@ -32,11 +32,23 @@ def gridSet(flChannelRack: int, lpChannelRack: int):
         rack_sequencer = pc.CHANNELRACK4_SEQUENCER
     else:
         raise Exception("invalid lpChannelRack number")
+    
+    p = (16*(pv.page-1))+0
+    for gridStep in rack_sequencer:
+        if e.buttonPressedCheck(gridStep, event):
+            channels.setGridBit(flChannelRack, p, True) if not channels.getGridBit(flChannelRack, p) else channels.setGridBit(flChannelRack, p, False)
+        p += 1
 
 def channelRack(event):
     if not pv.altView1Mode and not pv.altView2Mode:
-        
-        pass
+        if e.buttonPressedCheckGroup(71, 88, event):
+            gridSet(pv.flChannelRack1, 1, event)
+        elif e.buttonPressedCheckGroup(51, 68, event):
+            gridSet(pv.flChannelRack2, 2, event)
+        elif e.buttonPressedCheckGroup(31, 48, event):
+            gridSet(pv.flChannelRack3, 3, event)
+        elif e.buttonPressedCheckGroup(11, 28, event):
+            gridSet(pv.flChannelRack4, 4, event)
     elif pv.altView1Mode:
         track = 0
         for x in range(8, 0, -1):

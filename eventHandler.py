@@ -35,6 +35,13 @@ def buttonPressedCheck(number: int, event):
     else:
         return None
 
+def buttonReleasedCheck(number: int, event):
+    if event.data1 == number:
+        pv.buttonPressed[number] = False if event.data2 == 0 else True
+        return True if event.data2 == 0 else False
+    else:
+        return None
+
 def buttonPressedCheckGroup(xyStart: int, xyEnd: int, event):
     result = False
     for padkey, padvalues in lp.grid.items():

@@ -14,6 +14,10 @@ import utils
 
 import launchpad as lp
 
+### version
+VERSION = "alpha"
+VERSION_MENUPAD = 11
+
 ### colors
 COLOR_OFF = lp.color["off"]
 COLOR_DARK_GRAY = lp.color["dark_gray"] 
