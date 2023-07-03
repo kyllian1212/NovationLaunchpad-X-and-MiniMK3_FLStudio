@@ -58,4 +58,6 @@ flChannelRack3 = 2
 flChannelRack4 = 3
 flSelectedChannelRack = -1
 
+channelCount = 0
+
 page = 1

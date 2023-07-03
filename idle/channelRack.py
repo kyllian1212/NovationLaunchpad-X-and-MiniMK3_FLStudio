@@ -54,9 +54,9 @@ def grid(flChannelRack: int, lpChannelRack: int):
         for pad1 in rack_sequencer:
             if channels.getGridBit(flChannelRack, p):
                 if transport.isPlaying() and transport.getLoopMode() == 0 and p+1 == songPosFormula:          
-                    lp.lightPad(pad1, playGridColor, pc.STATE_STATIC)
+                    lp.lightPad(pad1, playGridColor, pc.STATE_STATIC if not pv.buttonPressed[pc.SHIFT_PAD] else pc.STATE_PULSING)
                 else:
-                    lp.lightPad(pad1, pc.COLOR_WHITE, pc.STATE_STATIC if color is not pc.COLOR_WHITE else pc.STATE_PULSING)
+                    lp.lightPad(pad1, pc.COLOR_WHITE, pc.STATE_STATIC if not pv.buttonPressed[pc.SHIFT_PAD] else pc.STATE_PULSING)
             else:
                 if transport.isPlaying() and transport.getLoopMode() == 0 and p+1 == songPosFormula:
                     lp.lightPad(pad1, playColor, pc.STATE_STATIC)
@@ -69,6 +69,7 @@ def channelRack():
     global lightingReset
 
     if not pv.altView1Mode and not pv.altView2Mode:
+        pv.channelCount = channels.channelCount()
         if lightingReset != 0:
             lp.resetPartialLighting(11, 98)
             lightingReset = 0
@@ -76,20 +77,49 @@ def channelRack():
         grid(pv.flChannelRack2, 2)
         grid(pv.flChannelRack3, 3)
         grid(pv.flChannelRack4, 4)
+
+        if pv.buttonPressed[pc.SHIFT_PAD]:
+            colorUpPad = pc.COLOR_DARK_GRAY if pv.flChannelRack1 > 3 else pc.COLOR_OFF
+            if pv.flChannelRack1 > 3 and pv.buttonPressed[pc.UP_PAD]:
+                colorUpPad = pc.COLOR_WHITE      
+        else:
+            colorUpPad = pc.COLOR_DARK_GRAY if pv.flChannelRack1 != 0 else pc.COLOR_OFF
+            if pv.flChannelRack1 != 0 and pv.buttonPressed[pc.UP_PAD]:
+                colorUpPad = pc.COLOR_WHITE 
+        
+        if pv.buttonPressed[pc.SHIFT_PAD]:
+            colorDownPad = pc.COLOR_DARK_GRAY if pv.flChannelRack4+4 < channels.channelCount() else pc.COLOR_OFF
+            if pv.flChannelRack4+4 < channels.channelCount() and pv.buttonPressed[pc.DOWN_PAD]:
+                colorDownPad = pc.COLOR_WHITE
+        else:
+            colorDownPad = pc.COLOR_DARK_GRAY if pv.flChannelRack4+1 < channels.channelCount() else pc.COLOR_OFF
+            if pv.flChannelRack4+1 < channels.channelCount() and pv.buttonPressed[pc.DOWN_PAD]:
+                colorDownPad = pc.COLOR_WHITE
+        
+        colorLeftPad = pc.COLOR_DARK_RED if not pv.buttonPressed[pc.LEFT_PAD] else pc.COLOR_LIGHT_RED
+        colorRightPad = pc.COLOR_DARK_RED if not pv.buttonPressed[pc.RIGHT_PAD] else pc.COLOR_LIGHT_RED
+
+        lp.lightPad(pc.UP_PAD, colorUpPad, pc.STATE_STATIC)
+        lp.lightPad(pc.DOWN_PAD, colorDownPad, pc.STATE_STATIC)
+        lp.lightPad(pc.LEFT_PAD, colorLeftPad if pv.page > 1 else pc.COLOR_OFF, pc.STATE_STATIC)
+        lp.lightPad(pc.RIGHT_PAD, colorRightPad if pv.page < 65 else pc.COLOR_OFF, pc.STATE_STATIC)
+
     elif pv.altView1Mode:
-        if lightingReset != 1:
+        if lightingReset != 1 or channels.channelCount() != pv.channelCount:
             lp.resetPartialLighting(11, 98)
             lightingReset = 1
+            pv.channelCount = channels.channelCount()
         
         track = 0
         for x in range(8, 0, -1):
-            for y in range(1, 8):
+            for y in range(1, 9):
                 if channels.channelCount() > track:
                     padXy = int(str(x)+str(y))
                     color = lp.rgbColorToPaletteColor(channels.getChannelColor(track)) if not pv.buttonPressed[padXy] else pc.COLOR_WHITE
                     lp.lightPad(padXy, color, pc.STATE_STATIC)
                 track += 1
     elif pv.altView2Mode:
+        pv.channelCount = channels.channelCount()
         if lightingReset != 2:
             lp.resetPartialLighting(11, 98)
             lightingReset = 2
