@@ -41,12 +41,14 @@ def mainSidebar(event):
         else: 
             pv.altView1Mode = False
     
+    '''
     if e.buttonPressedCheck(pc.ALTVIEW2_PAD, event) and pv.mode == pc.CHANNELRACK_MODE:
         if not pv.altView2Mode:
             pv.altView2Mode = True
             pv.altView1Mode = False
         else:
             pv.altView2Mode = False
+    '''
 
     if e.buttonPressedCheck(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
         pv.altView1Mode = False

@@ -39,7 +39,7 @@ class DawLaunchpad:
     
     def OnIdle(self):
         self.tick += 1
-        i.idleHandler()
+        i.idleHandler(self.tick)
 
     def OnMidiMsg(self, event):
         event.handled = False
@@ -56,10 +56,10 @@ class DawLaunchpad:
             pv.triggerNote = False
     
     def OnUpdateMeters(self):
-        i.idleHandler()
+        i.idleHandler(self.tick)
 
     def OnDoFullRefresh(self):
-        i.idleHandler()
+        i.idleHandler(self.tick)
     
     def OnProjectLoad(self, status):
         if status == 0:

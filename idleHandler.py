@@ -23,6 +23,7 @@ import idle.menu as iMenu
 import idle.flTransport as iFlTransport
 import idle.metronome as iMetro
 import idle.lpMixer as iLpMixer
+import idle.lpPatterns as iLpPatterns
 import idle.channelRack as iChannelRack
 import idle.browser as iBrowser
 
@@ -30,7 +31,7 @@ import sys
 import time
 
 #this is everything that handles displaying on the launchpad
-def idleHandler():
+def idleHandler(tick):
     iMainSidebar.mainSidebar()
     iShift.shift()
     iMetro.metronome()
@@ -46,6 +47,9 @@ def idleHandler():
     
     if pv.mode == pc.CHANNELRACK_MODE:
         iChannelRack.channelRack()
+
+    if pv.mode == pc.PATTERNS_MODE:
+        iLpPatterns.lpPatterns(tick)
     
     if pv.mode == pc.BROWSER_MODE:
         iBrowser.browser()

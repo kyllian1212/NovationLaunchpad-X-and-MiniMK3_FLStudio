@@ -85,8 +85,6 @@ def channelRack(event):
             elif pv.page < 65 and pv.buttonPressed[pc.SHIFT_PAD]:
                 pv.page = 65
 
-        print(pv.page)
-
     elif pv.altView1Mode:
         track = 0
         for x in range(8, 0, -1):

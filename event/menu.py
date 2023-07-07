@@ -31,6 +31,9 @@ def menu(event):
     if e.buttonReleasedCheck(pc.CHANNELRACK_MENUPAD, event):
         lp.modeChange(pc.CHANNELRACK_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Channel Rack Mode", pc.COLOR_WHITE)
     
+    if e.buttonReleasedCheck(pc.PATTERNS_MENUPAD, event):
+        lp.modeChange(pc.PATTERNS_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Patterns Mode", pc.COLOR_WHITE)
+    
     if e.buttonReleasedCheck(pc.BROWSER_MENUPAD, event):
         lp.modeChange(pc.BROWSER_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Browser Mode", pc.COLOR_WHITE)
         ui.setFocused(4)

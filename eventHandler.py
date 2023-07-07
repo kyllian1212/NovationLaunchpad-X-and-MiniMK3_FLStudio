@@ -22,6 +22,7 @@ import event.menu as eMenu
 import event.flTransport as eFlTransport
 import event.lpMixer as eLpMixer
 import event.channelRack as eChannelRack
+import event.lpPatterns as eLpPatterns
 import event.browser as eBrowser
 
 import sys
@@ -76,6 +77,9 @@ def eventHandler(event):
     
     if pv.mode == pc.CHANNELRACK_MODE:
         eChannelRack.channelRack(event)
+    
+    if pv.mode == pc.PATTERNS_MODE:
+        eLpPatterns.lpPatterns(event)
     
     if pv.mode == pc.BROWSER_MODE:
         eBrowser.browser(event)

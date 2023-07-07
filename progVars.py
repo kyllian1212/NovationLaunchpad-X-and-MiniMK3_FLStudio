@@ -61,3 +61,6 @@ flSelectedChannelRack = -1
 channelCount = 0
 
 page = 1
+
+# patterns mode
+patternIndex = 0
