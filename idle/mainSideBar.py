@@ -45,7 +45,7 @@ def mainSidebar():
     else:
         lp.lightPad(pc.RETURN_PAD, pc.COLOR_OFF, pc.STATE_STATIC)
     
-    if pv.mode == pc.MIXER_MODE or pv.mode == pc.CHANNELRACK_MODE:
+    if pv.mode == pc.MIXER_MODE or pv.mode == pc.CHANNELRACK_MODE or pv.mode == pc.PATTERNS_MODE:
         altView1Color = pc.COLOR_DARK_GRAY if not pv.altView1Mode else pc.COLOR_WHITE
         lp.lightPad(pc.ALTVIEW1_PAD, altView1Color, pc.STATE_STATIC)
     else:

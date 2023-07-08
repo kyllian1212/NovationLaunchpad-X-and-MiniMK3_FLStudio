@@ -64,3 +64,4 @@ page = 1
 
 # patterns mode
 patternIndex = 0
+page = 1
