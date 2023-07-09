@@ -60,8 +60,10 @@ flSelectedChannelRack = -1
 
 channelCount = 0
 
-page = 1
+channelRackSequencerPage = 1
+channelRackAltViewPage = 1
+
+channelRackAltViewRefresh = False
 
 # patterns mode
-patternIndex = 0
-page = 1
+patternPage = 1

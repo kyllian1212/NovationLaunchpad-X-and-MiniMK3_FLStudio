@@ -20,6 +20,7 @@ import sys
 import time
 
 lightingReset = 0
+channelRackPageAlt = 0
 
 def grid(flChannelRack: int, lpChannelRack: int):
     color = None
@@ -50,7 +51,7 @@ def grid(flChannelRack: int, lpChannelRack: int):
     if noChannel:
         lp.resetPartialLighting(rack_sequencer[8], rack_sequencer[7])
     else:
-        p = (16*(pv.page-1))+0
+        p = (16*(pv.channelRackSequencerPage-1))+0
         for pad1 in rack_sequencer:
             if channels.getGridBit(flChannelRack, p):
                 if transport.isPlaying() and transport.getLoopMode() == 0 and p+1 == songPosFormula:          
@@ -67,12 +68,15 @@ def grid(flChannelRack: int, lpChannelRack: int):
 
 def channelRack():
     global lightingReset
+    global channelRackPageAlt
 
     if not pv.altView1Mode and not pv.altView2Mode:
         pv.channelCount = channels.channelCount()
         if lightingReset != 0:
             lp.resetPartialLighting(11, 98)
             lightingReset = 0
+            pv.channelRackAltViewRefresh = False
+            channelRackPageAlt = 0
         grid(pv.flChannelRack1, 1)
         grid(pv.flChannelRack2, 2)
         grid(pv.flChannelRack3, 3)
@@ -101,27 +105,49 @@ def channelRack():
 
         lp.lightPad(pc.UP_PAD, colorUpPad, pc.STATE_STATIC)
         lp.lightPad(pc.DOWN_PAD, colorDownPad, pc.STATE_STATIC)
-        lp.lightPad(pc.LEFT_PAD, colorLeftPad if pv.page > 1 else pc.COLOR_OFF, pc.STATE_STATIC)
-        lp.lightPad(pc.RIGHT_PAD, colorRightPad if pv.page < 65 else pc.COLOR_OFF, pc.STATE_STATIC)
+        lp.lightPad(pc.LEFT_PAD, colorLeftPad if pv.channelRackSequencerPage > 1 else pc.COLOR_OFF, pc.STATE_STATIC)
+        lp.lightPad(pc.RIGHT_PAD, colorRightPad if pv.channelRackSequencerPage < 65 else pc.COLOR_OFF, pc.STATE_STATIC)
 
     elif pv.altView1Mode:
-        if lightingReset != 1 or channels.channelCount() != pv.channelCount:
+        if lightingReset != 1:
             lp.resetPartialLighting(11, 98)
             lightingReset = 1
             pv.channelCount = channels.channelCount()
         
-        track = 0
-        for x in range(8, 0, -1):
-            for y in range(1, 9):
-                if channels.channelCount() > track:
+        upArrowColor = pc.COLOR_DARK_GRAY
+        if pv.buttonPressed[pc.UP_PAD]:
+            upArrowColor = pc.COLOR_WHITE
+        if pv.channelRackAltViewPage == 1:
+            upArrowColor = pc.COLOR_OFF
+        
+        downArrowColor = pc.COLOR_DARK_GRAY
+        if pv.buttonPressed[pc.DOWN_PAD]:
+            downArrowColor = pc.COLOR_WHITE
+        if channels.channelCount() <= 64*pv.channelRackAltViewPage:
+            downArrowColor = pc.COLOR_OFF
+        
+        lp.lightPad(pc.UP_PAD, upArrowColor, pc.STATE_STATIC)
+        lp.lightPad(pc.DOWN_PAD, downArrowColor, pc.STATE_STATIC)
+        
+        if channelRackPageAlt != pv.channelRackAltViewPage or not pv.channelRackAltViewRefresh or pv.channelCount != channels.channelCount():
+            pv.channelRackAltViewRefresh = True
+            pv.channelCount = channels.channelCount()
+            channelRackPageAlt = pv.channelRackAltViewPage
+            track = (64*(pv.channelRackAltViewPage-1))
+            for x in range(8, 0, -1):
+                for y in range(1, 9):
                     padXy = int(str(x)+str(y))
-                    color = lp.rgbColorToPaletteColor(channels.getChannelColor(track)) if not pv.buttonPressed[padXy] else pc.COLOR_WHITE
-                    lp.lightPad(padXy, color, pc.STATE_STATIC)
-                track += 1
+                    if channels.channelCount() > track:
+                        color = lp.rgbColorToPaletteColor(channels.getChannelColor(track)) if not pv.buttonPressed[padXy] else pc.COLOR_WHITE
+                        lp.lightPad(padXy, color, pc.STATE_STATIC)
+                    else:
+                        lp.lightPad(padXy, pc.COLOR_OFF, pc.STATE_STATIC)
+                    track += 1
     elif pv.altView2Mode:
         pv.channelCount = channels.channelCount()
         if lightingReset != 2:
             lp.resetPartialLighting(11, 98)
             lightingReset = 2
+            pv.channelRackAltViewRefresh = False
     
     

@@ -21,14 +21,25 @@ import time
 
 previousMode = 0
 maxPatternCount = 0
+patternNumberMain = 0
+patternNumberAlt = 0
+patternPageAlt = 0
 
 def lpPatterns(tick):
     global previousMode
     global maxPatternCount
+    global patternNumberMain
+    global patternNumberAlt
+    global patternPageAlt
+
     if not pv.altView1Mode:
         if previousMode == 1:
             lp.resetPartialLighting(11, 98)
             previousMode = 0
+            patternNumberMain = 0
+            patternNumberAlt = 0
+            maxPatternCount = 0
+            patternPageAlt = 0
 
         # pattern number
         currentPattern = list(str(patterns.patternNumber()))
@@ -41,26 +52,26 @@ def lpPatterns(tick):
         else:
             currentPattern[0] = "s" + currentPattern[0]
         
-        if patterns.patternNumber() != pv.patternIndex:
-            pvPatternIndex = list(str(pv.patternIndex))
+        if patterns.patternNumber() != patternNumberMain:
+            patternIndex = list(str(patternNumberMain))
 
-            if len(pvPatternIndex) == 1:
-                pvPatternIndex.insert(0, "s0")
-                pvPatternIndex.insert(1, "0")
-            elif len(pvPatternIndex) == 2:
-                pvPatternIndex.insert(0, "s0")
+            if len(patternIndex) == 1:
+                patternIndex.insert(0, "s0")
+                patternIndex.insert(1, "0")
+            elif len(patternIndex) == 2:
+                patternIndex.insert(0, "s0")
             else:
-                pvPatternIndex[0] = "s" + pvPatternIndex[0]
+                patternIndex[0] = "s" + patternIndex[0]
 
-            pv.patternIndex = patterns.patternNumber()
+            patternNumberMain = patterns.patternNumber()
             
-            if pvPatternIndex[0] != currentPattern[0]:
+            if patternIndex[0] != currentPattern[0]:
                 lp.resetPartialLighting(51, 82)
             
-            if pvPatternIndex[1] != currentPattern[1]:
+            if patternIndex[1] != currentPattern[1]:
                 lp.resetPartialLighting(53, 85)
             
-            if pvPatternIndex[2] != currentPattern[2]:
+            if patternIndex[2] != currentPattern[2]:
                 lp.resetPartialLighting(56, 88)
         
         patternColor = lp.rgbColorToPaletteColor(patterns.getPatternColor(patterns.patternNumber()), pc.COLOR_EMPRESS)
@@ -72,13 +83,13 @@ def lpPatterns(tick):
         upArrowColor = patternColor
         if pv.buttonPressed[pc.UP_PAD]:
             upArrowColor = pc.COLOR_WHITE
-        if pv.patternIndex == 999:
+        if patterns.patternNumber() == 999:
             upArrowColor = pc.COLOR_OFF
         
         downArrowColor = patternColor
         if pv.buttonPressed[pc.DOWN_PAD]:
             downArrowColor = pc.COLOR_WHITE
-        if pv.patternIndex == 1:
+        if patterns.patternNumber() == 1:
             downArrowColor = pc.COLOR_OFF
 
         lp.lightPad(pc.UP_PAD, upArrowColor, pc.STATE_STATIC)
@@ -88,46 +99,54 @@ def lpPatterns(tick):
 
         patternRenameColor = pc.COLOR_DARK_GRAY if not pv.buttonPressed[pc.PATTERNRENAME_PAD] else pc.COLOR_WHITE
 
-        lp.lightPad(pc.PATTERNRENAME_PAD, patternRenameColor, pc.STATE_STATIC)
+        if ui.getFocusedFormCaption() == f"Pattern {patterns.patternNumber()} name":
+            lp.lightPad(pc.PATTERNRENAME_PAD, pc.COLOR_GREEN, pc.STATE_PULSING)
+            lp.lightPad(pc.PATTERNRENAMECANCEL_PAD, pc.COLOR_RED, pc.STATE_PULSING)
+        else:
+            lp.lightPad(pc.PATTERNRENAME_PAD, patternRenameColor, pc.STATE_STATIC)
+            lp.lightPad(pc.PATTERNRENAMECANCEL_PAD, pc.COLOR_OFF, pc.STATE_PULSING)
 
         patternCloneColor = pc.COLOR_DARK_YELLOW if not pv.buttonPressed[pc.PATTERNCLONE_PAD] else pc.COLOR_YELLOW
 
         lp.lightPad(pc.PATTERNCLONE_PAD, patternCloneColor, pc.STATE_STATIC)
     else:
-        if previousMode == 0 or maxPatternCount != patterns.patternCount():
+        if previousMode == 0:
             lp.resetPartialLighting(11, 98)
             previousMode = 1
+            patternNumberMain = 0
+            patternNumberAlt = 0
+            maxPatternCount = 0
 
         upArrowColor = pc.COLOR_DARK_GRAY
         if pv.buttonPressed[pc.UP_PAD]:
             upArrowColor = pc.COLOR_WHITE
-        if pv.page == 1:
+        if pv.patternPage == 1:
             upArrowColor = pc.COLOR_OFF
         
         downArrowColor = pc.COLOR_DARK_GRAY
         if pv.buttonPressed[pc.DOWN_PAD]:
             downArrowColor = pc.COLOR_WHITE
-        if patterns.patternCount() <= 64*pv.page:
+        if patterns.patternCount() <= 64*pv.patternPage:
             downArrowColor = pc.COLOR_OFF
 
         lp.lightPad(pc.UP_PAD, upArrowColor, pc.STATE_STATIC)
         lp.lightPad(pc.DOWN_PAD, downArrowColor, pc.STATE_STATIC)
 
-        patternNumber = 1
-        loopBreak = False
-        if True in pv.buttonPressed: #something like that
+        patternNumberLoop = (64*(pv.patternPage-1))+1
+        if patternPageAlt != pv.patternPage or maxPatternCount != patterns.patternCount() or patternNumberAlt != patterns.patternNumber():
+            patternPageAlt = pv.patternPage
+            patternNumberAlt = patterns.patternNumber()
+
             for x in range(8, 0, -1):
                 for y in range(1, 9):
-                    patternColor = lp.rgbColorToPaletteColor(patterns.getPatternColor(patternNumber), pc.COLOR_EMPRESS)
+                    patternColor = lp.rgbColorToPaletteColor(patterns.getPatternColor(patternNumberLoop), pc.COLOR_EMPRESS)
                     padXy = int(str(x)+str(y))
-                    if patternNumber <= patterns.patternCount():
-                        lp.lightPad(padXy, patternColor if not patterns.patternNumber() == patternNumber else pc.COLOR_WHITE, pc.STATE_STATIC)
-                        patternNumber += 1
-                        if patternNumber == 64:
+
+                    if patternNumberLoop <= patterns.patternCount():
+                        lp.lightPad(padXy, patternColor if not patterns.patternNumber() == patternNumberLoop else pc.COLOR_WHITE, pc.STATE_STATIC)
+                        if patternNumberLoop == 64*pv.patternPage:
                             maxPatternCount = patterns.patternCount()
+                        patternNumberLoop += 1
                     else:
                         maxPatternCount = patterns.patternCount()
-                        loopBreak = True
-                        break 
-                if loopBreak:
-                    break
+                        lp.lightPad(padXy, pc.COLOR_OFF, pc.STATE_STATIC)

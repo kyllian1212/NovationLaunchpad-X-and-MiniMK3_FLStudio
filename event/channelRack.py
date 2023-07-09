@@ -33,7 +33,7 @@ def gridSet(flChannelRack: int, lpChannelRack: int, event):
     else:
         raise Exception("invalid lpChannelRack number")
     
-    p = (16*(pv.page-1))+0
+    p = (16*(pv.channelRackSequencerPage-1))+0
     for gridStep in rack_sequencer:
         if e.buttonPressedCheck(gridStep, event):
             channels.setGridBit(flChannelRack, p, True) if not channels.getGridBit(flChannelRack, p) else channels.setGridBit(flChannelRack, p, False)
@@ -41,7 +41,7 @@ def gridSet(flChannelRack: int, lpChannelRack: int, event):
 
 def channelRack(event):
     if not pv.altView1Mode and not pv.altView2Mode:
-        ui.crDisplayRect(16*(pv.page-1), pv.flChannelRack1, 16, 4, 4000, 0)
+        ui.crDisplayRect(16*(pv.channelRackSequencerPage-1), pv.flChannelRack1, 16, 4, 4000, 0)
 
         if e.buttonPressedCheckGroup(71, 88, event):
             gridSet(pv.flChannelRack1, 1, event)
@@ -75,26 +75,33 @@ def channelRack(event):
                 pv.flChannelRack3 += 4
                 pv.flChannelRack4 += 4
         if e.buttonPressedCheck(pc.LEFT_PAD, event):
-            if pv.page > 1 and not pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.page -= 1
-            elif pv.page > 1 and pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.page = 1
+            if pv.channelRackSequencerPage > 1 and not pv.buttonPressed[pc.SHIFT_PAD]:
+                pv.channelRackSequencerPage -= 1
+            elif pv.channelRackSequencerPage > 1 and pv.buttonPressed[pc.SHIFT_PAD]:
+                pv.channelRackSequencerPage = 1
         if e.buttonPressedCheck(pc.RIGHT_PAD, event):
-            if pv.page < 65 and not pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.page += 1
-            elif pv.page < 65 and pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.page = 65
+            if pv.channelRackSequencerPage < 65 and not pv.buttonPressed[pc.SHIFT_PAD]:
+                pv.channelRackSequencerPage += 1
+            elif pv.channelRackSequencerPage < 65 and pv.buttonPressed[pc.SHIFT_PAD]:
+                pv.channelRackSequencerPage = 65
 
     elif pv.altView1Mode:
-        track = 0
+        if e.buttonPressedCheck(pc.UP_PAD, event) and pv.channelRackAltViewPage != 1:
+            pv.channelRackAltViewPage -= 1
+        if e.buttonPressedCheck(pc.DOWN_PAD, event) and channels.channelCount() > 64*pv.channelRackAltViewPage:
+            pv.channelRackAltViewPage += 1
+
+        track = (64*(pv.channelRackAltViewPage-1))
         for x in range(8, 0, -1):
             for y in range(1, 9):
                 padXy = int(str(x)+str(y))
                 if e.buttonPressedCheck(padXy, event) and channels.channelCount() > track:
+                    pv.channelRackAltViewRefresh = False
                     pv.triggerNote = True
                     event.data1 = 60
                     channels.selectOneChannel(track)
                 elif e.buttonReleasedCheck(padXy, event) and channels.channelCount() > track:
+                    pv.channelRackAltViewRefresh = False
                     pv.triggerNote = True
                     event.data1 = 60
                 track += 1
