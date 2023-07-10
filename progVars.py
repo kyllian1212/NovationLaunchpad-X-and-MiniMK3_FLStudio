@@ -63,7 +63,13 @@ channelCount = 0
 channelRackSequencerPage = 1
 channelRackAltViewPage = 1
 
+channelRackStepEditMode = False
+channelRackStepEditGridBit = -1
+channelRackStepEditRack = -1
+
 channelRackAltViewRefresh = False
+
+# def to enable and disable grid edit mode
 
 # patterns mode
 patternPage = 1

@@ -45,10 +45,10 @@ def lpPatterns(tick):
         currentPattern = list(str(patterns.patternNumber()))
 
         if len(currentPattern) == 1:
-            currentPattern.insert(0, "s0")
+            currentPattern.insert(0, "empty")
             currentPattern.insert(1, "0")
         elif len(currentPattern) == 2:
-            currentPattern.insert(0, "s0")
+            currentPattern.insert(0, "empty")
         else:
             currentPattern[0] = "s" + currentPattern[0]
         
@@ -56,10 +56,10 @@ def lpPatterns(tick):
             patternIndex = list(str(patternNumberMain))
 
             if len(patternIndex) == 1:
-                patternIndex.insert(0, "s0")
+                patternIndex.insert(0, "empty")
                 patternIndex.insert(1, "0")
             elif len(patternIndex) == 2:
-                patternIndex.insert(0, "s0")
+                patternIndex.insert(0, "empty")
             else:
                 patternIndex[0] = "s" + patternIndex[0]
 

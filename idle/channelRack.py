@@ -70,7 +70,42 @@ def channelRack():
     global lightingReset
     global channelRackPageAlt
 
-    if not pv.altView1Mode and not pv.altView2Mode:
+    if pv.channelRackStepEditMode:
+        if lightingReset != 3:
+            lp.resetPartialLighting(11, 98)
+            lightingReset = 3
+        
+        velColor1 = pc.COLOR_DARK_GRAY
+        velColor2 = pc.COLOR_GRAY
+        velColor3 = pc.COLOR_LIGHT_GRAY
+        velColor4 = pc.COLOR_WHITE
+        velColorOff = pc.COLOR_EMPRESS
+
+        stepVel = channels.getCurrentStepParam(pv.channelRackStepEditRack, pv.channelRackStepEditGridBit, 1)
+        velCheck = 0
+        for x in range(8, 4, -1):
+            for y in range(1, 9):
+                padXy = int(str(x)+str(y))
+                if stepVel >= velCheck+4:
+                    lp.lightPad(padXy, velColor4 if stepVel != 100 else pc.COLOR_LIGHT_GREEN, pc.STATE_STATIC)
+                elif stepVel >= velCheck+3:
+                    lp.lightPad(padXy, velColor3, pc.STATE_STATIC)
+                elif stepVel >= velCheck+2:
+                    lp.lightPad(padXy, velColor2, pc.STATE_STATIC)
+                elif stepVel >= velCheck+1:
+                    lp.lightPad(padXy, velColor1, pc.STATE_STATIC)
+                else:
+                    lp.lightPad(padXy, velColorOff, pc.STATE_STATIC)
+                velCheck += 4
+
+        lp.lightPad(pc.CHANNELRACKSTEPEDITMODE_RETURN, pc.COLOR_DARK_RED, pc.STATE_STATIC)
+
+        if not channels.getGridBit(pv.channelRackStepEditRack, pv.channelRackStepEditGridBit):
+            pv.channelRackStepEditMode = False
+            pv.channelRackStepEditGridBit = -1
+            pv.channelRackStepEditRack = -1
+
+    elif not pv.altView1Mode and not pv.altView2Mode:
         pv.channelCount = channels.channelCount()
         if lightingReset != 0:
             lp.resetPartialLighting(11, 98)

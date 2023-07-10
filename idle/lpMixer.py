@@ -135,7 +135,7 @@ def volCalc(flSelectedTrack: int):
 
     trackVolume = mixer.getTrackVolume(flSelectedTrack)
 
-    volPads = pc.TRACK_VERTICAL
+    volPads = pc.FADERTRACK_VERTICAL
 
     c = 2
     for p in range(0, 16):
@@ -182,7 +182,7 @@ def panStereoCalc(flSelectedTrack: int, pan: bool = True):
 
     trackSetting = trackPan if pan else trackStereo
 
-    panStereoPads = pc.TRACK_HORIZONTAL
+    panStereoPads = pc.FADERTRACK_HORIZONTAL
 
     cL = 2
     for pL in range(7, -1, -1):

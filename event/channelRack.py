@@ -21,7 +21,10 @@ import eventHandler as e
 import sys
 import time
 
-def gridSet(flChannelRack: int, lpChannelRack: int, event):
+lastButtonPressed = 0
+padLevel = 4
+
+def gridBit(flChannelRack: int, lpChannelRack: int, event, getBit: bool = False):
     if lpChannelRack == 1:
         rack_sequencer = pc.CHANNELRACK1_SEQUENCER
     elif lpChannelRack == 2:
@@ -36,21 +39,91 @@ def gridSet(flChannelRack: int, lpChannelRack: int, event):
     p = (16*(pv.channelRackSequencerPage-1))+0
     for gridStep in rack_sequencer:
         if e.buttonPressedCheck(gridStep, event):
+            if getBit:
+                return p
             channels.setGridBit(flChannelRack, p, True) if not channels.getGridBit(flChannelRack, p) else channels.setGridBit(flChannelRack, p, False)
         p += 1
+    
+    return None
 
 def channelRack(event):
-    if not pv.altView1Mode and not pv.altView2Mode:
+    global lastButtonPressed
+    global padLevel
+
+    if pv.channelRackStepEditMode:
+        if e.buttonPressedCheck(pc.CHANNELRACKSTEPEDITMODE_RETURN, event):
+            pv.channelRackStepEditMode = False
+            pv.channelRackStepEditGridBit = -1
+            pv.channelRackStepEditRack = -1
+            lastButtonPressed = 0
+            padLevel = 4
+        
+        if e.buttonPressedCheckGroup(51, 88, event):
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                channels.setStepParameterByIndex(pv.channelRackStepEditRack, patterns.patternNumber(), pv.channelRackStepEditGridBit, 1, 100)
+            else:
+                velCheck = 0
+                loopBreak = False
+                for x in range(8, 4, -1):
+                    for y in range(1, 9):
+                        padXy = int(str(x)+str(y))
+                        if e.buttonPressedCheck(padXy, event):
+                            if lastButtonPressed != padXy:
+                                lastButtonPressed = padXy
+                                padLevel = 4
+                            else:
+                                if padLevel == 4:
+                                    padLevel = 0
+                                else: 
+                                    padLevel += 1
+
+                            finalVelocity = velCheck+padLevel
+
+                            channels.setStepParameterByIndex(pv.channelRackStepEditRack, patterns.patternNumber(), pv.channelRackStepEditGridBit, 1, finalVelocity)
+
+                            loopBreak = True
+                            
+                            break
+
+                        velCheck += 4
+                    if loopBreak:
+                        break
+        
+    elif not pv.altView1Mode and not pv.altView2Mode:
         ui.crDisplayRect(16*(pv.channelRackSequencerPage-1), pv.flChannelRack1, 16, 4, 4000, 0)
 
         if e.buttonPressedCheckGroup(71, 88, event):
-            gridSet(pv.flChannelRack1, 1, event)
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                bit = gridBit(pv.flChannelRack1, 1, event, True)
+                pv.channelRackStepEditMode = True
+                pv.channelRackStepEditGridBit = bit
+                pv.channelRackStepEditRack = pv.flChannelRack1
+            else:
+                gridBit(pv.flChannelRack1, 1, event)
         elif e.buttonPressedCheckGroup(51, 68, event):
-            gridSet(pv.flChannelRack2, 2, event)
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                bit = gridBit(pv.flChannelRack2, 2, event, True)
+                pv.channelRackStepEditMode = True
+                pv.channelRackStepEditGridBit = bit
+                pv.channelRackStepEditRack = pv.flChannelRack2
+            else:
+                gridBit(pv.flChannelRack2, 2, event)
         elif e.buttonPressedCheckGroup(31, 48, event):
-            gridSet(pv.flChannelRack3, 3, event)
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                bit = gridBit(pv.flChannelRack3, 3, event, True)
+                pv.channelRackStepEditMode = True
+                pv.channelRackStepEditGridBit = bit
+                pv.channelRackStepEditRack = pv.flChannelRack3
+            else:
+                gridBit(pv.flChannelRack3, 3, event)
         elif e.buttonPressedCheckGroup(11, 28, event):
-            gridSet(pv.flChannelRack4, 4, event)
+            if pv.buttonPressed[pc.SHIFT_PAD]:
+                bit = gridBit(pv.flChannelRack4, 4, event, True)
+                pv.channelRackStepEditMode = True
+                pv.channelRackStepEditGridBit = bit
+                pv.channelRackStepEditRack = pv.flChannelRack4
+            else:
+                gridBit(pv.flChannelRack4, 4, event)
         
         if e.buttonPressedCheck(pc.UP_PAD, event):
             if pv.flChannelRack1 != 0 and not pv.buttonPressed[pc.SHIFT_PAD]:

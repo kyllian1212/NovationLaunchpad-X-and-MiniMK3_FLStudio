@@ -32,7 +32,7 @@ def flTransport():
     if len(currentBpm) == 6:
         currentBpm[0] = "s" + currentBpm[0]
     else:
-        currentBpm.insert(0, "s0")
+        currentBpm.insert(0, "empty")
     currentBpm[3] = "s" + currentBpm[3]
     
     if mixer.getCurrentTempo(1) != pv.bpm:

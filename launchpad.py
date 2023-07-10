@@ -225,8 +225,8 @@ type["cc"] = PadType(2)
 #init padgroup (characters)
 character = {}
 
-#character["s0"] = PadGroup([41, 42, 11, 12]) test to see if its better with nothing
-character["s0"] = PadGroup([])
+character["empty"] = PadGroup([])
+character["s0"] = PadGroup([41, 42, 11, 12])
 character["s1"] = PadGroup([41, 31, 21, 11])
 character["s2"] = PadGroup([41, 42, 32, 21, 11, 12])
 character["s3"] = PadGroup([41, 42, 32, 21, 22, 11, 12])
