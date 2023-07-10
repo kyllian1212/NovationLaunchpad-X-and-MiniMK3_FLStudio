@@ -40,6 +40,10 @@ def lpPatterns(tick):
             patternNumberAlt = 0
             maxPatternCount = 0
             patternPageAlt = 0
+            if pv.patternQueued != -1:
+                patterns.jumpToPattern(pv.patternQueued)
+                pv.patternQueued = -1
+                pv.patternQueueHandled = False
 
         # pattern number
         currentPattern = list(str(patterns.patternNumber()))
@@ -154,13 +158,3 @@ def lpPatterns(tick):
                     else:
                         maxPatternCount = patterns.patternCount()
                         lp.lightPad(padXy, pc.COLOR_OFF, pc.STATE_STATIC)
-        
-        if transport.isPlaying() and transport.getLoopMode() == 0 and transport.getSongPos(4) == 1 and pv.patternQueued != -1:
-            patterns.jumpToPattern(pv.patternQueued)
-            pv.patternQueued = -1
-            pv.patternQueueHandled = False
-        elif (not transport.isPlaying() or transport.getLoopMode() == 1) and pv.patternQueued != -1:
-            patterns.jumpToPattern(pv.patternQueued)
-            pv.patternQueued = -1
-            pv.patternQueueHandled = False
-            print("oops")
