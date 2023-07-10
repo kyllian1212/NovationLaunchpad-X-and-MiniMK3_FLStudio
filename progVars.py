@@ -73,3 +73,5 @@ channelRackAltViewRefresh = False
 
 # patterns mode
 patternPage = 1
+patternQueued = -1
+patternQueueHandled = False

@@ -133,20 +133,29 @@ def lpPatterns(tick):
         lp.lightPad(pc.DOWN_PAD, downArrowColor, pc.STATE_STATIC)
 
         patternNumberLoop = (64*(pv.patternPage-1))+1
-        if patternPageAlt != pv.patternPage or maxPatternCount != patterns.patternCount() or patternNumberAlt != patterns.patternNumber():
+        if (pv.patternQueued != -1 and not pv.patternQueueHandled) or patternPageAlt != pv.patternPage or maxPatternCount != patterns.patternCount() or patternNumberAlt != patterns.patternNumber():
             patternPageAlt = pv.patternPage
             patternNumberAlt = patterns.patternNumber()
 
+            if pv.patternQueued != -1:
+                pv.patternQueueHandled = True
+
             for x in range(8, 0, -1):
                 for y in range(1, 9):
-                    patternColor = lp.rgbColorToPaletteColor(patterns.getPatternColor(patternNumberLoop), pc.COLOR_EMPRESS)
+                    patternColor = lp.rgbColorToPaletteColor(patterns.getPatternColor(patternNumberLoop), pc.COLOR_EMPRESS) if patternNumberLoop != pv.patternQueued else pc.COLOR_WHITE
+                    patternState = pc.STATE_STATIC if patternNumberLoop != pv.patternQueued else pc.STATE_FLASHING
                     padXy = int(str(x)+str(y))
 
                     if patternNumberLoop <= patterns.patternCount():
-                        lp.lightPad(padXy, patternColor if not patterns.patternNumber() == patternNumberLoop else pc.COLOR_WHITE, pc.STATE_STATIC)
+                        lp.lightPad(padXy, patternColor if not patterns.patternNumber() == patternNumberLoop else pc.COLOR_WHITE, patternState)
                         if patternNumberLoop == 64*pv.patternPage:
                             maxPatternCount = patterns.patternCount()
                         patternNumberLoop += 1
                     else:
                         maxPatternCount = patterns.patternCount()
                         lp.lightPad(padXy, pc.COLOR_OFF, pc.STATE_STATIC)
+        
+        if transport.isPlaying() and transport.getLoopMode() == 0 and transport.getSongPos(4) == 1 and pv.patternQueued != -1:
+            patterns.jumpToPattern(pv.patternQueued)
+            pv.patternQueued = -1
+            pv.patternQueueHandled = False
