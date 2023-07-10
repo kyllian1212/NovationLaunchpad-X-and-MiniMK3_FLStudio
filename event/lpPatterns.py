@@ -63,7 +63,7 @@ def lpPatterns(event):
             for y in range(1, 9):
                 padXy = int(str(x)+str(y))
                 if e.buttonPressedCheck(padXy, event) and patternNumber <= patterns.patternCount():
-                    if pv.buttonPressed[pc.SHIFT_PAD] and transport.isPlaying() and transport.getLoopMode() == 0:
+                    if pv.buttonPressed[pc.SHIFT_PAD] or not transport.isPlaying() or transport.getLoopMode() == 1:
                         patterns.jumpToPattern(patternNumber)
                         pv.patternQueued = -1
                         pv.patternQueueHandled = False

@@ -159,3 +159,8 @@ def lpPatterns(tick):
             patterns.jumpToPattern(pv.patternQueued)
             pv.patternQueued = -1
             pv.patternQueueHandled = False
+        elif (not transport.isPlaying() or transport.getLoopMode() == 1) and pv.patternQueued != -1:
+            patterns.jumpToPattern(pv.patternQueued)
+            pv.patternQueued = -1
+            pv.patternQueueHandled = False
+            print("oops")
