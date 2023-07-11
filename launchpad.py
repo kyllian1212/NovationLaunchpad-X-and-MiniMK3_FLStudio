@@ -332,17 +332,7 @@ def lightGroup(xyStart: int, xyEnd: int, color: dict[str, Color], state: dict[st
 def lightPredefinedPads(group: PadGroup, color: dict[str, Color], state: dict[str, State], offset: int = 0, revertToPrev: bool = True):
     for padXy in group.xy:
         finalXy = padXy+offset
-        if "9" in str(finalXy):
-            device.midiOutMsg(state.ccValue, 0, finalXy, color.value)
-        else:
-            device.midiOutMsg(state.noteValue, 0, finalXy, color.value)
-        
-        if revertToPrev:
-            grid[f"pad{str(finalXy)}"].prevColor = grid[f"pad{str(finalXy)}"].color
-            grid[f"pad{str(finalXy)}"].prevState = grid[f"pad{str(finalXy)}"].state
-            
-        grid[f"pad{str(finalXy)}"].color = color
-        grid[f"pad{str(finalXy)}"].state = state
+        lightPad(finalXy, color, state, revertToPrev)
 
 def revertPad(xy: int):
     prevState = grid[f"pad{str(xy)}"].prevState
