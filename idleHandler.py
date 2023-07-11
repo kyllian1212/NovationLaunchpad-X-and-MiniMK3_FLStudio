@@ -55,7 +55,9 @@ def idleHandler(tick):
         iBrowser.browser()
 
     # pattern queue handler, so that it changes even if not on the pattern menu
-    if transport.isPlaying() and transport.getLoopMode() == 0 and transport.getSongPos(4) == 1 and pv.patternQueued != -1:
+    patternLengthDiffCheck = True if pv.patternQueued != -1 and patterns.getPatternLength(pv.patternQueued) != patterns.getPatternLength(patterns.patternNumber()) else False
+    patternSwitchNumber = 1 if patternLengthDiffCheck else patterns.getPatternLength(patterns.patternNumber())  
+    if transport.isPlaying() and transport.getLoopMode() == 0 and pv.patternQueued != -1 and (16*(transport.getSongPos(3)-1))+transport.getSongPos(4) == patternSwitchNumber:
             patterns.jumpToPattern(pv.patternQueued)
             pv.patternQueued = -1
             pv.patternQueueHandled = False

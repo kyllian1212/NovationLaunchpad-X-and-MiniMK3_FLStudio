@@ -326,10 +326,14 @@ def lpMixer():
 
             colorTrackMute = lp.rgbColorToPaletteColor(mixer.getTrackColor(pv.flSelectedTrack), pc.COLOR_EMPRESS) if not mixer.isTrackMuted(pv.flSelectedTrack) else pc.COLOR_OFF
             stateTrackSolo = pc.STATE_STATIC if not mixer.isTrackSolo(pv.flSelectedTrack) else pc.STATE_PULSING
-            colorTrackArmed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flTrack1) else pc.COLOR_LIGHT_RED
+            colorTrackArmed = pc.COLOR_DARKER_RED if not mixer.isTrackArmed(pv.flSelectedTrack) else pc.COLOR_LIGHT_RED
+            colorTrackReversePolarity = pc.COLOR_DARKER_AZURE if not mixer.isTrackRevPolarity(pv.flSelectedTrack) else pc.COLOR_LIGHT_AZURE
+            colorTrackSwapLeftRight = pc.COLOR_DARKER_AZURE if not mixer.isTrackSwapChannels(pv.flSelectedTrack) else pc.COLOR_LIGHT_AZURE
 
             lp.lightPad(pc.SELECTEDTRACK_MUTE, colorTrackMute, stateTrackSolo)
             lp.lightPad(pc.SELECTEDTRACK_ARMED, colorTrackArmed, pc.STATE_STATIC)
+            lp.lightPad(pc.SELECTEDTRACK_REVERSEPOLARITY, colorTrackReversePolarity, pc.STATE_STATIC)
+            lp.lightPad(pc.SELECTEDTRACK_SWAPLEFTRIGHT, colorTrackSwapLeftRight, pc.STATE_STATIC)
 
             lp.lightPad(pc.ALTSETTING_VOLUMEPAD, pc.COLOR_DARKER_GREEN if pv.alt1Setting != 0 else pc.COLOR_GREEN, pc.STATE_STATIC)
             lp.lightPad(pc.ALTSETTING_PANPAD, pc.COLOR_DARKER_ORANGE if pv.alt1Setting != 1 else pc.COLOR_ORANGE, pc.STATE_STATIC)

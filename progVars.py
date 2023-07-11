@@ -14,6 +14,8 @@ import utils
 
 import progConst as pc
 
+launchpad_sysexid = pc.LAUNCHPADMINIMK3_SYSEXID if "LPMINIMK3" in device.getName().upper() else pc.LAUNCHPADX_SYSEXID
+
 mode = pc.MENU_MODE
 
 bpm = mixer.getCurrentTempo(0)

@@ -137,6 +137,10 @@ def altViewModeMixer(event):
             mixer.muteTrack(pv.flSelectedTrack) if not pv.buttonPressed[pc.SHIFT_PAD] else mixer.soloTrack(pv.flSelectedTrack)
         if e.buttonPressedCheck(pc.SELECTEDTRACK_ARMED, event):
             mixer.armTrack(pv.flSelectedTrack)
+        if e.buttonPressedCheck(pc.SELECTEDTRACK_REVERSEPOLARITY, event):
+            mixer.revTrackPolarity(pv.flSelectedTrack, True) if not mixer.isTrackRevPolarity(pv.flSelectedTrack) else mixer.revTrackPolarity(pv.flSelectedTrack, False)
+        if e.buttonPressedCheck(pc.SELECTEDTRACK_SWAPLEFTRIGHT, event):
+            mixer.swapTrackChannels(pv.flSelectedTrack, True) if not mixer.isTrackSwapChannels(pv.flSelectedTrack) else mixer.swapTrackChannels(pv.flSelectedTrack, False)
         
 
 def volumeCalc(event):

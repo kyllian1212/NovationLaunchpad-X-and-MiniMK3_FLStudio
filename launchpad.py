@@ -291,12 +291,12 @@ def rgbColorToPaletteColor(rgb: int, defaultIfOff: Color = color["off"]) -> Colo
 
 #launchpad functions
 def enableDawMode():
-    device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 16, 1, 247])) #enable daw mode
-    device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 0, 0, 247])) #switch to session automatically
+    device.midiOutSysex(bytes([240, 0, 32, 41, 2, pv.launchpad_sysexid, 16, 1, 247])) #enable daw mode
+    device.midiOutSysex(bytes([240, 0, 32, 41, 2, pv.launchpad_sysexid, 0, 0, 247])) #switch to session automatically
 
 def disableDawMode():
-    device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 18, 1, 0, 1, 247])) #daw clear state
-    device.midiOutSysex(bytes([240, 0, 32, 41, 2, 13, 16, 0, 247])) #disable daw mode
+    device.midiOutSysex(bytes([240, 0, 32, 41, 2, pv.launchpad_sysexid, 18, 1, 0, 1, 247])) #daw clear state
+    device.midiOutSysex(bytes([240, 0, 32, 41, 2, pv.launchpad_sysexid, 16, 0, 247])) #disable daw mode
 
 def lightAllPadsTest():
     colorVal = 0
@@ -384,7 +384,7 @@ def scrollText(text: str, color: Color, speed: int = 9, looping: int = 0):
     message = []
     
     #put message start values, followed by looping, speed & color values to message
-    message.extend([240, 0, 32, 41, 2, 13, 7, looping, speed, 0, color.value])
+    message.extend([240, 0, 32, 41, 2, pv.launchpad_sysexid, 7, looping, speed, 0, color.value])
     
     #put text (in ascii) to message
     for char in text:
