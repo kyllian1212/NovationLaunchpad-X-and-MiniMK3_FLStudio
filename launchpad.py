@@ -306,17 +306,18 @@ def lightAllPadsTest():
             colorVal += 1
 
 def lightPad(xy: int, color: dict[str, Color], state: dict[str, State], revertToPrev: bool = True):
-    if "9" in str(xy):
-        device.midiOutMsg(state.ccValue, 0, xy, color.value)
-    else:
-        device.midiOutMsg(state.noteValue, 0, xy, color.value)
-    
-    if revertToPrev:
-        grid[f"pad{str(xy)}"].prevColor = grid[f"pad{str(xy)}"].color
-        grid[f"pad{str(xy)}"].prevState = grid[f"pad{str(xy)}"].state
+    if grid[f"pad{str(xy)}"].color != color or grid[f"pad{str(xy)}"].state != state:
+        if "9" in str(xy):
+            device.midiOutMsg(state.ccValue, 0, xy, color.value)
+        else:
+            device.midiOutMsg(state.noteValue, 0, xy, color.value)
         
-    grid[f"pad{str(xy)}"].color = color
-    grid[f"pad{str(xy)}"].state = state
+        if revertToPrev:
+            grid[f"pad{str(xy)}"].prevColor = grid[f"pad{str(xy)}"].color
+            grid[f"pad{str(xy)}"].prevState = grid[f"pad{str(xy)}"].state
+            
+        grid[f"pad{str(xy)}"].color = color
+        grid[f"pad{str(xy)}"].state = state
 
 def lightGroup(xyStart: int, xyEnd: int, color: dict[str, Color], state: dict[str, State], revertToPrev: bool = True):
     for padkey, padvalues in grid.items():
