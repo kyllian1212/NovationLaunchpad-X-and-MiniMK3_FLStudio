@@ -124,6 +124,61 @@ def peakCalc(flTrack: int, lpTrack: int):
         
         cR += 3
 
+def peakCalcFull(flSelectedTrack: int):
+    volPeak = 1/22
+
+    peaksL = []
+    peaksR = []
+
+    trackPeakL = mixer.getTrackPeaks(flSelectedTrack, 0)
+    trackPeakR = mixer.getTrackPeaks(flSelectedTrack, 1)
+
+    peakColorClip = pc.COLOR_RED
+    peakColorWarn1 = pc.COLOR_ORANGE
+    peakColorWarn2 = pc.COLOR_DARK_ORANGE
+    peakColorWarn3 = pc.COLOR_DARKER_ORANGE
+    peakColorOk1 = pc.COLOR_GREEN
+    peakColorOk2 = pc.COLOR_DARK_GREEN
+    peakColorOk3 = pc.COLOR_DARKER_GREEN
+    peakOff = pc.COLOR_OFF
+
+    for pL in range(8):
+        peaksL.append(pc.SELECTEDTRACKL[pL])
+    for pR in range(8):
+        peaksR.append(pc.SELECTEDTRACKR[pR])
+    
+    # L pan
+    lp.lightPad(peaksL[7], peakColorClip, pc.STATE_PULSING) if trackPeakL > 1 else lp.lightPad(peaksL[7], peakOff, pc.STATE_PULSING)
+    
+    cL = 1
+    for pL in range(0, 7):
+        if trackPeakL > volPeak*(cL+2):
+            lp.lightPad(peaksL[pL], peakColorOk1 if pL < 5 else peakColorWarn1, pc.STATE_STATIC)
+        elif trackPeakL > volPeak*(cL+1):
+            lp.lightPad(peaksL[pL], peakColorOk2 if pL < 5 else peakColorWarn2, pc.STATE_STATIC)
+        elif trackPeakL > volPeak*cL:
+            lp.lightPad(peaksL[pL], peakColorOk3 if pL < 5 else peakColorWarn3, pc.STATE_STATIC)
+        else:
+            lp.lightPad(peaksL[pL], peakOff, pc.STATE_STATIC)
+        
+        cL += 3
+
+    # R pan
+    lp.lightPad(peaksR[7], peakColorClip, pc.STATE_PULSING) if trackPeakR > 1 else lp.lightPad(peaksR[7], peakOff, pc.STATE_PULSING)
+
+    cR = 1
+    for pR in range(0, 7):
+        if trackPeakR > volPeak*(cR+2):
+            lp.lightPad(peaksR[pR], peakColorOk1 if pR < 5 else peakColorWarn1, pc.STATE_STATIC)
+        elif trackPeakR > volPeak*(cR+1):
+            lp.lightPad(peaksR[pR], peakColorOk2 if pR < 5 else peakColorWarn2, pc.STATE_STATIC)
+        elif trackPeakR > volPeak*cR:
+            lp.lightPad(peaksR[pR], peakColorOk3 if pR < 5 else peakColorWarn3, pc.STATE_STATIC)
+        else:
+            lp.lightPad(peaksR[pR], peakOff, pc.STATE_STATIC)
+        
+        cR += 3
+
 def volCalc(flSelectedTrack: int):
     volIncr = 1/50
 
@@ -309,11 +364,15 @@ def lpMixer():
             if previousMode != pv.alt1Setting:
                 lp.resetPartialLighting(14, 85)
                 lp.resetPartialLighting(41, 58)
+                lp.resetPartialLighting(11, 32)
+                lp.resetPartialLighting(61, 82)
                 currentTrackVolume = None
                 currentTrackPan = None
                 currentTrackStereo = None
                 previousMode = pv.alt1Setting
             
+            if pv.alt1Setting == 0:
+                peakCalcFull(pv.flSelectedTrack)           
             if currentTrackVolume != mixer.getTrackVolume(pv.flSelectedTrack) and pv.alt1Setting == 0:
                 volCalc(pv.flSelectedTrack)
                 currentTrackVolume = mixer.getTrackVolume(pv.flSelectedTrack)

@@ -71,12 +71,16 @@ def eventHandler(event):
     
     if pv.mode == pc.FLTRANSPORT_MODE:
         eFlTransport.flTransport(event)
+    
+    # add snap mode
 
     if pv.mode == pc.MIXER_MODE:
         eLpMixer.lpMixer(event)
     
+    # add master mode (use in lpMixer()) + routing mode
+    
     if pv.mode == pc.CHANNELRACK_MODE:
-        eChannelRack.channelRack(event)
+        eChannelRack.channelRack(event) # add plugin (fpc) alt
     
     if pv.mode == pc.PATTERNS_MODE:
         eLpPatterns.lpPatterns(event)

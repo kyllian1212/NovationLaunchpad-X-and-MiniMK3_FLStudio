@@ -42,11 +42,15 @@ def idleHandler(tick):
     if pv.mode == pc.FLTRANSPORT_MODE:
         iFlTransport.flTransport()
     
+    # add snap mode
+    
     if pv.mode == pc.MIXER_MODE:
         iLpMixer.lpMixer()
     
+    # add master mode (use in lpMixer()) + routing mode
+    
     if pv.mode == pc.CHANNELRACK_MODE:
-        iChannelRack.channelRack()
+        iChannelRack.channelRack() # add plugin (fpc) alt
 
     if pv.mode == pc.PATTERNS_MODE:
         iLpPatterns.lpPatterns(tick)
