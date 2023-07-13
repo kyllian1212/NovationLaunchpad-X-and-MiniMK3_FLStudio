@@ -51,6 +51,8 @@ flTrack3 = 3
 flTrack4 = 4
 flSelectedTrack = -1
 
+# def to increment/decrement the tracks
+
 alt1Setting = 0
 
 # channel rack mode
@@ -59,6 +61,8 @@ flChannelRack2 = 1
 flChannelRack3 = 2
 flChannelRack4 = 3
 flSelectedChannelRack = -1
+
+# def to increment/decrement the tracks
 
 channelCount = 0
 
