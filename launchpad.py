@@ -248,6 +248,36 @@ character["7"] = PadGroup([42, 43, 33, 23, 13])
 character["8"] = PadGroup([41, 42, 43, 31, 32, 33, 21, 23, 11, 12, 13])
 character["9"] = PadGroup([41, 42, 43, 31, 32, 33, 23, 11, 12, 13])
 
+character["/"] = PadGroup([42, 32, 21, 11])
+
+#incomplete/unfinished because adapted to snap screen only
+character["a"] = PadGroup([41, 42, 32, 21, 22, 11, 12])
+character["b"] = PadGroup([41, 31, 21, 22, 11, 12])
+#c
+#d
+character["e"] = PadGroup([41, 42, 31, 32, 21, 11, 12])
+#f
+#g
+#h
+character["i"] = character["s1"]
+#j
+#k
+character["l"] = PadGroup([41, 31, 21, 11, 12])
+#m
+character["n"] = PadGroup([41, 42, 31, 33, 21, 23, 11, 13])
+character["o"] = character["0"]
+#p
+#q
+character["r"] = PadGroup([41, 42, 31, 33, 21, 22, 11, 13])
+character["s"] = character["s5"]
+character["t"] = PadGroup([41, 31, 32, 21, 11, 12])
+#u
+#v
+#w
+#x
+#y
+#z
+
 #init grid
 grid = {}
 

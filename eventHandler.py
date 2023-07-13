@@ -20,6 +20,7 @@ import event.mainSidebar as eMainSidebar
 import event.shift as eShift
 import event.menu as eMenu
 import event.flTransport as eFlTransport
+import event.flSnap as eFlSnap
 import event.lpMixer as eLpMixer
 import event.channelRack as eChannelRack
 import event.lpPatterns as eLpPatterns
@@ -72,7 +73,8 @@ def eventHandler(event):
     if pv.mode == pc.FLTRANSPORT_MODE:
         eFlTransport.flTransport(event)
     
-    # add snap mode
+    if pv.mode == pc.FLSNAP_MODE:
+        eFlSnap.flSnap(event)
 
     if pv.mode == pc.MIXER_MODE:
         eLpMixer.lpMixer(event)

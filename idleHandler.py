@@ -21,6 +21,7 @@ import idle.mainSidebar as iMainSidebar
 import idle.shift as iShift
 import idle.menu as iMenu
 import idle.flTransport as iFlTransport
+import idle.flSnap as iFlSnap
 import idle.metronome as iMetro
 import idle.lpMixer as iLpMixer
 import idle.lpPatterns as iLpPatterns
@@ -42,7 +43,8 @@ def idleHandler(tick):
     if pv.mode == pc.FLTRANSPORT_MODE:
         iFlTransport.flTransport()
     
-    # add snap mode
+    if pv.mode == pc.FLSNAP_MODE:
+        iFlSnap.flSnap()
     
     if pv.mode == pc.MIXER_MODE:
         iLpMixer.lpMixer()
