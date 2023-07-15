@@ -79,7 +79,8 @@ def eventHandler(event):
     if pv.mode == pc.MIXER_MODE:
         eLpMixer.lpMixer(event)
     
-    # add master mode (use in lpMixer()) + routing mode
+    if pv.mode == pc.MIXERMASTER_MODE:
+        eLpMixer.lpMixer(event, True)
     
     if pv.mode == pc.CHANNELRACK_MODE:
         eChannelRack.channelRack(event) # add plugin (fpc) alt

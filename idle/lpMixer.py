@@ -20,7 +20,7 @@ import sys
 import time
 
 trackSelected = False
-previousMode = 0
+previousMode = -1
 currentTrackVolume = None
 currentTrackPan = None
 currentTrackStereo = None
@@ -272,43 +272,53 @@ def panStereoCalc(flSelectedTrack: int, pan: bool = True):
         lp.lightPad(panStereoPads[9], colorIncr3R, pc.STATE_STATIC)
 
 
-def lpMixer():
+def lpMixer(mixerMasterTrig: bool = False):
     global trackSelected
     global currentTrackVolume
     global currentTrackPan
     global currentTrackStereo
     global previousMode
     
-    upArrowColor = pc.COLOR_DARKER_AZURE
-    if pv.buttonPressed[pc.UP_PAD]:
-        upArrowColor = pc.COLOR_LIGHT_AZURE
-    if pv.flTrack4+4 > 125:
-        upArrowColor = pc.COLOR_OFF
-    
-    downArrowColor = pc.COLOR_DARKER_AZURE
-    if pv.buttonPressed[pc.DOWN_PAD]:
-        downArrowColor = pc.COLOR_LIGHT_AZURE
-    if pv.flTrack1-4 < 1:
-        downArrowColor = pc.COLOR_OFF
-    
-    leftArrowColor = pc.COLOR_DARK_GRAY
-    if pv.buttonPressed[pc.LEFT_PAD]:
-        leftArrowColor = pc.COLOR_WHITE
-    if pv.flTrack1 == 1:
-        leftArrowColor = pc.COLOR_OFF
-    
-    rightArrowColor = pc.COLOR_DARK_GRAY
-    if pv.buttonPressed[pc.RIGHT_PAD]:
-        rightArrowColor = pc.COLOR_WHITE
-    if pv.flTrack4 == 125:
-        rightArrowColor = pc.COLOR_OFF
+    # init if mixer master mode
+    if not pv.mixerMasterMode and mixerMasterTrig:
+        pv.mixerMasterMode = False if not mixerMasterTrig else True
+        pv.flSelectedTrack = -1
+        previousMode = -1
+        trackSelected = False
 
-    lp.lightPad(pc.UP_PAD, upArrowColor, pc.STATE_STATIC)
-    lp.lightPad(pc.DOWN_PAD, downArrowColor, pc.STATE_STATIC)
-    lp.lightPad(pc.LEFT_PAD, leftArrowColor, pc.STATE_STATIC)
-    lp.lightPad(pc.RIGHT_PAD, rightArrowColor, pc.STATE_STATIC)
+    if not pv.mixerMasterMode:
+        upArrowColor = pc.COLOR_DARKER_AZURE
+        if pv.buttonPressed[pc.UP_PAD]:
+            upArrowColor = pc.COLOR_LIGHT_AZURE
+        if pv.flTrack4+4 > 125:
+            upArrowColor = pc.COLOR_OFF
+        
+        downArrowColor = pc.COLOR_DARKER_AZURE
+        if pv.buttonPressed[pc.DOWN_PAD]:
+            downArrowColor = pc.COLOR_LIGHT_AZURE
+        if pv.flTrack1-4 < 1:
+            downArrowColor = pc.COLOR_OFF
+        
+        leftArrowColor = pc.COLOR_DARK_GRAY
+        if pv.buttonPressed[pc.LEFT_PAD]:
+            leftArrowColor = pc.COLOR_WHITE
+        if pv.flTrack1 == 1:
+            leftArrowColor = pc.COLOR_OFF
+        
+        rightArrowColor = pc.COLOR_DARK_GRAY
+        if pv.buttonPressed[pc.RIGHT_PAD]:
+            rightArrowColor = pc.COLOR_WHITE
+        if pv.flTrack4 == 125:
+            rightArrowColor = pc.COLOR_OFF
+
+        lp.lightPad(pc.UP_PAD, upArrowColor, pc.STATE_STATIC)
+        lp.lightPad(pc.DOWN_PAD, downArrowColor, pc.STATE_STATIC)
+        lp.lightPad(pc.LEFT_PAD, leftArrowColor, pc.STATE_STATIC)
+        lp.lightPad(pc.RIGHT_PAD, rightArrowColor, pc.STATE_STATIC)
+    else:
+        pv.flSelectedTrack = 0
     
-    if not pv.altView1Mode:
+    if not pv.altView1Mode and not pv.mixerMasterMode:
         trackSelected = False
         currentTrackVolume = None
         currentTrackPan = None
@@ -345,7 +355,7 @@ def lpMixer():
 
         lp.lightPad(pc.TRACK4_MUTE, colorTrack4Mute, stateTrack4Solo)
         lp.lightPad(pc.TRACK4_ARMED, colorTrack4Armed, pc.STATE_STATIC)
-    else:
+    elif pv.altView1Mode or pv.mixerMasterMode:
         if pv.flSelectedTrack == -1:
             colorTrack1 = lp.rgbColorToPaletteColor(mixer.getTrackColor(pv.flTrack1), pc.COLOR_EMPRESS)
             colorTrack2 = lp.rgbColorToPaletteColor(mixer.getTrackColor(pv.flTrack2), pc.COLOR_EMPRESS) 

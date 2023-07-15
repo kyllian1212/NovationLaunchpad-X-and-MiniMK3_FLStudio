@@ -25,41 +25,42 @@ lastButtonPressed = 0
 padLevel = 3
 
 #add reverse polarity etc buttons
-def lpMixer(event):
-    if e.buttonPressedCheck(pc.UP_PAD, event):
-        if pv.flTrack4+4 <= 125:
-            pv.flTrack1 += 4
-            pv.flTrack2 += 4
-            pv.flTrack3 += 4
-            pv.flTrack4 += 4
-            if pv.flSelectedTrack != -1:
-                pv.flSelectedTrack += 4
-    if e.buttonPressedCheck(pc.DOWN_PAD, event):
-        if pv.flTrack1-4 >= 1:
-            pv.flTrack1 -= 4
-            pv.flTrack2 -= 4
-            pv.flTrack3 -= 4
-            pv.flTrack4 -= 4
-            if pv.flSelectedTrack != -1:
-                pv.flSelectedTrack -= 4
-    if e.buttonPressedCheck(pc.LEFT_PAD, event):
-        if pv.flTrack1 > 1:
-            pv.flTrack1 -= 1
-            pv.flTrack2 -= 1
-            pv.flTrack3 -= 1
-            pv.flTrack4 -= 1
-            if pv.flSelectedTrack != -1:
-                pv.flSelectedTrack -= 1
-    if e.buttonPressedCheck(pc.RIGHT_PAD, event):
-        if pv.flTrack4 < 125:
-            pv.flTrack1 += 1
-            pv.flTrack2 += 1
-            pv.flTrack3 += 1
-            pv.flTrack4 += 1
-            if pv.flSelectedTrack != -1:
-                pv.flSelectedTrack += 1
+def lpMixer(event, mixerMasterTrig: bool = False):
+    if not pv.mixerMasterMode:
+        if e.buttonPressedCheck(pc.UP_PAD, event):
+            if pv.flTrack4+4 <= 125:
+                pv.flTrack1 += 4
+                pv.flTrack2 += 4
+                pv.flTrack3 += 4
+                pv.flTrack4 += 4
+                if pv.flSelectedTrack != -1:
+                    pv.flSelectedTrack += 4
+        if e.buttonPressedCheck(pc.DOWN_PAD, event):
+            if pv.flTrack1-4 >= 1:
+                pv.flTrack1 -= 4
+                pv.flTrack2 -= 4
+                pv.flTrack3 -= 4
+                pv.flTrack4 -= 4
+                if pv.flSelectedTrack != -1:
+                    pv.flSelectedTrack -= 4
+        if e.buttonPressedCheck(pc.LEFT_PAD, event):
+            if pv.flTrack1 > 1:
+                pv.flTrack1 -= 1
+                pv.flTrack2 -= 1
+                pv.flTrack3 -= 1
+                pv.flTrack4 -= 1
+                if pv.flSelectedTrack != -1:
+                    pv.flSelectedTrack -= 1
+        if e.buttonPressedCheck(pc.RIGHT_PAD, event):
+            if pv.flTrack4 < 125:
+                pv.flTrack1 += 1
+                pv.flTrack2 += 1
+                pv.flTrack3 += 1
+                pv.flTrack4 += 1
+                if pv.flSelectedTrack != -1:
+                    pv.flSelectedTrack += 1
 
-    if not pv.altView1Mode:
+    if not pv.altView1Mode and not pv.mixerMasterMode:
         ui.miDisplayRect(pv.flTrack1, pv.flTrack4, 4000)
         pv.flSelectedTrack = -1
 

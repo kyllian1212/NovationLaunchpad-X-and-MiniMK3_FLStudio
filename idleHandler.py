@@ -49,7 +49,8 @@ def idleHandler(tick):
     if pv.mode == pc.MIXER_MODE:
         iLpMixer.lpMixer()
     
-    # add master mode (use in lpMixer()) + routing mode
+    if pv.mode == pc.MIXERMASTER_MODE:
+        iLpMixer.lpMixer(True)
     
     if pv.mode == pc.CHANNELRACK_MODE:
         iChannelRack.channelRack() # add plugin (fpc) alt

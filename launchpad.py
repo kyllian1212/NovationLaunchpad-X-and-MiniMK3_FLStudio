@@ -253,7 +253,7 @@ character["/"] = PadGroup([42, 32, 21, 11])
 #incomplete/unfinished because adapted to snap screen only
 character["a"] = PadGroup([41, 42, 32, 21, 22, 11, 12])
 character["b"] = PadGroup([41, 31, 21, 22, 11, 12])
-#c
+character["c"] = PadGroup([41, 42, 31, 21, 11, 12])
 #d
 character["e"] = PadGroup([41, 42, 31, 32, 21, 11, 12])
 #f
@@ -266,9 +266,9 @@ character["l"] = PadGroup([41, 31, 21, 11, 12])
 #m
 character["n"] = PadGroup([41, 42, 31, 33, 21, 23, 11, 13])
 character["o"] = character["0"]
-#p
+character["p"] = PadGroup([41, 42, 31, 32, 21, 11])
 #q
-character["r"] = PadGroup([41, 42, 31, 33, 21, 22, 11, 13])
+character["r"] = PadGroup([41, 42, 31, 21, 11])
 character["s"] = character["s5"]
 character["t"] = PadGroup([41, 31, 32, 21, 11, 12])
 #u

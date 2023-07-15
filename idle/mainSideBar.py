@@ -36,7 +36,7 @@ def mainSidebar():
             lp.lightPad(pc.STOP_PAD, pc.COLOR_RED, pc.STATE_STATIC)
         
     if transport.isRecording():
-        lp.lightPad(pc.RECORD_PAD, pc.COLOR_RED, pc.STATE_STATIC)
+        lp.lightPad(pc.RECORD_PAD, pc.COLOR_LIGHT_RED, pc.STATE_STATIC)
     else:
         lp.lightPad(pc.RECORD_PAD, pc.COLOR_DARKER_RED, pc.STATE_STATIC)
     

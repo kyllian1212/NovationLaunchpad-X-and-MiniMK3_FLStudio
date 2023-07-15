@@ -53,4 +53,6 @@ def mainSidebar(event):
     if e.buttonPressedCheck(pc.RETURN_PAD, event) and pv.mode != pc.MENU_MODE:
         pv.altView1Mode = False
         pv.altView2Mode = False
+        if pv.mode == pc.MIXERMASTER_MODE:
+            pv.mixerMasterMode = False
         lp.modeChange(pc.MENU_MODE)

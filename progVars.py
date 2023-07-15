@@ -44,12 +44,21 @@ projectLoading = False
 
 triggerNote = False
 
+# fl snap mode
+def beatSnap():
+    return True if ui.getSnapMode() >= 9 and ui.getSnapMode() <= 13 else False
+
+def stepSnap():
+    return True if ui.getSnapMode() >= 4 and ui.getSnapMode() <= 8 else False
+
 # mixer mode
 flTrack1 = 1
 flTrack2 = 2
 flTrack3 = 3 
 flTrack4 = 4
 flSelectedTrack = -1
+
+mixerMasterMode = False
 
 # def to increment/decrement the tracks
 

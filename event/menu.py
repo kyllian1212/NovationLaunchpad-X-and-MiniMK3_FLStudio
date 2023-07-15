@@ -25,8 +25,14 @@ def menu(event):
     if e.buttonReleasedCheck(pc.FLTRANSPORT_MENUPAD, event):
         lp.modeChange(pc.FLTRANSPORT_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("FL Transport Mode", pc.COLOR_WHITE)
     
+    if e.buttonReleasedCheck(pc.FLSNAP_MENUPAD, event):
+        lp.modeChange(pc.FLSNAP_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("FL Snap Mode", pc.COLOR_WHITE)
+    
     if e.buttonReleasedCheck(pc.MIXER_MENUPAD, event):
         lp.modeChange(pc.MIXER_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Mixer Mode", pc.COLOR_WHITE)
+    
+    if e.buttonReleasedCheck(pc.MIXERMASTER_MENUPAD, event):
+        lp.modeChange(pc.MIXERMASTER_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Mixer (Master) Mode", pc.COLOR_WHITE)
 
     if e.buttonReleasedCheck(pc.CHANNELRACK_MENUPAD, event):
         lp.modeChange(pc.CHANNELRACK_MODE) if not pv.buttonPressed[pc.SHIFT_PAD] else lp.scrollText("Channel Rack Mode", pc.COLOR_WHITE)
