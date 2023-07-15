@@ -52,9 +52,7 @@ def channelRack(event):
 
     if pv.channelRackStepEditMode:
         if e.buttonPressedCheck(pc.CHANNELRACKSTEPEDITMODE_RETURN, event):
-            pv.channelRackStepEditMode = False
-            pv.channelRackStepEditGridBit = -1
-            pv.channelRackStepEditRack = -1
+            pv.disableChannelRackStepEditMode()
             lastButtonPressed = 0
             padLevel = 4
         
@@ -95,33 +93,25 @@ def channelRack(event):
         if e.buttonPressedCheckGroup(71, 88, event):
             if pv.buttonPressed[pc.SHIFT_PAD]:
                 bit = gridBit(pv.flChannelRack1, 1, event, True)
-                pv.channelRackStepEditMode = True
-                pv.channelRackStepEditGridBit = bit
-                pv.channelRackStepEditRack = pv.flChannelRack1
+                pv.enableChannelRackStepEditMode(bit, pv.flChannelRack1)
             else:
                 gridBit(pv.flChannelRack1, 1, event)
         elif e.buttonPressedCheckGroup(51, 68, event):
             if pv.buttonPressed[pc.SHIFT_PAD]:
                 bit = gridBit(pv.flChannelRack2, 2, event, True)
-                pv.channelRackStepEditMode = True
-                pv.channelRackStepEditGridBit = bit
-                pv.channelRackStepEditRack = pv.flChannelRack2
+                pv.enableChannelRackStepEditMode(bit, pv.flChannelRack2)
             else:
                 gridBit(pv.flChannelRack2, 2, event)
         elif e.buttonPressedCheckGroup(31, 48, event):
             if pv.buttonPressed[pc.SHIFT_PAD]:
                 bit = gridBit(pv.flChannelRack3, 3, event, True)
-                pv.channelRackStepEditMode = True
-                pv.channelRackStepEditGridBit = bit
-                pv.channelRackStepEditRack = pv.flChannelRack3
+                pv.enableChannelRackStepEditMode(bit, pv.flChannelRack3)
             else:
                 gridBit(pv.flChannelRack3, 3, event)
         elif e.buttonPressedCheckGroup(11, 28, event):
             if pv.buttonPressed[pc.SHIFT_PAD]:
                 bit = gridBit(pv.flChannelRack4, 4, event, True)
-                pv.channelRackStepEditMode = True
-                pv.channelRackStepEditGridBit = bit
-                pv.channelRackStepEditRack = pv.flChannelRack4
+                pv.enableChannelRackStepEditMode(bit, pv.flChannelRack4)
             else:
                 gridBit(pv.flChannelRack4, 4, event)
         

@@ -105,8 +105,24 @@ channelRackStepEditRack = -1
 
 channelRackAltViewRefresh = False
 
-# def to enable and disable grid edit mode
+def enableChannelRackStepEditMode(bit: int, rack: int):
+    global channelRackStepEditMode
+    global channelRackStepEditGridBit
+    global channelRackStepEditRack
 
+    channelRackStepEditMode = True
+    channelRackStepEditGridBit = bit
+    channelRackStepEditRack = rack
+
+def disableChannelRackStepEditMode():
+    global channelRackStepEditMode
+    global channelRackStepEditGridBit
+    global channelRackStepEditRack
+
+    channelRackStepEditMode = False
+    channelRackStepEditGridBit = -1
+    channelRackStepEditRack = -1
+    
 # patterns mode
 patternPage = 1
 patternQueued = -1
