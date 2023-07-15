@@ -14,6 +14,8 @@ import utils
 
 import progConst as pc
 
+# might have to turn a lot of this into classes + separate files
+
 launchpad_sysexid = pc.LAUNCHPADMINIMK3_SYSEXID if "LPMINIMK3" in device.getName().upper() else pc.LAUNCHPADX_SYSEXID
 
 mode = pc.MENU_MODE
@@ -60,7 +62,17 @@ flSelectedTrack = -1
 
 mixerMasterMode = False
 
-# def to increment/decrement the tracks
+def incrementFlTrackByValue(value: int):
+    global flTrack1
+    global flTrack2
+    global flTrack3
+    global flTrack4
+    global flSelectedTrack
+
+    flTrack1 += value
+    flTrack2 += value
+    flTrack3 += value
+    flTrack4 += value
 
 alt1Setting = 0
 
@@ -71,7 +83,16 @@ flChannelRack3 = 2
 flChannelRack4 = 3
 flSelectedChannelRack = -1
 
-# def to increment/decrement the tracks
+def incrementFlChannelRackByValue(value: int):
+    global flChannelRack1
+    global flChannelRack2
+    global flChannelRack3
+    global flChannelRack4
+
+    flChannelRack1 += value
+    flChannelRack2 += value
+    flChannelRack3 += value
+    flChannelRack4 += value
 
 channelCount = 0
 

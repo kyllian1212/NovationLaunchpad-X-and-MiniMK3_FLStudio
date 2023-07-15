@@ -127,26 +127,14 @@ def channelRack(event):
         
         if e.buttonPressedCheck(pc.UP_PAD, event):
             if pv.flChannelRack1 != 0 and not pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.flChannelRack1 -= 1
-                pv.flChannelRack2 -= 1
-                pv.flChannelRack3 -= 1
-                pv.flChannelRack4 -= 1
+                pv.incrementFlChannelRackByValue(-1)
             elif pv.flChannelRack1 > 3 and pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.flChannelRack1 -= 4
-                pv.flChannelRack2 -= 4
-                pv.flChannelRack3 -= 4
-                pv.flChannelRack4 -= 4
+                pv.incrementFlChannelRackByValue(-4)
         if e.buttonPressedCheck(pc.DOWN_PAD, event):
             if pv.flChannelRack4+1 < channels.channelCount() and not pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.flChannelRack1 += 1
-                pv.flChannelRack2 += 1
-                pv.flChannelRack3 += 1
-                pv.flChannelRack4 += 1
+                pv.incrementFlChannelRackByValue(1)
             elif pv.flChannelRack4+4 < channels.channelCount() and pv.buttonPressed[pc.SHIFT_PAD]:
-                pv.flChannelRack1 += 4
-                pv.flChannelRack2 += 4
-                pv.flChannelRack3 += 4
-                pv.flChannelRack4 += 4
+                pv.incrementFlChannelRackByValue(4)
         if e.buttonPressedCheck(pc.LEFT_PAD, event):
             if pv.channelRackSequencerPage > 1 and not pv.buttonPressed[pc.SHIFT_PAD]:
                 pv.channelRackSequencerPage -= 1

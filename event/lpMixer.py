@@ -29,34 +29,22 @@ def lpMixer(event, mixerMasterTrig: bool = False):
     if not pv.mixerMasterMode:
         if e.buttonPressedCheck(pc.UP_PAD, event):
             if pv.flTrack4+4 <= 125:
-                pv.flTrack1 += 4
-                pv.flTrack2 += 4
-                pv.flTrack3 += 4
-                pv.flTrack4 += 4
+                pv.incrementFlTrackByValue(4)
                 if pv.flSelectedTrack != -1:
                     pv.flSelectedTrack += 4
         if e.buttonPressedCheck(pc.DOWN_PAD, event):
             if pv.flTrack1-4 >= 1:
-                pv.flTrack1 -= 4
-                pv.flTrack2 -= 4
-                pv.flTrack3 -= 4
-                pv.flTrack4 -= 4
+                pv.incrementFlTrackByValue(-4)
                 if pv.flSelectedTrack != -1:
                     pv.flSelectedTrack -= 4
         if e.buttonPressedCheck(pc.LEFT_PAD, event):
             if pv.flTrack1 > 1:
-                pv.flTrack1 -= 1
-                pv.flTrack2 -= 1
-                pv.flTrack3 -= 1
-                pv.flTrack4 -= 1
+                pv.incrementFlTrackByValue(-1)
                 if pv.flSelectedTrack != -1:
                     pv.flSelectedTrack -= 1
         if e.buttonPressedCheck(pc.RIGHT_PAD, event):
             if pv.flTrack4 < 125:
-                pv.flTrack1 += 1
-                pv.flTrack2 += 1
-                pv.flTrack3 += 1
-                pv.flTrack4 += 1
+                pv.incrementFlTrackByValue(1)
                 if pv.flSelectedTrack != -1:
                     pv.flSelectedTrack += 1
 
@@ -93,22 +81,13 @@ def altViewModeMixer(event):
             pv.flSelectedTrack = pv.flTrack1
         if e.buttonPressedCheckGroup(13, 84, event):
             pv.flSelectedTrack = pv.flTrack2
-            pv.flTrack1 += 1
-            pv.flTrack2 += 1
-            pv.flTrack3 += 1
-            pv.flTrack4 += 1
+            pv.incrementFlTrackByValue(1)
         if e.buttonPressedCheckGroup(15, 86, event):
             pv.flSelectedTrack = pv.flTrack3
-            pv.flTrack1 += 2
-            pv.flTrack2 += 2
-            pv.flTrack3 += 2
-            pv.flTrack4 += 2
+            pv.incrementFlTrackByValue(2)
         if e.buttonPressedCheckGroup(17, 88, event):
             pv.flSelectedTrack = pv.flTrack4
-            pv.flTrack1 += 3
-            pv.flTrack2 += 3
-            pv.flTrack3 += 3
-            pv.flTrack4 += 3        
+            pv.incrementFlTrackByValue(3)      
         
         ui.miDisplayRect(pv.flTrack1, pv.flTrack4, 4000)
     else:
