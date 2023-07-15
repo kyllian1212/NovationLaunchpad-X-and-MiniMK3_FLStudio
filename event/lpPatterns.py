@@ -21,6 +21,7 @@ import eventHandler as e
 import sys
 import time
 
+#prob separate modes in different def (do that also for others)
 def lpPatterns(event):
     if not pv.altView1Mode:
         if e.buttonPressedCheck(pc.UP_PAD, event):
